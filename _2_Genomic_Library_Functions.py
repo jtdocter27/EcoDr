@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+#Initial Imports
 import gzip#; print('gzip version: ', gzip.__version__)
 import os#; print('os version: ', os.__version__)
 import re#; print('re version: ', re.__version__)
@@ -56,10 +57,9 @@ def input_domain():
 
 
 ##===================================================================================================================##
-# Writes a new document and copies information from NCBI RefSeq (assembly summary, check links above for ncbi url)
-# Input requires assembly summary download link and textfile name for assembly summary
-# Returns an assembly summary sheet that will be used as reference document for finding complete bacterial genomes
-def checking_assembly_file(text, link,
+#Takes in a string, the ncbi URL, and the folder name defined in the previous function
+#Retrieves the Assembly Summary from NCBI and puts it into the name of the folder defined above
+def checking_assembly_file(text_file, ncbi_url,
                            folder1_name):
     print(os.getcwd())
     # Allows retriving and parsing for a web browser, header changes permissions
@@ -67,46 +67,50 @@ def checking_assembly_file(text, link,
     ua = UserAgent()
     header = {'User-Agent': str(ua.chrome)}
     # Checks if file exists already to not spam NCBI
-    print(os.getcwd() + '/' + text)
-    if os.path.exists(os.getcwd() + '/' + text):
-        return "Assembly Summary File Already Exists"
+    print(os.getcwd() + '/' + text_file)
+    if os.path.exists(os.getcwd() + '/' + text_file):
+        print("Assembly Summary File Already Exists")
+        #return "Assembly Summary File Already Exists"
     else:
         # Pauses run for 4 seconds to avoid spam
         time.sleep(4)
         # Permissions for opening file through NCBI
         temp_genome_list = requests.get(link, headers=header)
       	# print(temp_genome_list.text)
-        print('assembly file has been found')
-        with open(text, 'w+') as genome_list_out:
+        print('Assembly File Has Been Found')
+        with open(text_file, 'w+') as genome_list_out:
             # Copies content from the website, pastes it into assembly_summary file
             genome_list_out.write(
-                temp_genome_list.text)
+
+                temp_genome_list.text_file)
         # Closes out document
         genome_list_out.close()
-        shutil.move(os.getcwd() + '/' + text, folder1_name)
-        print('Assembly File has been created')
-    return "checking_assembly_file--success"
-
+        shutil.move(os.getcwd() + '/' + text_file, folder1_name)
+        print('Assembly File Has Been Created')
+    #return "checking_assembly_file--success"
+    print('Checking Assembly File Success')
 
 ##===================================================================================================================##
 # Creates a protein file folder for the most recent inquiry
 # Looping through assembly summary file, finding the samples that have a complete genome, and downloading the FTP # Inputs requires the filled out assembly summary text file (derived from checking_assembly_file) and domain name (derived from input_domain)
 # Outputs the location of the FASTA protein files for all complete genome organisms
-def file_extraction(text, dom):
+
+#text_file is the assembly summary, folder1 is just the domain and the date the code was run
+def file_extraction(text_file, folder1):
     # Prints current directory
     print(os.getcwd())
     # Checks to see if a protein file specific folder already exist for the most recent domain inquiry
     # Prints a statement if the folder is already present and the protein files are extracted
-    if os.path.exists(os.getcwd() + "/" + dom + "_protein_file"):
-        print('Protein files are extracted')
-        destination = (os.getcwd() + "/" + dom + "_protein_file")
+    if os.path.exists(os.getcwd() + "/" + folder1 + "_protein_file"):
+        print('Protein Files are Extracted')
+        destination = (os.getcwd() + "/" + folder1 + "_protein_file")
     else:
         # If folder is not present, creates a protein file specific folder and saves the pathway of folder as the
         # Desired destination for protein files
-        os.makedirs(dom + "_protein_file")
+        os.makedirs(folder1 + "_protein_file")
         # Changes current directory so any folder created from here on will be nested inside this one
-        destination = os.path.abspath(dom + '_protein_file')  # creates a domain specified folder pathway
-        with open(text, 'r') as assembly_summary:
+        destination = os.path.abspath(folder1 + '_protein_file')  # creates a domain specified folder pathway
+        with open(text_file, 'r') as assembly_summary:
             # Reads one line at a time, iterating through the doc
             assembly_summary.readline()
             for line in assembly_summary:
@@ -125,7 +129,7 @@ def file_extraction(text, dom):
                     # If FASTA genomic sequences are desired instead, then change _protein.faa.gz to genomic.fna.gz
                     url_new = link + '/' + species_name + '_protein.faa.gz'
                     # If the protein file for a genome already exists, then print a blank space
-                    if os.path.exists(os.getcwd() + "/" + dom + "_protein_file" + "/" + species_name + "_protein.faa"):
+                    if os.path.exists(os.getcwd() + "/" + folder1 + "_protein_file" + "/" + species_name + "_protein.faa"):
                         print("")
                     else:
                         # Downloads faa file using the url constructed above
