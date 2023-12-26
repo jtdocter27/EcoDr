@@ -5,7 +5,7 @@
 # Outputs: FASTA protein files for complete genome assembly, DIAMOND searches, EC binary summary matrix
 print('script has been read initially')
 import os
-from _2_genomic_data_download import input_domain, checking_assembly_file, file_extraction, file_management, diamond_impl
+from _2_Genomic_Library_Functions import input_domain, checking_assembly_file, file_extraction, file_management, diamond_impl
 from _3_genomic_summary import genome_extractor
 print('_2_ and _3_ have been initiated')
 ##===================================================================================================================##
