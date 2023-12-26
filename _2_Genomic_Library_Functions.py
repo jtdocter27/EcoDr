@@ -69,7 +69,7 @@ def checking_assembly_file(text_file, ncbi_url,
     # Checks if file exists already to not spam NCBI
     print(os.getcwd() + '/' + text_file)
     if os.path.exists(os.getcwd() + '/' + text_file):
-        print("Assembly Summary File Already Exists")
+        print("Assembly Summary File Already Exists and Has Been Located")
         #return "Assembly Summary File Already Exists"
     else:
         # Pauses run for 4 seconds to avoid spam
@@ -77,7 +77,7 @@ def checking_assembly_file(text_file, ncbi_url,
         # Permissions for opening file through NCBI
         temp_genome_list = requests.get(link, headers=header)
       	# print(temp_genome_list.text)
-        print('Assembly File Has Been Found')
+        print('Assembly File Has Been Found on NCBI Website')
         with open(text_file, 'w+') as genome_list_out:
             # Copies content from the website, pastes it into assembly_summary file
             genome_list_out.write(
@@ -97,6 +97,7 @@ def checking_assembly_file(text_file, ncbi_url,
 
 #text_file is the assembly summary, folder1 is just the domain and the date the code was run
 def file_extraction(text_file, folder1):
+    pass
     # Prints current directory
     print(os.getcwd())
     # Checks to see if a protein file specific folder already exist for the most recent domain inquiry
@@ -153,6 +154,7 @@ def file_extraction(text_file, folder1):
 # No real output, the function extracts the compressed files
 # This code originated from: https://gist.github.com/kstreepy/a9800804c21367d5a8bde692318a18f5
 def file_management(dest):
+    pass
     dir_name = 'x'
     # References those files that are compressed
     extension = ".gz"
@@ -184,6 +186,7 @@ def file_management(dest):
 # -1-new_folder = diamond_impl(destination, '')
 # -4-diamond_results_loc = diamond_impl(desired_location)
 def diamond_impl(dest, name):
+    pass
     print(os.getcwd())
     matches = ''
     synbio_specific_folder = dest + "/DIAMOND_matches"
