@@ -75,7 +75,7 @@ def checking_assembly_file(text_file, ncbi_url,
         # Pauses run for 4 seconds to avoid spam
         time.sleep(4)
         # Permissions for opening file through NCBI
-        temp_genome_list = requests.get(link, headers=header)
+        temp_genome_list = requests.get(ncbi_url, headers=header)
       	# print(temp_genome_list.text)
         print('Assembly File Has Been Found on NCBI Website')
         with open(text_file, 'w+') as genome_list_out:
