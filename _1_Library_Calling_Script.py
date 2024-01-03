@@ -3,16 +3,13 @@
 # a binary summary matrix that shows which EC groups a certain organism has
 # Inputs: user-inputted type of domain
 # Outputs: FASTA protein files for complete genome assembly, DIAMOND searches, EC binary summary matrix
-print('script has been read initially')
 import os
 from _2_Genomic_Library_Functions import input_domain, checking_assembly_file, file_extraction, file_management, diamond_impl
 from _3_genomic_summary import genome_extractor
-print('_2_ and _3_ have been initiated')
 ##===================================================================================================================##
 # Creates NCBI ftp domain name for assembly summary document, saves domain name for naming convention
 domain = input_domain()
 url = domain[0]
-print('URL is', url, 'make sure this is correct')
 folder1 = domain[1]
 ##===================================================================================================================##
 # Assembly summary text file will be used as a reference sheet for protein file download. Only complete genomes will be
