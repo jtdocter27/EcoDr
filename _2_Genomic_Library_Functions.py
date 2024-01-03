@@ -80,9 +80,9 @@ def checking_assembly_file(text_file, ncbi_url,
         print('Assembly File Has Been Found on NCBI Website')
         with open(text_file, 'w+') as genome_list_out:
             # Copies content from the website, pastes it into assembly_summary file
-            genome_list_out.write(temp_genome_list.text_file)
+            #open the blacn assembly summary.txt file in writing mode as 
+            genome_list_out.write(temp_genome_list)
         # Closes out document
-        genome_list_out.close()
         shutil.move(os.getcwd() + '/' + text_file, folder1_name)
         print('Assembly File Has Been Created')
     #return "checking_assembly_file--success"
