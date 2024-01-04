@@ -14,7 +14,7 @@ folder1 = domain[1]
 ##===================================================================================================================##
 # Assembly summary text file will be used as a reference sheet for protein file download. Only complete genomes will be
 # downloaded and used for analysis
-text_file = "NCBI_Genome_assembly_summary.txt"
+text_file = "Genome_assembly_summary.txt"
 # Checks to see if the assembly summary file exis_1ts on path, if not present, then creates a new file
 checking_assembly_file(text_file, url, folder1)
 ##===================================================================================================================##
