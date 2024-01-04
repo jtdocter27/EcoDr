@@ -26,7 +26,7 @@ def input_domain():
     # domain = input("Enter domain:")
     # Change when done testing
     domain = input("Enter archaea, bacteria, or fungi: ")
-    folder1_name = domain + "_" + str_date
+    folder1_name = domain + "_" + str_date + "_" + 'Assembly Summary File'
     # Changes path to this new location to store all of the files in
     # Creates a new folder in this path. Folder name will start with the timestamp and end with the domain name
     # All new files/folders will be created in this folder
@@ -61,7 +61,7 @@ def input_domain():
 #Retrieves the Assembly Summary from NCBI and puts it into the name of the folder defined above
 def checking_assembly_file(text_file, ncbi_url,
                            folder1_name):
-    print(os.getcwd())
+    #print(os.getcwd())
     # Allows retriving and parsing for a web browser, header changes permissions
     # Examples of user agent function for web scraping: https://stackoverflow.com/questions/27652543/how-to-use-python-requests-to-fake-a-browser-visit-a-k-a-and-generate-user-agent
     ua = UserAgent()
@@ -83,9 +83,9 @@ def checking_assembly_file(text_file, ncbi_url,
             #open the blacn assembly summary.txt file in writing mode as 
                 genome_list_out.write(temp_genome_list.text)
         # Closes out document
-        shutil.move(os.getcwd() + '/' + text_file, folder1_name)
-        print('Assembly File Has Been Created')
-    #return "checking_assembly_file--success"
+        shutil.move(text_file, os.path.join(folder1_name, text_file))
+        #shutil.move(os.getcwd() + '/' + text_file, folder1_name)
+        print('Assembly File Has Been Created and Moved to', folder1_name)
     print('Checking Assembly File Success')
 
 ##===================================================================================================================##
@@ -95,20 +95,19 @@ def checking_assembly_file(text_file, ncbi_url,
 
 #text_file is the assembly summary, folder1 is just the domain and the date the code was run
 def file_extraction(text_file, folder1):
-    pass
     # Prints current directory
-    print(os.getcwd())
+    print('The Current Directory is', os.getcwd())
     # Checks to see if a protein file specific folder already exist for the most recent domain inquiry
     # Prints a statement if the folder is already present and the protein files are extracted
     if os.path.exists(os.getcwd() + "/" + folder1 + "_protein_file"):
-        print('Protein Files are Extracted')
+        print('Protein Files are Already Extracted')
         destination = (os.getcwd() + "/" + folder1 + "_protein_file")
     else:
         # If folder is not present, creates a protein file specific folder and saves the pathway of folder as the
         # Desired destination for protein files
-        os.makedirs(folder1 + "_protein_file")
+        os.makedirs(folder1 + "_FASTA_DIAMOND")
         # Changes current directory so any folder created from here on will be nested inside this one
-        destination = os.path.abspath(folder1 + '_protein_file')  # creates a domain specified folder pathway
+        destination = os.path.abspath(folder1 + '_FASTA_DIAMOND')  # creates a domain specified folder pathway
         with open(text_file, 'r') as assembly_summary:
             # Reads one line at a time, iterating through the doc
             assembly_summary.readline()
