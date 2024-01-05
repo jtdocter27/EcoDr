@@ -84,7 +84,9 @@ def checking_assembly_file(text_file, ncbi_url,
                 genome_list_out.write(temp_genome_list.text)
         # Closes out document
         #shutil.move(os.getcwd() + '/' + text_file, folder1_name)
-        shutil.move(text_file, folder1_name )
+        #shutil.move(text_file, os.path.join(os.getcwd(), folder1_name))
+        destination_path = os.path.join(os.getcwd(), folder1_name,)
+        shutil.move(text_file, destination_path)
         print('Assembly File Has Been Created and Moved to', folder1_name)
     print('Checking Assembly File Success')
 
