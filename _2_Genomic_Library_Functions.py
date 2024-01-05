@@ -85,8 +85,8 @@ def checking_assembly_file(text_file, ncbi_url,
         # Closes out document
         #shutil.move(os.getcwd() + '/' + text_file, folder1_name)
         #shutil.move(text_file, os.path.join(os.getcwd(), folder1_name))
-        destination_path = os.path.join(os.getcwd(), folder1_name,)
-        shutil.move(text_file, destination_path)
+        destination_path = os.path.join(os.getcwd(), folder1_name)
+        shutil.move(text_file, destination_path, copy_function=copy2)
         print('Assembly File Has Been Created and Moved to', folder1_name)
     print('Checking Assembly File Success')
 
