@@ -200,6 +200,14 @@ def diamond_impl(dest, name):
     # If there currently is no reference library (.dmnd), then command makedb creates a DIAMOND library
     else:
         print("Creation of DIAMOND-formatted library...")
+    # To automate the uniprot.fast file rather than hardcoding in the directory, use the following REST API code from Uniprot:
+    # https://rest.uniprot.org/uniprotkb/stream?fields=accession%2Cec%2Csequence&format=tsv&query=%28%28ec%3A*%29%29+AND+%28reviewed%3Atrue%29
+    # Next step, add a ">" symbol at the very beggining of all lines
+    # Next step, merge the first two columns by replacing the first \t tab with a $ symbol
+    # After, replace the second \t symbol with an end of line \n character
+    # This then processes the Uniprot Library into a FASTA file
+    #
+
         makedb = ['diamond', 'makedb', '--in', '/projects/jodo9280/EcoDr/uniprot.fasta', '-d',
                   'reference']  # Reference library full pathway
         subprocess.run(makedb)
