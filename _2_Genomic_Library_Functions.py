@@ -183,7 +183,6 @@ def file_management(dest):
 # -1-new_folder = diamond_impl(destination, '')
 # -4-diamond_results_loc = diamond_impl(desired_location)
 def diamond_impl(dest, name):
-    pass
     print(os.getcwd())
     matches = ''
     synbio_specific_folder = dest + "/DIAMOND_matches"

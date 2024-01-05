@@ -8,13 +8,13 @@ from _2_Genomic_Library_Functions import input_domain, checking_assembly_file, f
 from _3_genomic_summary import genome_extractor
 ##===================================================================================================================##
 # Creates NCBI ftp domain name for assembly summary document, saves domain name for naming convention
-domain = input_domain()
-url = domain[0]
-folder1 = domain[1]
+out_domain = input_domain()
+url = out_domain[0]
+folder1 = out_domain[1]
 ##===================================================================================================================##
 # Assembly summary text file will be used as a reference sheet for protein file download. Only complete genomes will be
 # downloaded and used for analysis
-text_file = "Genome_assembly_summary.txt"
+text_file = "Genome_Assembly_Summary.txt"
 # Checks to see if the assembly summary file exis_1ts on path, if not present, then creates a new file
 checking_assembly_file(text_file, url, folder1)
 ##===================================================================================================================##
@@ -34,5 +34,3 @@ ec_profile_matrix=output[0]
 saved_file_name=output[1]
 ##===================================================================================================================##
 print("Library Implementation is Complete")
-
-#this is a change to push to git
