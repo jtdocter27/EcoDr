@@ -8,9 +8,10 @@ import time
 from fake_useragent import UserAgent
 import csv
 import os
+import pandas as pd
 ##_______________________________________________________________###
 ##File_Creation##
-reference_library = 'uniprot.fasta'
+reference_library = '/Users/johndocter/Documents/EcoDr/uniprot.fasta' 
 ua = UserAgent()
 header = {'User-Agent': str(ua.chrome)}
 uniport_url = 'https://rest.uniprot.org/uniprotkb/stream?fields=accession%2Cec%2Csequence&format=tsv&query=%28%28ec%3A*%29%29+AND+%28reviewed%3Atrue%29'
@@ -43,3 +44,31 @@ with open(uni_path, 'w+', newline='') as final_fasta:
     tsv_writer = csv.writer(final_fasta, delimiter='\t')
     tsv_writer.writerows(carrot_fasta)
 
+##File Editing 2 Pandas Attempt
+#fasta_df = pd.read_csv(uni_path, delimiter='\t')
+#new_row = fasta_df.iloc[:, 2].shift(-1).dropna().reset_index(drop=True)
+#fasta_df = pd.concat([fasta_df, new_row], axis = 0, ignore_index=True)
+
+#fasta_df.to_csv('uniprot.fasta', sep='\t', index =False)
+
+#File Editing 3 Direct
+# Assuming you have a TSV file named 'input_file.tsv'
+
+with open(uni_path, 'r') as fasta_editted:
+    lines = fasta_editted.readlines()
+
+for index, line in enumerate(lines):
+    # Split the line into columns based on '\t'
+    columns = line.strip().split('\t')
+
+    # Check if the line has at least three elements
+    if len(columns) >= 3:
+        # Create a new line by adding a newline character after the third element
+        new_line = '\t'.join(columns[:2]) + '\t' + columns[2] + '\n'
+
+        # Insert the new line beneath the original line
+        lines.insert(index + 1, new_line)
+
+# Write the modified content back to the file
+with open(uni_path, 'w') as final: 
+    final.writelines(lines)
