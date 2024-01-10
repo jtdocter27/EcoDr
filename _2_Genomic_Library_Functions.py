@@ -39,8 +39,12 @@ def tsv_to_fasta():
         for line in input_file:
             carrot = f'>{line}'
             new_row = re.sub(r'(.*?\t.*?)\t', r'\1\n', carrot, 1)
+            new_row_with_tab_replaced_by_question_mark = new_row.replace("\t", "?")
+            # Be careful with the symbols used for replacement, as they have to align with the genomic summary string parsing
+            output_row_with_space_replaced_with_ampersand = new_row_with_tab_replaced_by_question_mark.replace("; ", "&")
+            #new_row2 = re.sub(r'(.*?\t.*?)\t', r'$', new_row, 0)
             #this is regex, for the record. 
-            output_file.write(new_row)
+            output_file.write(output_row_with_space_replaced_with_ampersand)
     print('FASTA has been created from TSV and is named', output)
 
 ##===================================================================================================================##

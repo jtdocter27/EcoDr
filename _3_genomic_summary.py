@@ -9,9 +9,9 @@ import numpy as np
 # This function requires the location of the DIAMOND (Buchfink et al., 2021) search results found in diamond_impl, name of the domain
 # Input requires the list of EC numbers, DIAMOND search results, and domain name
 # Output is a space separated textfile that should be num genomes x num of EC num as well as the location of the file
-def genome_extractor(diamond, name):
+def genome_extractor(diamond_folder, name):
     # Changes the directory to the location of the DIAMOND search outputs
-    os.chdir(diamond)
+    os.chdir(diamond_folder)
     print(os.getcwd())
     # Opens the list of of EC numbers
     ec_open = np.loadtxt('/projects/jodo9280/EcoDr/EC_num.csv',
@@ -23,12 +23,12 @@ def genome_extractor(diamond, name):
     # file_name= input_name+".csv"
     # file_name = "synbio1_big_matrix.csv"
     if name == "":
-        file_name = os.path.abspath(diamond).rsplit('/', 9)[4] + '_binary_matrix.txt'
-        print(os.path.abspath(diamond).rsplit('/', 9))
+        file_name = os.path.abspath(diamond_folder).rsplit('/', 9)[4] + '_binary_matrix.txt'
+        print(os.path.abspath(diamond_folder).rsplit('/', 9))
         print(file_name)
     else:
         file_name = name
-    new_dir = diamond + '/' + file_name
+    new_dir = diamond_folder + '/' + file_name
     # Checks to see if the document already exists using full pathway name
     if os.path.exists(new_dir):
         print("Summary Matrix exists")
@@ -42,7 +42,7 @@ def genome_extractor(diamond, name):
         # extract the EC numbers found in each line. If the EC number found in the DIAMOND output matches an
         # EC entry in the list, the status is changed from a zero to a one. The binary status is catalogued horizontally
         # for each genome, and following genomes are vertically stacked
-        for item in os.listdir(diamond):
+        for item in os.listdir(diamond_folder):
             if item.endswith("_matches.tsv"):
                 print(item)
                 # Finds the name of the DIAMOND output file
@@ -55,12 +55,12 @@ def genome_extractor(diamond, name):
                     # Sets default for EC status is zero, meaning absent
                     ec_now = 0
                     # Takes the first line in the DIAMOND output file and splits it based on tab separation
-                    # Takes the second column of the split line, which has EC numbers separated by a ?, :_
+                    # Takes the second column of the split line, which has EC numbers separated by a ?, ;_
                     # Strings splits have a new name assigned to them
                     for line in fin:
                         no_tab = line.split('\t')
                         first_ec = no_tab[1].split("?")
-                        separate_ec = first_ec[1].split(";_")
+                        separate_ec = first_ec[1].split("&")
                         # Checks for a full match between the EC number listed in the DIAMOND output and the EC number
                         # found in the separate document
                         if re.fullmatch(ec, first_ec[1]) is not None:  # looks for full match of first EC number
