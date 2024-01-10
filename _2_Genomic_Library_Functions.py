@@ -175,7 +175,7 @@ def file_management(destination):
 ##Refernce_library is where the file is saved to. Output is the same. 
 ###This initial step just downloads the TSV, reads it in, and writes it to the file name specified in reference_library
 def tsv_to_fasta():
-    reference_library = '/projects/jodo9280/EcoDr/EcoDr/uniprot.tsv' 
+    reference_library = 'uniprot.tsv' 
     ua = UserAgent()
     header = {'User-Agent': str(ua.chrome)}
     uniprot_url = 'https://rest.uniprot.org/uniprotkb/stream?fields=accession%2Cec%2Csequence&format=tsv&query=%28%28ec%3A*%29%29+AND+%28reviewed%3Atrue%29'
@@ -187,7 +187,7 @@ def tsv_to_fasta():
     print('Uniprot Reference File Has Been Created')
 ####this step takes it the initial tsv and converts it to FASTA
     input = os.path.abspath('uniprot.tsv')
-    output = '/projects/jodo9280/EcoDr/EcoDr/uniprot.fasta'
+    output = 'uniprot.fasta'
     with open(input, 'r') as input_file, open(output, 'w') as output_file:
         header=next(input_file)
         for line in input_file:
