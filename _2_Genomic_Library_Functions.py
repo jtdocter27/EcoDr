@@ -16,6 +16,34 @@ from os import path
 
 
 ##===================================================================================================================##
+#tsv_to_fasta takes in a tsv file generated from Uniprot and converts it into a FASTA format for use by DIAMOND
+##Refernce_library is where the file is saved to. Output is the same. 
+###This initial step just downloads the TSV, reads it in, and writes it to the file name specified in reference_library
+def tsv_to_fasta():
+    reference_library = 'uniprot.tsv' 
+    #this creates a file named 'uniprot.tsv' on the working directory. Should show within the EcoDr/EcoDr folder. 
+    ua = UserAgent()
+    header = {'User-Agent': str(ua.chrome)}
+    uniprot_url = 'https://rest.uniprot.org/uniprotkb/stream?fields=accession%2Cec%2Csequence&format=tsv&query=%28%28ec%3A*%29%29+AND+%28reviewed%3Atrue%29'
+    time.sleep(4)
+    uniprot = requests.get(uniprot_url, headers=header)
+    if uniprot.status_code == 200:
+        with open(reference_library, 'w+') as reference_library:
+            reference_library.write(uniprot.text)
+    print('Uniprot Reference File Has Been Created')
+####this step takes it the initial tsv and converts it to FASTA
+    input = os.path.abspath('uniprot.tsv')
+    output = 'uniprot.fasta'
+    with open(input, 'r') as input_file, open(output, 'w') as output_file:
+        header=next(input_file)
+        for line in input_file:
+            carrot = f'>{line}'
+            new_row = re.sub(r'(.*?\t.*?)\t', r'\1\n', carrot, 1)
+            #this is regex, for the record. 
+            output_file.write(new_row)
+    print('FASTA has been created from TSV and is named', output)
+
+##===================================================================================================================##
 # Asks for input for domain, returns a specific NCBI RefSeq URL for protein file download
 # Stores the name of domain for future naming convention
 # This has been checked for each domain
@@ -67,7 +95,7 @@ def checking_assembly_file(text_file, ncbi_url,
     ua = UserAgent()
     header = {'User-Agent': str(ua.chrome)}
     # Checks if file exists already to not spam NCBI
-    print(os.getcwd() + '/' + text_file)
+    #print(os.getcwd() + '/' + text_file)
     if os.path.exists(os.getcwd() + '/' + text_file):
         print("Assembly Summary File Already Exists and Has Been Located")
         #return "Assembly Summary File Already Exists"
@@ -171,33 +199,6 @@ def file_management(destination):
 
     return 'file management and extraction-- success'
 ###==================================================================================================================##
-#tsv_to_fasta takes in a tsv file generated from Uniprot and converts it into a FASTA format for use by DIAMOND
-##Refernce_library is where the file is saved to. Output is the same. 
-###This initial step just downloads the TSV, reads it in, and writes it to the file name specified in reference_library
-def tsv_to_fasta():
-    reference_library = 'uniprot.tsv' 
-    ua = UserAgent()
-    header = {'User-Agent': str(ua.chrome)}
-    uniprot_url = 'https://rest.uniprot.org/uniprotkb/stream?fields=accession%2Cec%2Csequence&format=tsv&query=%28%28ec%3A*%29%29+AND+%28reviewed%3Atrue%29'
-    time.sleep(4)
-    uniprot = requests.get(uniprot_url, headers=header)
-    if uniprot.status_code == 200:
-        with open(reference_library, 'w+') as reference_library:
-            reference_library.write(uniprot.text)
-    print('Uniprot Reference File Has Been Created')
-####this step takes it the initial tsv and converts it to FASTA
-    input = os.path.abspath('uniprot.tsv')
-    output = 'uniprot.fasta'
-    with open(input, 'r') as input_file, open(output, 'w') as output_file:
-        header=next(input_file)
-        for line in input_file:
-            carrot = f'>{line}'
-            new_row = re.sub(r'(.*?\t.*?)\t', r'\1\n', carrot, 1)
-            #this is regex, for the record. 
-            output_file.write(new_row)
-    print('FASTA has been created from TSV and is named', output)
-
-##===================================================================================================================##
 # DIAMOND IMPLEMENTATION:
 # (1) Creates a diamond-formatted library, completes DIAMOND (Buchfink et al., 2021) search using a curated Uniprot library (reference.dmnd) as well as the
 # protein files downloaded for each completely assembled genome.

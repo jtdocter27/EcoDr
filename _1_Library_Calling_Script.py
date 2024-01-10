@@ -8,6 +8,7 @@ from _2_Genomic_Library_Functions import input_domain, checking_assembly_file, f
 from _3_genomic_summary import genome_extractor
 ##===================================================================================================================##
 # Creates NCBI ftp domain name for assembly summary document, saves domain name for naming convention
+print('Creating Uniprot Fasta file; Please Hold.')
 tsv_to_fasta()
 out_domain = input_domain()
 url = out_domain[0]
