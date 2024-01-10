@@ -9,8 +9,7 @@ import os
 import re
 ##_______________________________________________________________###
 def tsv_to_fasta():
-    reference_library = 'uniprot.tsv' 
-    #/projects/jodo9280/EcoDr/EcoDr/
+    reference_library = '/projects/jodo9280/EcoDr/EcoDr/uniprot.tsv' 
     ua = UserAgent()
     header = {'User-Agent': str(ua.chrome)}
     uniprot_url = 'https://rest.uniprot.org/uniprotkb/stream?fields=accession%2Cec%2Csequence&format=tsv&query=%28%28ec%3A*%29%29+AND+%28reviewed%3Atrue%29'
@@ -22,8 +21,7 @@ def tsv_to_fasta():
     print('Uniprot Reference File Has Been Created')
     
     input = os.path.abspath('uniprot.tsv')
-    output = 'uniprot.fasta'
-    #/projects/jodo9280/EcoDr/EcoDr/
+    output = '/projects/jodo9280/EcoDr/EcoDr/uniprot.fasta'
     with open(input, 'r') as input_file, open(output, 'w') as output_file:
         header=next(input_file)
         for line in input_file:

@@ -170,7 +170,32 @@ def file_management(destination):
             os.remove(gz_name)  # delete zipped file
 
     return 'file management and extraction-- success'
-
+###==================================================================================================================##
+#tsv_to_fasta takes in a tsv file generated from Uniprot and converts it into a FASTA format for use by DIAMOND
+##Refernce_library is where the file is saved to. Output is the same. 
+###This initial step just downloads the TSV, reads it in, and writes it to the file name specified in reference_library
+def tsv_to_fasta():
+    reference_library = '/projects/jodo9280/EcoDr/EcoDr/uniprot.tsv' 
+    ua = UserAgent()
+    header = {'User-Agent': str(ua.chrome)}
+    uniprot_url = 'https://rest.uniprot.org/uniprotkb/stream?fields=accession%2Cec%2Csequence&format=tsv&query=%28%28ec%3A*%29%29+AND+%28reviewed%3Atrue%29'
+    time.sleep(4)
+    uniprot = requests.get(uniprot_url, headers=header)
+    if uniprot.status_code == 200:
+        with open(reference_library, 'w+') as reference_library:
+            reference_library.write(uniprot.text)
+    print('Uniprot Reference File Has Been Created')
+####this step takes it the initial tsv and converts it to FASTA
+    input = os.path.abspath('uniprot.tsv')
+    output = '/projects/jodo9280/EcoDr/EcoDr/uniprot.fasta'
+    with open(input, 'r') as input_file, open(output, 'w') as output_file:
+        header=next(input_file)
+        for line in input_file:
+            carrot = f'>{line}'
+            new_row = re.sub(r'(.*?\t.*?)\t', r'\1\n', carrot, 1)
+            #this is regex, for the record. 
+            output_file.write(new_row)
+    print('FASTA has been created from TSV and is named', output)
 
 ##===================================================================================================================##
 # DIAMOND IMPLEMENTATION:
@@ -205,7 +230,7 @@ def diamond_impl(dest, name):
     # After, replace the second \t symbol with an end of line \n character
     # This then processes the Uniprot Library into a FASTA file
 
-        makedb = ['diamond', 'makedb', '--in', '/projects/jodo9280/EcoDr/uniprot.fasta', '-d',
+        makedb = ['diamond', 'makedb', '--in', '/projects/jodo9280/EcoDr/EcoDr/uniprot.fasta', '-d',
                   'Uniport_Reference_Library']  # Reference library full pathway
         #This is a list for the DIAMOND specific makedb function. 
         subprocess.run(makedb)
@@ -221,7 +246,7 @@ def diamond_impl(dest, name):
             # Finds the GCF/ASM name of the file by looking at the first part of the name before the .faa notation
             if name == "":
                 print(os.path.basename(file_path).rsplit('.',1))
-               	file_name = (os.path.basename(file_path)).rsplit('.', 1)[0]
+                file_name = (os.path.basename(file_path)).rsplit('.', 1)[0]
             else:
                 file_name = name
             # New filename that ends with matches
