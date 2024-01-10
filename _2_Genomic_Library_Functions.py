@@ -231,7 +231,7 @@ def diamond_impl(dest, name):
     # This then processes the Uniprot Library into a FASTA file
 
         makedb = ['diamond', 'makedb', '--in', '/projects/jodo9280/EcoDr/EcoDr/uniprot.fasta', '-d',
-                  'Uniport_Reference_Library']  # Reference library full pathway
+                  'Uniprot_Reference_Library.dmnd']  # Reference library full pathway
         #This is a list for the DIAMOND specific makedb function. 
         subprocess.run(makedb)
         #This simply runs the function makedb
@@ -258,7 +258,7 @@ def diamond_impl(dest, name):
                 print("Processing ", file_name)
                 # DIAMOND search using the full pathway of the protein files, max target sequence outputs only one best
                 # match with highest e-value which represent the chance of obtaining a better random match in the same database (Buchfink et al, 2021)
-                blastp = ['diamond', 'blastp', '-d', 'reference.dmnd', '-q', file_path, '-o', matches,
+                blastp = ['diamond', 'blastp', '-d', 'Uniprot_Reference_Library.dmnd', '-q', file_path, '-o', matches,
                           '--max-target-seqs', '1', '--outfmt', '6']
                 time.sleep(4)
                 subprocess.run(blastp)
@@ -268,7 +268,7 @@ def diamond_impl(dest, name):
     # Moves all DIAMOND search outputs into the folder
     for item in os.listdir(dest):
         if item.endswith('_matches.tsv'):
-            print(item)
+            #print(item)
             shutil.move(os.path.abspath(item), synbio_specific_folder)
     print("diamond_impl--success")
     # Returns the location of the DIAMOND matches folder
