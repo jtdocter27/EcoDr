@@ -13,6 +13,7 @@ from subprocess import PIPE, Popen
 from fake_useragent import UserAgent
 import os.path
 from os import path
+from Bio.ExPASy import Enzyme
 
 
 ##===================================================================================================================##
@@ -46,7 +47,29 @@ def tsv_to_fasta():
             #this is regex, for the record. 
             output_file.write(output_row_with_space_replaced_with_ampersand)
     print('FASTA has been created from TSV and is named', output)
-
+##===================================================================================================================##
+###This function extracts the EC numbers from Expasy https://www.expasy.org/resources/enzyme
+def EC_extract():
+    ec_library = 'EC_library.txt' 
+    ua = UserAgent()
+    header = {'User-Agent': str(ua.chrome)}
+    ec_url = 'https://ftp.expasy.org/databases/enzyme/enzyme.dat'
+    time.sleep(4)
+    ec = requests.get(ec_url, headers=header)
+    if ec.status_code == 200:
+        with open(ec_library, 'w+') as ec_file:
+            ec_file.write(ec.text)
+    print('EC List Has Been Created')
+###This step creates the list 
+    handle = open(ec_library)
+    records = Enzyme.parse(handle)
+    ecnumbers = [record["ID"] for record in records]
+    print(type(ecnumbers)) #This is a list at this point in the code
+    path = os.path.abspath(ec_library)
+    with open(path, 'w+') as txt_file:
+        for item in ecnumbers:
+            txt_file.write("%s\n" % item)
+    print('EC list Has Been Created')
 ##===================================================================================================================##
 # Asks for input for domain, returns a specific NCBI RefSeq URL for protein file download
 # Stores the name of domain for future naming convention

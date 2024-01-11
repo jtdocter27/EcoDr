@@ -4,12 +4,13 @@
 # Inputs: user-inputted type of domain
 # Outputs: FASTA protein files for complete genome assembly, DIAMOND searches, EC binary summary matrix
 import os
-from _2_Genomic_Library_Functions import input_domain, checking_assembly_file, file_extraction, file_management, tsv_to_fasta, diamond_impl
+from _2_Genomic_Library_Functions import input_domain, checking_assembly_file, file_extraction, file_management, tsv_to_fasta, EC_extract, diamond_impl
 from _3_genomic_summary import genome_extractor
 ##===================================================================================================================##
 # Creates NCBI ftp domain name for assembly summary document, saves domain name for naming convention
-print('Welcome to EcoGenoRisk! Before we do anything else, we ned to creating a Uniprot Fasta file. Please Hold.')
+print('Welcome to EcoGenoRisk! Before we do anything else, we need to create a Uniprot Fasta file for reference and an updated list of EC Numbers. Please Hold.')
 tsv_to_fasta()
+EC_extract()
 out_domain = input_domain()
 url = out_domain[0]
 folder1 = out_domain[1]
