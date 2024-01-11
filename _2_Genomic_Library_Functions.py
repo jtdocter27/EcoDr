@@ -270,11 +270,17 @@ def diamond_impl(dest, name):
         # (2) Creates a folder for DIAMOND outputs
         if not os.path.exists(synbio_specific_folder):
             os.makedirs('DIAMOND_matches')
-    # Moves all DIAMOND search outputs into the folder
+    # Moves all DIAMOND search outputs into the folde
     for item in os.listdir(dest):
         if item.endswith('_matches.tsv'):
+            source_file = os.path.join(dest, item)
+            destination_file = os.path.join(synbio_specific_folder, item)
+        # Check if the file already exists in the destination folder
+        if os.path.exists(destination_file):
+            print(f"Overwriting: {item}")
+            os.remove(destination_file)
             #print(item)
-            shutil.move(os.path.abspath(item), synbio_specific_folder)
+        shutil.move(os.path.abspath(source_file), synbio_specific_folder)
     print("diamond_impl--success")
     # Returns the location of the DIAMOND matches folder
     return synbio_specific_folder
