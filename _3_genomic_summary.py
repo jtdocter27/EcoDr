@@ -60,7 +60,7 @@ def genome_extractor(diamond_folder, name):
                     for line in fin:
                         no_tab = line.split('\t')
                         first_ec = no_tab[1].split("?")
-                        separate_ec = first_ec[1].split("&")
+                        separate_ec = first_ec[1].split(";_")
                         # Checks for a full match between the EC number listed in the DIAMOND output and the EC number
                         # found in the separate document
                         if re.fullmatch(ec, first_ec[1]) is not None:  # looks for full match of first EC number
@@ -72,6 +72,7 @@ def genome_extractor(diamond_folder, name):
                                 ec_now = 1
                     # 1 or 0 will be appended to the summary matrix for each EC value in the list
                     genome.append(ec_now)
+                    print(genome)
                 # Vertical stacking occurs for each genome in the DIAMOND output folder
                 big_matrix = np.vstack([big_matrix, genome])
         #print(big_matrix)
