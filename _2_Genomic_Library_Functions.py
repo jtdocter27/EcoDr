@@ -14,6 +14,7 @@ from fake_useragent import UserAgent
 import os.path
 from os import path
 from Bio.ExPASy import Enzyme
+import csv
 
 
 ##===================================================================================================================##
@@ -50,7 +51,7 @@ def tsv_to_fasta():
 ##===================================================================================================================##
 ###This function extracts the EC numbers from Expasy https://www.expasy.org/resources/enzyme
 def EC_extract():
-    ec_library = 'EC_library.txt' 
+    ec_library = 'EC_library.csv' 
     ua = UserAgent()
     header = {'User-Agent': str(ua.chrome)}
     ec_url = 'https://ftp.expasy.org/databases/enzyme/enzyme.dat'
@@ -64,11 +65,12 @@ def EC_extract():
     handle = open(ec_library)
     records = Enzyme.parse(handle)
     ecnumbers = [record["ID"] for record in records]
-    print(type(ecnumbers)) #This is a list at this point in the code
+    #print(type(ecnumbers)) #This is a list at this point in the code
     path = os.path.abspath(ec_library)
-    with open(path, 'w+') as txt_file:
+    with open(path, 'w+', newline='') as csv_file:
+        csv_file = csv.writer(csv_file)
         for item in ecnumbers:
-            txt_file.write("%s\n" % item)
+            csv_file.writerow([item])
     print('EC list Has Been Created')
 ##===================================================================================================================##
 # Asks for input for domain, returns a specific NCBI RefSeq URL for protein file download

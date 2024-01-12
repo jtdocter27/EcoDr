@@ -14,7 +14,7 @@ def genome_extractor(diamond_folder, name):
     os.chdir(diamond_folder)
     print(os.getcwd())
     # Opens the list of of EC numbers
-    ec_open = np.loadtxt('/projects/jodo9280/EcoDr/EC_num.csv',
+    ec_open = np.loadtxt('/projects/jodo9280/EcoDr/EcoDr/EC_library.csv',
                          dtype='str')  # change to automatic download of EC_num
     big_matrix = ["Name_of_Genome"]
     # Asks user to input name for EC matrix
@@ -74,7 +74,7 @@ def genome_extractor(diamond_folder, name):
                     genome.append(ec_now)
                 # Vertical stacking occurs for each genome in the DIAMOND output folder
                 big_matrix = np.vstack([big_matrix, genome])
-        print(big_matrix)
+        #print(big_matrix)
         # Saves matrix as a text file for further analysis
         np.savetxt(file_name, big_matrix, fmt='%s')
         # Returns the location of the summary matrix and the name of the file

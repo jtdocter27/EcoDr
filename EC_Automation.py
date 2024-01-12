@@ -2,7 +2,6 @@
 #This is a test script for automating EC Number extraction. 
 ##This needs to take in a URL and extract just the ID from it, and put it into a CSV file so it can
 ##fit into the existing _3_ script. 
-from datetime import datetime
 import requests
 from fake_useragent import UserAgent
 import time
@@ -10,11 +9,10 @@ from Bio import ExPASy
 from Bio import SwissProt
 from Bio.ExPASy import Enzyme
 import os
+import csv
 ###_______________________________________________________________________________________________##
 def EC_extract():
-    now = datetime.now()
-    str_date = now.strftime("%Y_%m_%d")
-    ec_library = 'EC_library' + '_' + str_date
+    ec_library = 'EC_library.csv'
     ua = UserAgent()
     header = {'User-Agent': str(ua.chrome)}
     ec_url = 'https://ftp.expasy.org/databases/enzyme/enzyme.dat'
@@ -30,8 +28,9 @@ def EC_extract():
     ecnumbers = [record["ID"] for record in records]
     print(type(ecnumbers)) #This is a list at this point in the code
     path = os.path.abspath(ec_library)
-    with open(path, 'w+') as txt_file:
+    with open(path, 'w+', newline='') as csv_file:
+        csv_file = csv.writer(csv_file)
         for item in ecnumbers:
-            txt_file.write("%s\n" % item)
+            csv_file.writerow([item])
     print('EC list Has Been Created')
 EC_extract()
