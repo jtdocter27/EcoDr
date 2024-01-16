@@ -14,8 +14,9 @@ def genome_extractor(diamond_folder, name):
     os.chdir(diamond_folder)
     print(os.getcwd())
     # Opens the list of of EC numbers
-    ec_open = np.loadtxt('/projects/jodo9280/EcoDr/EcoDr/EC_library.csv',
-                         dtype='str')  # change to automatic download of EC_num
+    ec_open = np.loadtxt('/home/anna/Desktop/JD_Niche_OverLap (Git)/Niche_JD/EcoDr/EC_library(1).csv', dtype='str')
+    #('/projects/jodo9280/EcoDr/EcoDr/EC_library.csv',
+                         #dtype='str')  # change to automatic download of EC_num
     big_matrix = ["Name_of_Genome"]
     # Asks user to input name for EC matrix
     # input_name = input("Save EC binary summary matrix as (no spaces or capital letters): ")
@@ -31,8 +32,9 @@ def genome_extractor(diamond_folder, name):
     new_dir = diamond_folder + '/' + file_name
     # Checks to see if the document already exists using full pathway name
     if os.path.exists(new_dir):
-        print("Summary Matrix exists")
-        return [new_dir, file_name]
+        pass
+        #print("Summary Matrix exists")
+        #return [new_dir, file_name]
     else:
         for ec_force in ec_open:
             # Creates a horizontal header of all of the EC names
@@ -83,4 +85,3 @@ def genome_extractor(diamond_folder, name):
         return [new_dir, file_name]
 ##=============================================Citations==============================================================##
 #Buchfink B, Reuter K, Drost HG, "Sensitive protein alignments at tree-of-life scale using DIAMOND", Nature Methods 18, 366–368 (2021). doi:10.1038/s41592-021-01101-x
-
