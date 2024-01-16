@@ -47,18 +47,18 @@ def genome_extractor(diamond_folder, name):
             if item.endswith("_matches.tsv"):
                 print(item)
                 # Finds the name of the DIAMOND output file
-                genome = [item]
+                genome = [item] #Turns the GCF's into a list, where the GCF names in the matrix come from. 
                 print(genome)
                 # Iterates through all of the EC numbers (1:8197)
                 for ec in ec_open:
                     # Opens individual DIAMOND output files
-                    fin = open(item, 'w+')
+                    GCF = open(item, 'r')
                     # Sets default for EC status is zero, meaning absent
                     ec_now = 0
                     # Takes the first line in the DIAMOND output file and splits it based on tab separation
                     # Takes the second column of the split line, which has EC numbers separated by a ?, ;_
                     # Strings splits have a new name assigned to them
-                    for line in fin:
+                    for line in GCF:
                         no_tab = line.split('\t')
                         first_ec = no_tab[1].split("?")
                         separate_ec = first_ec[1].split(";_")
