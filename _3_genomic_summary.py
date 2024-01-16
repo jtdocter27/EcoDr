@@ -14,9 +14,8 @@ def genome_extractor(diamond_folder, name):
     os.chdir(diamond_folder)
     print(os.getcwd())
     # Opens the list of of EC numbers
-    ec_open = np.loadtxt('/home/anna/Desktop/JD_Niche_OverLap (Git)/Niche_JD/EcoDr/EC_library(1).csv', dtype='str')
-    #('/projects/jodo9280/EcoDr/EcoDr/EC_library.csv',
-                         #dtype='str')  # change to automatic download of EC_num
+    ec_open = np.loadtxt('/projects/jodo9280/EcoDr/EcoDr/EC_library.csv',
+                         dtype='str')
     big_matrix = ["Name_of_Genome"]
     # Asks user to input name for EC matrix
     # input_name = input("Save EC binary summary matrix as (no spaces or capital letters): ")
