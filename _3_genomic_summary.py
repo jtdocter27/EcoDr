@@ -51,7 +51,7 @@ def genome_extractor(diamond_folder, name):
                 # Iterates through all of the EC numbers (1:8197)
                 for ec in ec_open:
                     # Opens individual DIAMOND output files
-                    fin = open(item, 'r')
+                    fin = open(item, 'w+')
                     # Sets default for EC status is zero, meaning absent
                     ec_now = 0
                     # Takes the first line in the DIAMOND output file and splits it based on tab separation
@@ -72,7 +72,7 @@ def genome_extractor(diamond_folder, name):
                                 ec_now = 1
                     # 1 or 0 will be appended to the summary matrix for each EC value in the list
                     genome.append(ec_now)
-                    print(genome)
+                    #print(genome)
                 # Vertical stacking occurs for each genome in the DIAMOND output folder
                 big_matrix = np.vstack([big_matrix, genome])
         #print(big_matrix)
