@@ -1,10 +1,14 @@
 #This is the _4_ and _5_ linearized, for conceptual understanding and to streamline the code when the time comes
 ##--------------------------------------------------------------------------------------------#
-[distance_list_for_synbio, new_loc ]= pass_to_distance(ec_binary, sb_name, desired_location)
-sb_name = 'GCF_002926195.1_ASM292619v1_protein'
-ec_binary = analysis_output[0]
-desired_location = desired_location + "/" + sb_name
-#In this case, /projects/jodo9280/EcoDr/GCF_002926195.1_ASM292619v1_protein/DIAMOND_matches/GCF_002926195.1_ASM292619v1_protein
+#[distance_list_for_synbio, new_loc ]= pass_to_distance(ec_binary, sb_name, desired_location)
+#sb_name = 'GCF_002926195.1_ASM292619v1_protein'
+#ec_binary = analysis_output[0]
+#desired_location = desired_location + "/" + sb_name
+
+import pandas as pd 
+import numpy as np #In this case, /projects/jodo9280/EcoDr/GCF_002926195.1_ASM292619v1_protein/DIAMOND_matches/GCF_002926195.1_ASM292619v1_protein
+import os
+from sklearn.metrics import pairwise_distances
 ##------------------------------------------------------------------------------------------------------------------------------#
 def pass_to_distance(ec_binary, sb_name, desired_location):
     [compare_mat, doc_named_1] = read_in_binary_matrix(ec_binary, sb_name)
@@ -37,7 +41,7 @@ def pass_to_distance(ec_binary, sb_name, desired_location):
     # Saves only the synbio column
     # Saves only the synbio column
     synbio_clustered_distances.to_csv(name, header=True, index=True, sep='\t')
-    return synbio_clustered_distances, location
+    return synbio_clustered_distances, desired_location
 ##------------------------------------------------------------------------------------------------------------------------------#
 def read_in_binary_matrix(ec_binary, sb_name):
     # Converts synbio summary matrix into a dataframe
@@ -68,7 +72,7 @@ def read_in_binary_matrix(ec_binary, sb_name):
     return synbio_bacteria, doc_name_1
 ##-------------------------------------------------------------------------------------------------------------------------##
 def genome_to_genome_diffcomp(synbio_ec, combined_ec):
-    names_of_orgs = pd.DataFrame(combined_ec.index) #this is where I left off.
+    names_of_orgs = pd.DataFrame(combined_ec.index) 
     diff = pd.DataFrame(abs(combined_ec.values - synbio_ec.values))
     row_sum = diff.sum(axis=1)
     df1 = pd.DataFrame(row_sum)
@@ -76,7 +80,7 @@ def genome_to_genome_diffcomp(synbio_ec, combined_ec):
     difference_based_comparison.columns = ['Organisms Compared to Synbio', 'Difference Score']
     difference_based_comparison = difference_based_comparison.sort_values(by='Difference Score',
                                                                           ignore_index=True).reset_index(drop=True)
-    difference_based_comparison.to_csv('Chimera1_Difference_Based_Comparison_Score.txt', header=True, index=True, sep='\t')
+    difference_based_comparison.to_csv('Difference_Based_Comparison_Score.txt', header=True, index=True, sep='\t')
 ##----------------------------------------------------------------------------------------------------------------------------###
 def ec_weighting_preference(desired_loc):
     print("Would you like to use/upload EC filter/weight scores: (Y/N) ")
