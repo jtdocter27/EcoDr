@@ -31,6 +31,7 @@ def genome_extractor(diamond_folder, name):
     new_dir = diamond_folder + '/' + file_name
     # Checks to see if the document already exists using full pathway name
     if os.path.exists(new_dir):
+        pass
         #print("Summary Matrix exists")
         #return [new_dir, file_name]
     else:
