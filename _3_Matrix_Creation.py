@@ -15,9 +15,10 @@ def matrix_creation(diamond_folder, name):
         matrix.append(ec)
     ##____________________________________________________________________________________##
     #this chunk makes a list of all the GCF_matches names
+    GCF_matches = []
     for item in os.listdir(diamond_folder): #lists the names of all files in diamond_folder
         if item.endswith('_matches.tsv'):
-            GCF_matches = [item]
+            GCF_matches.append(item)
             print(GCF_matches)
     
 
