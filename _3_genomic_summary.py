@@ -60,6 +60,7 @@ def genome_extractor(diamond_folder, name):
                     first_ec = no_tab[1].split("?")
                     separate_ec = first_ec[1].split(";_")
                     genome_runner_ec.append(separate_ec)
+                    print(genome_runner_ec)
 
                 for ec in ec_open:
                     # print("EC we actually are looking for "+ ec)
