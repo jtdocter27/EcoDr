@@ -60,6 +60,7 @@ def genome_extractor(diamond_folder, name):
                     # Takes the second column of the split line, which has EC numbers separated by a ?, ;_
                     # Strings splits have a new name assigned to them
                     for line in GCF:
+                        print(line)
                         no_tab = line.split('\t')
                         first_ec = no_tab[1].split("?")
                         print("First EC "+ first_ec)
