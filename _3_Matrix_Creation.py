@@ -21,7 +21,7 @@ def matrix_creation(diamond_folder, name):
             GCF_matches = [item]
     
     for ec in ec_open:
-        GCF_matches = open(GCF_matches, 'w+')
+        GCF_matches = open(item, 'w+')
         ec_no = 0
         for line in GCF_matches:
             split1 = line.split('\t') #splits each line in GCF by tabs and puts each item into the variable
