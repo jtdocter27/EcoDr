@@ -63,9 +63,8 @@ def genome_extractor(diamond_folder, name):
                         print(line)
                         no_tab = line.split('\t')
                         first_ec = no_tab[1].split("?")
-                        print("First EC "+ first_ec)
                         separate_ec = first_ec[1].split(";_")
-                        print("Seperate EC Likely Nightmare "+ separate_ec)
+                        print("Seperate EC Likely Nightmare "+ separate_ec[0])
                         # Checks for a full match between the EC number listed in the DIAMOND output and the EC number
                         # found in the separate document
                         if re.fullmatch(ec, first_ec[1]) is not None:  # looks for full match of first EC number
