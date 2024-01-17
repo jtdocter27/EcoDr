@@ -31,9 +31,8 @@ def genome_extractor(diamond_folder, name):
     new_dir = diamond_folder + '/' + file_name
     # Checks to see if the document already exists using full pathway name
     if os.path.exists(new_dir):
-        pass
-        print("Summary Matrix exists")
-        return [new_dir, file_name]
+        #print("Summary Matrix exists")
+        #return [new_dir, file_name]
     else:
         for ec_force in ec_open:
             # Creates a horizontal header of all of the EC names
@@ -51,6 +50,7 @@ def genome_extractor(diamond_folder, name):
                 print(genome)
                 # Iterates through all of the EC numbers (1:8197)
                 for ec in ec_open:
+                    print("EC we actually are looking for "+ ec)
                     # Opens individual DIAMOND output files
                     GCF = open(item, 'w+')
                     # Sets default for EC status is zero, meaning absent
@@ -61,7 +61,9 @@ def genome_extractor(diamond_folder, name):
                     for line in GCF:
                         no_tab = line.split('\t')
                         first_ec = no_tab[1].split("?")
+                        print("First EC "+ first_ec)
                         separate_ec = first_ec[1].split(";_")
+                        print("Seperate EC Likely Nightmare "+ separate_ec)
                         # Checks for a full match between the EC number listed in the DIAMOND output and the EC number
                         # found in the separate document
                         if re.fullmatch(ec, first_ec[1]) is not None:  # looks for full match of first EC number
