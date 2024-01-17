@@ -87,7 +87,7 @@ def genome_extractor(diamond_folder, name):
                     #CBM        if re.fullmatch(ec, i) is not None:  # looks for full match of any other ECs listed
                     #CBM            ec_now = 1
                     ec_now = 0
-                    if ec in genome_runner_ec:
+                    if [ec] in genome_runner_ec:
                         ec_now = 1
 
                     # 1 or 0 will be appended to the summary matrix for each EC value in the list
