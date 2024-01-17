@@ -51,9 +51,9 @@ def genome_extractor(diamond_folder, name):
                 print(genome)
                 # Iterates through all of the EC numbers (1:8197)
                 for ec in ec_open:
-                    print("EC we actually are looking for "+ ec)
+                    # print("EC we actually are looking for "+ ec)
                     # Opens individual DIAMOND output files
-                    GCF = open(item, 'w+')
+                    GCF = open(item, 'r')
                     # Sets default for EC status is zero, meaning absent
                     ec_now = 0
                     # Takes the first line in the DIAMOND output file and splits it based on tab separation
