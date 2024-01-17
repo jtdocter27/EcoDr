@@ -48,32 +48,47 @@ def genome_extractor(diamond_folder, name):
                 print(item)
                 # Finds the name of the DIAMOND output file
                 genome = [item] #Turns the GCF's into a list, where the GCF names in the matrix come from. 
+                genome_runner_ec = [item] #Turns the GCF's into a list, where the EC is appended
                 print(genome)
                 # Iterates through all of the EC numbers (1:8197)
+                
+                GCF = open(item, 'r') # CBM Added
+                
+                for line in GCF: # CBM Added
+                    print(line)
+                    no_tab = line.split('\t')
+                    first_ec = no_tab[1].split("?")
+                    separate_ec = first_ec[1].split(";_")
+                    genome_runner_ec.append(separate_ec)
+
                 for ec in ec_open:
                     # print("EC we actually are looking for "+ ec)
                     # Opens individual DIAMOND output files
-                    GCF = open(item, 'r')
+                    #CBM GCF = open(item, 'r')
                     # Sets default for EC status is zero, meaning absent
-                    ec_now = 0
+                    #CBM ec_now = 0
                     # Takes the first line in the DIAMOND output file and splits it based on tab separation
                     # Takes the second column of the split line, which has EC numbers separated by a ?, ;_
                     # Strings splits have a new name assigned to them
-                    for line in GCF:
-                        print(line)
-                        no_tab = line.split('\t')
-                        first_ec = no_tab[1].split("?")
-                        separate_ec = first_ec[1].split(";_")
-                        print("Seperate EC Likely Nightmare "+ separate_ec[0])
+                    #CBM for line in GCF:
+                    #CBM    print(line)
+                    #CBM    no_tab = line.split('\t')
+                    #CBM    first_ec = no_tab[1].split("?")
+                    #CBM    separate_ec = first_ec[1].split(";_")
+                    #CBM    print("Seperate EC Likely Nightmare "+ separate_ec[0])
                         # Checks for a full match between the EC number listed in the DIAMOND output and the EC number
                         # found in the separate document
-                        if re.fullmatch(ec, first_ec[1]) is not None:  # looks for full match of first EC number
-                            ec_now = 1
+                    #CBM    if re.fullmatch(ec, first_ec[1]) is not None:  # looks for full match of first EC number
+                    #CBM        ec_now = 1
                         # In the case that there are more than one EC separated by ;, the function iterates through the list
                         # and sees if there is a full match between the listed EC and the list
-                        for i in separate_ec:
-                            if re.fullmatch(ec, i) is not None:  # looks for full match of any other ECs listed
-                                ec_now = 1
+                    #CBM    for i in separate_ec:
+                    #CBM        if re.fullmatch(ec, i) is not None:  # looks for full match of any other ECs listed
+                    #CBM            ec_now = 1
+                    ec_now = 0
+                    if ec in genome_runner_ec:
+                        ec_now = 1
+
                     # 1 or 0 will be appended to the summary matrix for each EC value in the list
                     genome.append(ec_now)
                     #print(genome)
