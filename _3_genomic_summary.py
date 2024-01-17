@@ -52,7 +52,7 @@ def genome_extractor(diamond_folder, name):
                 # Iterates through all of the EC numbers (1:8197)
                 for ec in ec_open:
                     # Opens individual DIAMOND output files
-                    GCF = open(item, 'r')
+                    GCF = open(item, 'w+')
                     # Sets default for EC status is zero, meaning absent
                     ec_now = 0
                     # Takes the first line in the DIAMOND output file and splits it based on tab separation
@@ -84,3 +84,4 @@ def genome_extractor(diamond_folder, name):
         return [new_dir, file_name]
 ##=============================================Citations==============================================================##
 #Buchfink B, Reuter K, Drost HG, "Sensitive protein alignments at tree-of-life scale using DIAMOND", Nature Methods 18, 366–368 (2021). doi:10.1038/s41592-021-01101-x
+genome_extractor('/projects/jodo9280/EcoDr/EcoDr/archaea_2024_01_16_Assembly Summary File/archaea_2024_01_16_Assembly Summary File_FASTA_&_DIAMOND', '')
