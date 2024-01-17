@@ -5,28 +5,28 @@ import shutil #; print('shutil version:', shutil.__version__)
 import numpy as np#; print('numpy version:', np.__version__)
 import re#; print('re version:', re.__version__)
 import pandas as pd#; print('pandas version:', pd.__version__)
-from _2_genomic_data_download import diamond_impl
+from _2_Genomic_Library_Functions import diamond_impl
 from _3_genomic_summary import genome_extractor
-from _5_synbio_distance_matrix import pass_to_distance
+from _5_linear import pass_to_distance
 #from _1_competitorFind import ec_locator
 ##====================================================================================================================##
 # Asks for user preferences and synbio-protein file related info
 #print("Welcome to EcoGeno! Enter the name of your FASTA file: ")
-sb_filename = '/projects/jodo9280/EcoDr/TestCases/GCF_002926195.1_ASM292619v1_protein.faa'
+
+sb_filename = '/projects/jodo9280/EcoDr/TestCases/GCF_002926195.1_ASM292619v1_protein.faa' #Takes in the synbio FASTA file 
 print ('sb_filename is', sb_filename)  # input()
 file_loc = os.path.abspath(sb_filename)
 print('The absolute file path location is:', file_loc)
 #specifies the absolute file path
 #print("Enter organism ID, no punctuation (no space in between words): ")
-sb_name = 'GCF_002926195.1_ASM292619v1_protein'  #input()
+sb_name = 'New Synbio Analysis Output'  #input()
 #print("Enter where you want results saved: ")
 current_directory = os.getcwd()
 print('Current working directory is:', current_directory)
-desired_location='/projects/jodo9280/EcoDr'       #input()
-os.chdir(desired_location)
-#changes current working directory to the one specific above
-os.makedirs(sb_name)
-#makes a new directory called 'Chimera1'
+desired_location='/projects/jodo9280/EcoDr/TestCases' #input()
+os.chdir(desired_location) #changes current working directory to the one specific above
+os.makedirs(sb_name) #makes a new directory called sb_name
+
 desired_location = desired_location + "/" + sb_name
 print('desired_location is:', desired_location)
 print('file location is:', file_loc)
