@@ -241,7 +241,7 @@ def file_management(destination):
 def diamond_impl(dest, name):
     print(os.getcwd())
     matches = ''
-    synbio_specific_folder = dest + "DIAMOND_matches1"
+    synbio_specific_folder = dest + "/DIAMOND_matches"
     print("DIAMOND search library is: ", synbio_specific_folder)
     # (1) Creates another folder named DIAMOND matches to store DIAMOND output
     # Note: there might be potential issues with file management and moving to appropriate places! Construct code for folder
@@ -295,7 +295,7 @@ def diamond_impl(dest, name):
                 subprocess.run(blastp)
         # (2) Creates a folder for DIAMOND outputs
         if not os.path.exists(synbio_specific_folder):
-            os.makedirs('DIAMOND_matches2')
+            synbio_specific_folder = os.makedirs('DIAMOND_matches')
     # Moves all DIAMOND search outputs into the folder
         if item.endswith('_matches.tsv'):
             if os.path.exists(os.path.join(synbio_specific_folder, item)):
