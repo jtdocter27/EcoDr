@@ -103,5 +103,6 @@ def genome_extractor(diamond_folder, name):
         return [new_dir, file_name]
 ##=============================================Citations==============================================================##
 #Buchfink B, Reuter K, Drost HG, "Sensitive protein alignments at tree-of-life scale using DIAMOND", Nature Methods 18, 366–368 (2021). doi:10.1038/s41592-021-01101-x
+genome_extractor('/projects/jodo9280/EcoDr/EcoDr/fungi_2024_01_16_Assembly Summary File/fungi_2024_01_16_Assembly Summary File_FASTA_&_DIAMOND', '')
 #perhaps look at a binary search
 

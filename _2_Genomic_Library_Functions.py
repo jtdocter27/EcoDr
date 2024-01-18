@@ -240,8 +240,8 @@ def file_management(destination):
 def diamond_impl(dest, name):
     print(os.getcwd())
     matches = ''
-    binary_matrix = dest 
-    print("DIAMOND search library is: ", binary_matrix)
+    output_folder = dest 
+    print("DIAMOND search library is: ", output_folder)
     # (1) Creates another folder named DIAMOND matches to store DIAMOND output
     # Note: there might be potential issues with file management and moving to appropriate places! Construct code for folder
     # creation and placement after configuring script compiles without any further issues
@@ -284,7 +284,7 @@ def diamond_impl(dest, name):
             print(matches)
             # If genome has not already undergone DIAMOND search and is currently located in the correct folder, then
             # the subprocess function will run the diamond search
-            if not os.path.isfile(dest + "/" + matches) and os.path.abspath(matches) != binary_matrix:
+            if not os.path.isfile(dest + "/" + matches) and os.path.abspath(matches) != output_folder:
                 print("Processing ", file_name)
                 # DIAMOND search using the full pathway of the protein files, max target sequence outputs only one best
                 # match with highest e-value which represent the chance of obtaining a better random match in the same database (Buchfink et al, 2021)
@@ -293,18 +293,18 @@ def diamond_impl(dest, name):
                 time.sleep(4)
                 subprocess.run(blastp)
         # (2) Creates a folder for DIAMOND outputs
-        #if not os.path.exists(binary_matrix):
+        #if not os.path.exists(output_folder):
             #os.makedirs('DIAMOND_matches')
 
     # Moves all DIAMOND search outputs into the folder
         if item.endswith('_matches.tsv'):
-            if os.path.exists(os.path.join(binary_matrix, item)):
+            if os.path.exists(os.path.join(output_folder, item)):
                 print(f"Overwriting: {item}")
-                os.remove(os.path.join(binary_matrix, item))
-            shutil.move(os.path.abspath(item), binary_matrix)
+                os.remove(os.path.join(output_folder, item))
+            shutil.move(os.path.abspath(item), output_folder)
     print("diamond_impl--success")
     # Returns the location of the DIAMOND matches folder
-    return binary_matrix
+    return output_folder
 ##=====================================================================================================================================================###
 def genome_extractor(diamond_folder, name):
     # Changes the directory to the location of the DIAMOND search outputs
