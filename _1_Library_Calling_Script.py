@@ -28,10 +28,10 @@ file_management(destination)
 ##===================================================================================================================##
 # Checks for DIAMOND - based library and DIAMOND matches output.If not present, then runs DIAMOND
 os.chdir(destination) #destination being FASTA_&_DIAMOND folder
-diamond_folder = diamond_impl(destination, '')
+#diamond_folder = diamond_impl(destination, '')
 ##===================================================================================================================##
 #Iterates from DIAMOND matches and extracts the EC numbers present, constructs a binary EC summary matrix
-output = genome_extractor(diamond_folder, '')
+output = genome_extractor(destination, '')
 ec_profile_matrix=output[0]
 saved_file_name=output[1]
 ##===================================================================================================================##
