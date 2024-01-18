@@ -14,7 +14,8 @@ from fake_useragent import UserAgent
 import os.path
 from os import path
 from Bio.ExPASy import Enzyme
-import csv
+import numpy as np 
+
 
 
 ##===================================================================================================================##
@@ -304,6 +305,72 @@ def diamond_impl(dest, name):
     print("diamond_impl--success")
     # Returns the location of the DIAMOND matches folder
     return synbio_specific_folder
+##=====================================================================================================================================================###
+def genome_extractor(diamond_folder, name):
+    # Changes the directory to the location of the DIAMOND search outputs
+    os.chdir(diamond_folder)
+    print(os.getcwd())
+    # Opens the list of of EC numbers
+    ec_open = np.loadtxt('/projects/jodo9280/EcoDr/EcoDr/EC_library.csv',
+                         dtype='str')
+    big_matrix = ["Name_of_Genome"]
+    # Asks user to input name for EC matrix
+    # input_name = input("Save EC binary summary matrix as (no spaces or capital letters): ")
+    # Specifies document to be a csv type
+    # file_name= input_name+".csv"
+    # file_name = "synbio1_big_matrix.csv"
+    if name == "":
+        file_name = os.path.abspath(diamond_folder).rsplit('/', 9)[4] + '_binary_matrix.txt'
+        print(os.path.abspath(diamond_folder).rsplit('/', 9))
+        print(file_name)
+    else:
+        file_name = name
+    new_dir = diamond_folder + '/' + file_name
+    # Checks to see if the document already exists using full pathway name
+    if os.path.exists(new_dir):
+        pass
+        #print("Summary Matrix exists")
+        #return [new_dir, file_name]
+    else:
+        for ec_force in ec_open:
+            # Creates a horizontal header of all of the EC names
+            big_matrix.append(ec_force)
+        # Goes through all of the DIAMOND outputs in the folder
+        # Goes through all of the output files, each one is opened and read one line at a time. The lines are split to
+        # extract the EC numbers found in each line. If the EC number found in the DIAMOND output matches an
+        # EC entry in the list, the status is changed from a zero to a one. The binary status is catalogued horizontally
+        # for each genome, and following genomes are vertically stacked
+        for item in os.listdir(diamond_folder):
+            if item.endswith("_matches.tsv"):
+                print(item)
+                # Finds the name of the DIAMOND output file
+                genome = [item] #Turns the GCF's into a list, where the GCF names in the matrix come from. 
+                genome_runner_ec = [item] #Turns the GCF's into a list, where the EC is appended
+                print(genome)
+                # Iterates through all of the EC numbers (1:8197)
+                GCF = open(item, 'r') # CBM Added
+                for line in GCF: # CBM Added
+                    print(line)
+                    no_tab = line.split('\t')
+                    first_ec = no_tab[1].split("?")
+                    separate_ec = first_ec[1].split(";_")
+                    genome_runner_ec.append(separate_ec)
+                    print(genome_runner_ec)
 
+                for ec in ec_open:
+                    ec_now = 0
+                    if [ec] in genome_runner_ec:
+                        ec_now = 1
+                    # 1 or 0 will be appended to the summary matrix for each EC value in the list
+                    genome.append(ec_now)
+                    #print(genome)
+                # Vertical stacking occurs for each genome in the DIAMOND output folder
+                big_matrix = np.vstack([big_matrix, genome])
+        #print(big_matrix)
+        # Saves matrix as a text file for further analysis
+        np.savetxt(file_name, big_matrix, fmt='%s')
+        # Returns the location of the summary matrix and the name of the file
+        print(new_dir)
+        return [new_dir, file_name]
 ##=============================================Citations==============================================================##
 # Buchfink B, Reuter K, Drost HG, "Sensitive protein alignments at tree-of-life scale using DIAMOND", Nature Methods 18, 366–368 (2021). doi:10.1038/s41592-021-01101-x
