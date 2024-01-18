@@ -61,7 +61,6 @@ def EC_extract():
     if ec.status_code == 200:
         with open(ec_library, 'w+', newline='\n') as ec_file:
             ec_file.write(ec.text)
-    print('EC List Has Been Created')
 ###This step creates the list 
     handle = open(ec_library)
     records = Enzyme.parse(handle)
@@ -241,8 +240,8 @@ def file_management(destination):
 def diamond_impl(dest, name):
     print(os.getcwd())
     matches = ''
-    synbio_specific_folder = dest + "/DIAMOND_matches"
-    print("DIAMOND search library is: ", synbio_specific_folder)
+    binary_matrix = dest 
+    print("DIAMOND search library is: ", binary_matrix)
     # (1) Creates another folder named DIAMOND matches to store DIAMOND output
     # Note: there might be potential issues with file management and moving to appropriate places! Construct code for folder
     # creation and placement after configuring script compiles without any further issues
@@ -285,7 +284,7 @@ def diamond_impl(dest, name):
             print(matches)
             # If genome has not already undergone DIAMOND search and is currently located in the correct folder, then
             # the subprocess function will run the diamond search
-            if not os.path.isfile(dest + "/" + matches) and os.path.abspath(matches) != synbio_specific_folder:
+            if not os.path.isfile(dest + "/" + matches) and os.path.abspath(matches) != binary_matrix:
                 print("Processing ", file_name)
                 # DIAMOND search using the full pathway of the protein files, max target sequence outputs only one best
                 # match with highest e-value which represent the chance of obtaining a better random match in the same database (Buchfink et al, 2021)
@@ -294,17 +293,18 @@ def diamond_impl(dest, name):
                 time.sleep(4)
                 subprocess.run(blastp)
         # (2) Creates a folder for DIAMOND outputs
-        if not os.path.exists(synbio_specific_folder):
-            os.makedirs('DIAMOND_matches')
+        #if not os.path.exists(binary_matrix):
+            #os.makedirs('DIAMOND_matches')
+
     # Moves all DIAMOND search outputs into the folder
         if item.endswith('_matches.tsv'):
-            if os.path.exists(os.path.join(synbio_specific_folder, item)):
+            if os.path.exists(os.path.join(binary_matrix, item)):
                 print(f"Overwriting: {item}")
-                os.remove(os.path.join(synbio_specific_folder, item))
-            shutil.move(os.path.abspath(item), synbio_specific_folder)
+                os.remove(os.path.join(binary_matrix, item))
+            shutil.move(os.path.abspath(item), binary_matrix)
     print("diamond_impl--success")
     # Returns the location of the DIAMOND matches folder
-    return synbio_specific_folder
+    return binary_matrix
 ##=====================================================================================================================================================###
 def genome_extractor(diamond_folder, name):
     # Changes the directory to the location of the DIAMOND search outputs
