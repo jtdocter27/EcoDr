@@ -241,7 +241,7 @@ def file_management(destination):
 def diamond_impl(dest, name):
     print(os.getcwd())
     matches = ''
-    synbio_specific_folder = dest + "/DIAMOND_matches"
+    synbio_specific_folder = dest + "DIAMOND_matches1"
     print("DIAMOND search library is: ", synbio_specific_folder)
     # (1) Creates another folder named DIAMOND matches to store DIAMOND output
     # Note: there might be potential issues with file management and moving to appropriate places! Construct code for folder
@@ -295,7 +295,7 @@ def diamond_impl(dest, name):
                 subprocess.run(blastp)
         # (2) Creates a folder for DIAMOND outputs
         if not os.path.exists(synbio_specific_folder):
-            os.makedirs('DIAMOND_matches')
+            os.makedirs('DIAMOND_matches2')
     # Moves all DIAMOND search outputs into the folder
         if item.endswith('_matches.tsv'):
             if os.path.exists(os.path.join(synbio_specific_folder, item)):
@@ -346,18 +346,16 @@ def genome_extractor(diamond_folder, name):
                 # Finds the name of the DIAMOND output file
                 genome = [item] #Turns the GCF's into a list, where the GCF names in the matrix come from. 
                 genome_runner_ec = [item] #Turns the GCF's into a list, where the EC is appended
-                print(genome)
                 # Iterates through all of the EC numbers (1:8197)
                 
                 GCF = open(item, 'r') # CBM Added
                 
                 for line in GCF: # CBM Added
-                    print(line)
                     no_tab = line.split('\t')
                     first_ec = no_tab[1].split("?")
                     separate_ec = first_ec[1].split(";_")
                     genome_runner_ec.append(separate_ec)
-                    print(genome_runner_ec)
+                    print("Appending...")
 
                 for ec in ec_open:
                     # print("EC we actually are looking for "+ ec)

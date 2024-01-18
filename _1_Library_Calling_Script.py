@@ -21,7 +21,7 @@ text_file = "Genome_Assembly_Summary.txt"
 checking_assembly_file(text_file, url, folder1)
 ##===================================================================================================================##
 # Checks to see if individual organism protein files exist, if not present, then downloads new file
-destination = file_extraction(text_file, folder1)
+destination = file_extraction(text_file, folder1) #destination being FASTA_&_DIAMOND folder
 ##===================================================================================================================##
 # Unzips and extracts all protein files into desired location
 file_management(destination)
