@@ -24,7 +24,7 @@ desired_location='/projects/jodo9280/EcoDr/TestCases'
 
 os.chdir(desired_location) #changes current working directory to the one specific above
 if os.path.exists(sb_name):
-    os.rmdir(sb_name)
+    shutil.rmtree(sb_name)
     os.mkdir(sb_name)
 else:#makes a new directory called sb_name
     os.mkdir(sb_name)
