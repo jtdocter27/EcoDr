@@ -5,8 +5,7 @@ import shutil #; print('shutil version:', shutil.__version__)
 import numpy as np#; print('numpy version:', np.__version__)
 import re#; print('re version:', re.__version__)
 import pandas as pd#; print('pandas version:', pd.__version__)
-from _2_Genomic_Library_Functions import diamond_impl
-from _3_genomic_summary import genome_extractor
+from _2_Genomic_Library_Functions import diamond_impl, genome_extractor
 from _5_linear import pass_to_distance
 #from _1_competitorFind import ec_locator
 ##====================================================================================================================##
@@ -39,8 +38,6 @@ print("DIAMOND Results Completed")
 ##====================================================================================================================##
 # Summary Matrix Rendering-- Completes the binary matrix using the diamond hits outout (matches)
 # Uses function from genomic_summary, requires the EC number full pathway which is subjected to change.
-# Calls on script _3_genomic_summary.py
-
 analysis_output = genome_extractor(diamond_results_loc, sb_name)
 print('EC Binary scoring is complete') 
 print('Analysis Output is in ', analysis_output[0])
@@ -51,6 +48,9 @@ print('EC_Binary is in ', ec_binary)
 # Returns the distance matrix of the combined EC space for Bacteria, Archaea, and the synbio organism
 # Calls on script _5_synbio_distance_matrix.py
 [distance_list_for_synbio, new_loc ]= pass_to_distance(ec_binary, sb_name, desired_location)
+#ec_binary = your binary matrix
+#sb_name = 'new synbio analysis output
+#desired_location = '/projects/jodo9280/EcoDr/TestCases/new symbio analysis output' 
 print(distance_list_for_synbio)  # Prints distance matrix for the synbio genome
 print('Synbio analysis is complete')
 ##====================================================================================================================##

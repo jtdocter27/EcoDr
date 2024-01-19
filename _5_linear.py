@@ -52,7 +52,7 @@ def read_in_binary_matrix(ec_binary, sb_name):
     print(binary_matrix_table)
     print(sb_name, " size of ", np.shape(binary_matrix_table), " successfully imported.")
     # Opens the matrix that includes the Bacteria and Archaea summary result
-    bacteria_binary = pd.read_csv("/projects/jodo9280/EcoDr/Archaea_2023_11_07/Archaea_2023_11_07_protein_file/DIAMOND_matches/Archaea_2023_11_07_binary_matrix.csv",
+    bacteria_binary = pd.read_csv('/projects/jodo9280/EcoDr/EcoDr/fungi_2024_01_18_Assembly Summary File/fungi_2024_01_18_Assembly Summary File_FASTA_&_DIAMOND/EcoDr_binary_matrix.txt',
                                   delimiter=" ", header=0)
     #this is from chunk 1, and is the EC_Binary we generated earlier
     bacteria_binary = bacteria_binary.set_index('Name_of_Genome')
