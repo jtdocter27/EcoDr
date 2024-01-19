@@ -17,13 +17,17 @@ file_loc = os.path.abspath(sb_filename)
 
 sb_name = 'New Synbio Analysis Output'  
 
+
 current_directory = os.getcwd()
 
 desired_location='/projects/jodo9280/EcoDr/TestCases' 
 
 os.chdir(desired_location) #changes current working directory to the one specific above
-os.makedirs(sb_name) #makes a new directory called sb_name
-
+if os.path.exists(sb_name):
+    os.rmdir(sb_name)
+    os.mkdir(sb_name)
+else:#makes a new directory called sb_name
+    os.mkdir(sb_name)
 desired_location = desired_location + "/" + sb_name
 
 shutil.copy(file_loc, desired_location) #moves synbio file to Test Cases folder
