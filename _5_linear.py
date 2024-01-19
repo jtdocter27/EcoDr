@@ -1,8 +1,8 @@
 #This is the _4_ and _5_ linearized, for conceptual understanding and to streamline the code when the time comes
 ##--------------------------------------------------------------------------------------------#
-#[distance_list_for_synbio, new_loc ]= pass_to_distance(ec_binary, sb_name, desired_location)
+#[distance_list_for_synbio, new_loc ]= pass_to_distance(synbio_binary, sb_name, desired_location)
 #sb_name = 'GCF_002926195.1_ASM292619v1_protein'
-#ec_binary = analysis_output[0]
+#synbio_binary = analysis_output[0]
 #desired_location = desired_location + "/" + sb_name
 
 import pandas as pd 
@@ -10,8 +10,8 @@ import numpy as np #In this case, /projects/jodo9280/EcoDr/GCF_002926195.1_ASM29
 import os
 from sklearn.metrics import pairwise_distances
 ##------------------------------------------------------------------------------------------------------------------------------#
-def pass_to_distance(ec_binary, sb_name, desired_location):
-    [compare_mat, doc_named_1] = read_in_binary_matrix(ec_binary, sb_name)
+def pass_to_distance(synbio_binary, sb_name, desired_location):
+    [compare_mat, doc_named_1] = read_in_binary_matrix(synbio_binary, sb_name)
     ec_pref = ec_weighting_preference(desired_location)
     # Receives preference for default or applied filter
     setting = ec_pref[0]
@@ -43,23 +43,23 @@ def pass_to_distance(ec_binary, sb_name, desired_location):
     synbio_clustered_distances.to_csv(name, header=True, index=True, sep='\t')
     return synbio_clustered_distances, desired_location
 ##------------------------------------------------------------------------------------------------------------------------------#
-def read_in_binary_matrix(ec_binary, sb_name):
+def read_in_binary_matrix(synbio_binary, sb_name):
     # Converts synbio summary matrix into a dataframe
-    binary_matrix_table = pd.read_csv(ec_binary, delimiter=" ", header=0)
-    print(binary_matrix_table)
-    binary_matrix_table = binary_matrix_table.set_index('Name_of_Genome')
+    synbio_binary = pd.read_csv(synbio_binary, delimiter=" ", header=0)
+    print(synbio_binary)
+    synbio_binary = synbio_binary.set_index('Name_of_Genome')
     #index is a label for all rows - allows the two seperate dataframes to come together since they share an index
-    print(binary_matrix_table)
-    print(sb_name, " size of ", np.shape(binary_matrix_table), " successfully imported.")
+    print(synbio_binary)
+    print(sb_name, " size of ", np.shape(synbio_binary), " successfully imported.")
     # Opens the matrix that includes the Bacteria and Archaea summary result
-    bacteria_binary = pd.read_csv('/projects/jodo9280/EcoDr/EcoDr/fungi_2024_01_18_Assembly Summary File/fungi_2024_01_18_Assembly Summary File_FASTA_&_DIAMOND/EcoDr_binary_matrix.txt',
+    domain_binary = pd.read_csv('/projects/jodo9280/EcoDr/EcoDr/fungi_2024_01_18_Assembly Summary File/fungi_2024_01_18_Assembly Summary File_FASTA_&_DIAMOND/EcoDr_binary_matrix.txt',
                                   delimiter=" ", header=0)
     #this is from chunk 1, and is the EC_Binary we generated earlier
-    bacteria_binary = bacteria_binary.set_index('Name_of_Genome')
-    print(bacteria_binary)
+    domain_binary = domain_binary.set_index('Name_of_Genome')
+    print(domain_binary)
     # Sends to a function for direct genome to genome comparison based on EC summary matrix
-    genome_to_genome_diffcomp(binary_matrix_table, bacteria_binary)
-    synbio_bacteria = pd.concat([bacteria_binary, binary_matrix_table])
+    genome_to_genome_diffcomp(synbio_binary, domain_binary)
+    synbio_bacteria = pd.concat([domain_binary, synbio_binary])
     # Verically adding synbio matrix to the overall matrix to complete the comparison, therefore last index
     # should represent the synbio genome that is tested and returned as distances_mat[-1,:] in pass_to_distance.
     # Note, headers are lost and need to be directly passed
@@ -71,9 +71,9 @@ def read_in_binary_matrix(ec_binary, sb_name):
     synbio_bacteria.to_csv(doc_name_1, header=True, index=True, sep='\t')
     return synbio_bacteria, doc_name_1
 ##-------------------------------------------------------------------------------------------------------------------------##
-def genome_to_genome_diffcomp(synbio_ec, combined_ec):
-    names_of_orgs = pd.DataFrame(combined_ec.index) 
-    diff = pd.DataFrame(abs(combined_ec.values - synbio_ec.values))
+def genome_to_genome_diffcomp(synbio_binary, domain_binary):
+    names_of_orgs = pd.DataFrame(domain_binary.index) 
+    diff = pd.DataFrame(abs(domain_binary.values - synbio_binary.values))
     row_sum = diff.sum(axis=1)
     df1 = pd.DataFrame(row_sum)
     difference_based_comparison = pd.concat([names_of_orgs, df1], axis=1)
