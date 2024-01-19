@@ -7,6 +7,7 @@ import re#; print('re version:', re.__version__)
 import pandas as pd#; print('pandas version:', pd.__version__)
 from _2_Genomic_Library_Functions import diamond_impl, genome_extractor
 from _5_linear import pass_to_distance
+import sys
 #from _1_competitorFind import ec_locator
 ##====================================================================================================================##
 ##This is all directory creation and file management 
@@ -15,7 +16,7 @@ sb_filename = '/projects/jodo9280/EcoDr/TestCases/GCF_002926195.1_ASM292619v1_pr
 
 file_loc = os.path.abspath(sb_filename) 
 
-sb_name = 'New_Synbio_Analysis_Output'  
+sb_name = 'New_Synbio_Analysis_Output_Binary'  
 
 
 current_directory = os.getcwd()
@@ -45,14 +46,14 @@ print("DIAMOND Results Completed")
 analysis_output = genome_extractor(diamond_results_loc, sb_name)
 print('EC Binary scoring is complete') 
 print('Analysis Output is in ', analysis_output[0])
-ec_binary = analysis_output[0]
-print('EC_Binary is in ', ec_binary)
+synbio_binary = analysis_output[0]
+print('EC_Binary is in ', synbio_binary)
 ##====================================================================================================================##
 # Passes the filename of the binary matrix and the ID of organism
 # Returns the distance matrix of the combined EC space for Bacteria, Archaea, and the synbio organism
 # Calls on script _5_synbio_distance_matrix.py
-[distance_list_for_synbio, new_loc ]= pass_to_distance(ec_binary, sb_name, desired_location)
-#ec_binary = your binary matrix
+[distance_list_for_synbio, new_loc ]= pass_to_distance(synbio_binary, sb_name, desired_location)
+#synbio_binary = your binary matrix
 #sb_name = 'new synbio analysis output
 #desired_location = '/projects/jodo9280/EcoDr/TestCases/new symbio analysis output' 
 print(distance_list_for_synbio)  # Prints distance matrix for the synbio genome
