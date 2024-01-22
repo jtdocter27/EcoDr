@@ -320,7 +320,7 @@ def genome_extractor(diamond_folder, name):
     # file_name= input_name+".csv"
     # file_name = "synbio1_big_matrix.csv"
     if name == "":
-        file_name = os.path.abspath(diamond_folder).rsplit('/', 9)[4] + '_domain_binary_matrix.txt'
+        file_name = os.path.abspath(diamond_folder).rsplit('/', 9)[4] + '_binary_matrix.txt'
         print(os.path.abspath(diamond_folder).rsplit('/', 9))
         print(file_name)
     else:
@@ -395,7 +395,7 @@ def genome_extractor(diamond_folder, name):
         np.savetxt(file_name, big_matrix, fmt='%s')
         # Returns the location of the summary matrix and the name of the file
         if not os.path.exists('/projects/jodo9280/EcoDr/EcoDr/EcoDr_domain_binary_matrix.txt'):
-            shutil.move(os.path.abspath('EcoDr_domain_binary_matrix.txt'),'/projects/jodo9280/EcoDr/EcoDr')
+            shutil.move(os.path.abspath('EcoDr_binary_matrix.txt'),'/projects/jodo9280/EcoDr/EcoDr')
         else:
             print('File already Exists')
         print(new_dir)
