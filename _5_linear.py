@@ -52,7 +52,7 @@ def read_in_binary_matrix(synbio_binary, sb_name):
     print(synbio_binary)
     print(sb_name, " size of ", np.shape(synbio_binary), " successfully imported.")
     # Opens the matrix that includes the Bacteria and Archaea summary result
-    domain_binary = pd.read_csv('/projects/jodo9280/EcoDr/EcoDr/fungi_2024_01_18_Assembly Summary File/fungi_2024_01_18_Assembly Summary File_FASTA_&_DIAMOND/EcoDr_binary_matrix.txt',
+    domain_binary = pd.read_csv('/projects/jodo9280/EcoDr/EcoDr',
                                   delimiter=" ", header=0)
     #this is from chunk 1, and is the EC_Binary we generated earlier
     domain_binary = domain_binary.set_index('Name_of_Genome')

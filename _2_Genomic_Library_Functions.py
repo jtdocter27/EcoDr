@@ -157,15 +157,15 @@ def file_extraction(text_file, folder1_name):
     print('The Current Directory is', os.getcwd())
     # Checks to see if a protein file specific folder already exist for the most recent domain inquiry
     # Prints a statement if the folder is already present and the protein files are extracted
-    if os.path.exists(os.getcwd() + "/" + folder1_name + "_FASTA_&_DIAMOND"):
+    if os.path.exists(os.getcwd() + "/" + folder1_name + "_FASTA_&_DIAMOND_Matches"):
         print('Protein Files are Already Extracted')
-        destination = (os.getcwd() + "/" + folder1_name + "_FASTA_&_DIAMOND")
+        destination = (os.getcwd() + "/" + folder1_name + "_FASTA_&_DIAMOND_Matches")
     else:
         # If folder is not present, creates a protein file specific folder and saves the pathway of folder as the
         # Desired destination for protein files
-        os.makedirs(folder1_name + "_FASTA_&_DIAMOND")
+        os.makedirs(folder1_name + "_FASTA_&_DIAMOND_Matches")
         # Changes current directory so any folder created from here on will be nested inside this one
-        destination = os.path.abspath(folder1_name + '_FASTA_&_DIAMOND')  # creates a domain specified folder pathway
+        destination = os.path.abspath(folder1_name + '_FASTA_&_DIAMOND_Matches')  # creates a domain specified folder pathway
         with open(text_file, 'r') as assembly_summary:
             # Reads one line at a time, iterating through the doc
             assembly_summary.readline()
@@ -394,6 +394,7 @@ def genome_extractor(diamond_folder, name):
         # Saves matrix as a text file for further analysis
         np.savetxt(file_name, big_matrix, fmt='%s')
         # Returns the location of the summary matrix and the name of the file
+        shutil.move(os.path.abspath('EcoDr_binary_matrix.txt'),'/projects/jodo9280/EcoDr/EcoDr')
         print(new_dir)
         return [new_dir, file_name]
 ##=============================================Citations==============================================================##
