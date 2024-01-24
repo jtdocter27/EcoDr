@@ -37,10 +37,14 @@ def ec_comparison(sb_name, _5_output):
     print('different_ecs look like ', different_ECs)
     # Turn on to save the list of EC numbers that are different between the two genomes and where the EC number is present
     different_ECs.to_csv(sb_name + '_different_EC_profile.txt', header=True, index=True, sep='\t')
-    top_match_bsm = top_match_bsm[(top_match_bsm.loc[:, top_match_name] != 0)]
+
+    top_match_bsm = top_match_bsm[(top_match_bsm.loc[:, top_match_name] != 0)] #this filters out all the zeroes from the top match dataframe
     print('top match bsm is, ', top_match_bsm)
-    synbio_bsm = synbio_bsm[(synbio_bsm.loc[:, sb_name] != 0)]
+
+    synbio_bsm = synbio_bsm[(synbio_bsm.loc[:, sb_name] != 0)] #this also filters out all the zeroes from the top match dataframe
     print('synbio_bsm is ', synbio_bsm)
+
+
     print('Locating Variable EC numbers Complete')
     return different_ECs, top_match_bsm, synbio_bsm, top_match_name
 #_______________________________________________________________________________#_______________________________________________###
