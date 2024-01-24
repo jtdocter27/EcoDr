@@ -45,7 +45,7 @@ def ec_locator(sb_name, _5_output):
 ###Calling Script###
 _to_folder = '/home/anna/Desktop/EcoGenoRisk/HazID/CompetitorFind'
 # sb_name = 'Aquificota_Actinobacteria_Chimera'
-sb_name = 'Synbio_Organism'
+sb_name = 'New_Synbio_Analysis_Output_Binary_matches.tsv'
 _5_output = '/projects/jodo9280/EcoDr/TestCases/New_Synbio_Analysis_Output_Binary'
 # path = '/home/anna/Desktop/EcoGenoRisk/HazID/NicheOverlap/Similar'
 # sb_name = 'E_Coli_Chimera'
