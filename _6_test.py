@@ -2,7 +2,7 @@ import numpy
 import pandas as pd
 import numpy as np
 import os as os
-from scoring import scoring, finding_distance
+from scoring import scoring
 ###==========================================================================================================================###
 #sb_name = 'Synbio_Organism'
 #_5_output = '/projects/jodo9280/EcoDr/TestCases/New_Synbio_Analysis_Output_Binary'
@@ -27,7 +27,7 @@ def ec_locator(sb_name, _5_output):
     # Finds the EC BSM for sb_name organism and transforms it into a data frame
     synbio_bsm = pd.DataFrame(ec_bsm.loc[sb_name], columns=[sb_name])
     print('synbio_bsm is looks like ', synbio_bsm)
-    # Sets index name of dataframe to EC Number
+    # Sets index name of dataframe to EC Numberpip ins
     synbio_bsm.index.name = 'EC-Number'
     # Merges two dataframes based on the EC Number rows based on outer, creating a large combined dataframe with EC BSM
     # for sb_name EC BSM and top match EC BSM
