@@ -7,7 +7,7 @@ from scoring import scoring
 #sb_name = 'Synbio_Organism'
 #_5_output = '/projects/jodo9280/EcoDr/TestCases/New_Synbio_Analysis_Output_Binary'
 
-def ec_locator(sb_name, _5_output):
+def ec_comparison(sb_name, _5_output):
     # Reads the document that scores all genomes based on EC expression
     find_top_match = pd.read_csv(_5_output + '/Difference_Based_Comparison_Score.txt', delimiter='\t',
                                  header=0,
@@ -38,10 +38,34 @@ def ec_locator(sb_name, _5_output):
     # Turn on to save the list of EC numbers that are different between the two genomes and where the EC number is present
     different_ECs.to_csv(sb_name + '_different_EC_profile.txt', header=True, index=True, sep='\t')
     top_match_bsm = top_match_bsm[(top_match_bsm.loc[:, top_match_name] != 0)]
+    print('top match bsm is, ', top_match_bsm)
     synbio_bsm = synbio_bsm[(synbio_bsm.loc[:, sb_name] != 0)]
+    print('synbio_bsm is ', synbio_bsm)
     print('Locating Variable EC numbers Complete')
     return different_ECs, top_match_bsm, synbio_bsm, top_match_name
-#______________________________________________________________________________________________________________________________###
+#_______________________________________________________________________________#_______________________________________________###
+
+
+###_____________________________________________________________________________________________________________________________###
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ###Calling Script###
 _to_folder = '/home/anna/Desktop/EcoGenoRisk/HazID/CompetitorFind'
 # sb_name = 'Aquificota_Actinobacteria_Chimera'
@@ -53,7 +77,8 @@ _5_output = '/projects/jodo9280/EcoDr/TestCases/New_Synbio_Analysis_Output_Binar
 # Changes directory to local
 os.chdir(_5_output)
 # Sends to ec_locator() which finds the EC BSM for top match and sb_name. Returns the BSM for both organisms
-[different_ECs, chassis_bsm, synbio_bsm, top_match] = ec_locator(sb_name, _5_output)
+[different_ECs, chassis_bsm, synbio_bsm, top_match] = ec_comparison(sb_name, _5_output)
 # Sends to function to compare shared InChiKeys in sb_name and top match
 # Resulting matrix should be 1000-10,000 InChiKeys as this method is the "catch-all"
 # Returns the shared InChiKeys without white space or duplicates
+#individual_genome_rxns = substrate_changes_synbio_v_chassis(synbio, pathway, synbio_bsm, chassis_bsm)
