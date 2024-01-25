@@ -82,6 +82,9 @@ def genome_to_genome_diffcomp(synbio_binary, domain_binary):
                                                                           ignore_index=True).reset_index(drop=True)
     difference_based_comparison.to_csv('Difference_Based_Comparison_Score.txt', header=True, index=True, sep='\t')
 ##----------------------------------------------------------------------------------------------------------------------------###
+#prioritizes certain EC categories
+#need to track down the file here 
+#weighting will change the binary so instead of a one you may have a 10 
 def ec_weighting_preference(desired_loc):
     print("Would you like to use/upload EC filter/weight scores: (Y/N) ")
     # preference = input()
@@ -91,13 +94,13 @@ def ec_weighting_preference(desired_loc):
         print("Would you like to upload your own filter/weight scores? ")
         personal = input()
         if personal == "Y":
-            print("Enter the name of your document: ")
+            print("Enter the filepath of your document: ")
             filter_used = input()
             personal_filter_path = os.path.abspath(filter_used)
             if personal_filter_path != desired_loc:
                 os.shutil(filter_used, desired_loc)
                 default = 0
-        elif personal == "N":
+        elif personal == "N": #inport in EC list where everything is 1 as a default filter 
             print("You have selected to use the default filter: /home/anna/Desktop/EcoGenoRisk/HazID/NicheOverlap"
                   "/2022_5_24_Proposed_Filter.csv")
             filter_used = "/home/anna/Desktop/EcoGenoRisk/HazID/NicheOverlap/2022_5_24_Proposed_Filter.csv"
@@ -135,7 +138,7 @@ def ec_weight_implementation(synbio_bacteria, pref_set, ec_name):
 def tax_clustering(ec_space, synbio):
     # All of the column names that include '.' are selected (only the EC 1 and 0)
     ec_col = [col for col in ec_space.columns if "." in col]
-    doc_3_name = '/projects/jodo9280/EcoDr/taxonomy_2023_6_27.tsv'
+    doc_3_name = '/projects/jodo9280/EcoDr/taxonomy_2023_6_27.tsv' #where does this come from. 
     full_lineage = pd.read_csv(doc_3_name, delimiter='\t',
                                header=0)
     # If the number of rows are not even, then code will not work otherwise
