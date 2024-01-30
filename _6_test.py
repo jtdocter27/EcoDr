@@ -53,7 +53,7 @@ def ec_comparison(sb_name, _5_output):
 #top_match_bsm = Dataframe with all of the EC's present on the top match 
 #synbio_bsm = Dataframe with all of EC's present on the Synbio organism 
 
-def substrate_changes_synbio_v_topmatch(file_name, _to_folder, top_match_bsm, synbio_bsm):
+def substrate_changes_synbio_v_topmatch(_to_folder, top_match_bsm, synbio_bsm):
     # Opens MetaCyc list of all reactions
     metacyc_all_rxns = pd.read_csv(_to_folder + '/All-reactions-of-MetaCyc.txt',
                                    delimiter='\t', header=0, index_col=0) #reads in this file, will need to locate on work computer. 
@@ -74,11 +74,11 @@ def substrate_changes_synbio_v_topmatch(file_name, _to_folder, top_match_bsm, sy
     #print(top_match_rxns['Reactants InChI-Key'])
 
     # Turn on to save the list of reactants found in top match
-    top_match_rxns.to_csv(file_name + '_top_match_all_rxns.txt', header=True, index=True, sep='\t') #outputs a csv from top_match_reactions
+    top_match_rxns.to_csv('_top_match_all_rxns.txt', header=True, index=True, sep='\t') #outputs a csv from top_match_reactions
     # Isolates the InChI Key column and splits the column based on // to isolate all substrates for top match
     top_match_InChI_Key = pd.DataFrame(top_match_rxns['Reactants InChI-Key'].astype(str).str.split('//', expand=True)) #makes a new dataframe 
     top_match_one_col = to_one_column(top_match_InChI_Key) #just some data processing 
-    top_match_one_col.to_csv(file_name + '_top_match_only_reactants.txt', header=True, index=True, sep='\t')
+    top_match_one_col.to_csv('_top_match_only_reactants.txt', header=True, index=True, sep='\t')
     
     ##Synbio DataFrame Creation_______________________________________
     # Merges based on EC number to create a list of reactions/substrates occurring in synbio
@@ -88,7 +88,7 @@ def substrate_changes_synbio_v_topmatch(file_name, _to_folder, top_match_bsm, sy
     synbio_InChI_Key = pd.DataFrame(synbio_rxns['Reactants InChI-Key'].astype(str).str.split('//', expand=True))
     synbio_one_col = to_one_column(synbio_InChI_Key)
     # Turn on to save the list of substrates found in synbio
-    synbio_one_col.to_csv(file_name+'_synbio_only_reactants.txt', header=True, index= True, sep='\t')
+    synbio_one_col.to_csv('_synbio_only_reactants.txt', header=True, index= True, sep='\t')
     # Isolates the InChI Key column and splits the column based on // to isolate all substrates for synbio
     # Creates an array of InChI Keys of substrates that can be found in both organisms, saves the array as index
 
@@ -106,7 +106,7 @@ def substrate_changes_synbio_v_topmatch(file_name, _to_folder, top_match_bsm, sy
     unique_top_match_InChI_Key = pd.DataFrame(unique_top_match_InChI_Key, columns=['InChI-Key'])
     # Removes the common InChI-Keys such as proton, ATP, and saves the list
     top_match_inchi_keys_translated = relevant_compounds(unique_top_match_InChI_Key) #takes in the dataframe and gets rid of common compounds like water. 
-    top_match_inchi_keys_translated.to_csv(file_name + '_synbiovschassis_inchikey.txt', header=True, index=True, sep='\t')
+    top_match_inchi_keys_translated.to_csv('_synbiovschassis_inchikey.txt', header=True, index=True, sep='\t')
     # unique_top_match_InChI_Key.to_csv(sb_name+'_synbiovschassis_inchikey.txt', header=True, index= True, sep='\t')
     print('Top Match vs. Synbio InChI Key Substrates Analysis Is Complete')
     return unique_top_match_InChI_Key
@@ -168,7 +168,7 @@ def relevant_compounds(df):
 _to_folder = '/projects/jodo9280/EcoDr/EcoDr/Competitor_Find'
 # sb_name = 'Aquificota_Actinobacteria_Chimera'
 sb_name = 'New_Synbio_Analysis_Output_Binary_matches.tsv'
-file_name = 'InChiKey'
+#file_name = 'InChiKey'
 _5_output = '/projects/jodo9280/EcoDr/TestCases/New_Synbio_Analysis_Output_Binary'
 # path = '/home/anna/Desktop/EcoGenoRisk/HazID/NicheOverlap/Similar'
 # sb_name = 'E_Coli_Chimera'
