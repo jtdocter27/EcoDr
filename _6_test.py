@@ -181,4 +181,4 @@ os.chdir(_5_output)
 # Resulting matrix should be 1000-10,000 InChiKeys as this method is the "catch-all"
 # Returns the shared InChiKeys without white space or duplicates
 #individual_genome_rxns = substrate_changes_synbio_v_chassis(synbio, _to_folder, synbio_bsm, top_match_bsm)
-individual_genome_rxns = substrate_changes_synbio_v_topmatch(sb_name, _to_folder, synbio_bsm, top_match_bsm)
+individual_genome_rxns = substrate_changes_synbio_v_topmatch(_to_folder, synbio_bsm, top_match_bsm)
