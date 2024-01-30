@@ -21,12 +21,12 @@ def ec_comparison(sb_name, _5_output):
     ec_bsm = pd.read_csv(_5_output + '/complete_binary_matrix.txt', delimiter='\t', header=0, index_col=0) #reads in a a csv to a pandas dataframe
 
     top_match_bsm = pd.DataFrame(ec_bsm.loc[top_match_name], columns=[top_match_name])
-    print('top_match_bsm looks like ', top_match_bsm) #creates a dataframe from the given parameters
+    #print('top_match_bsm looks like ', top_match_bsm) #creates a dataframe from the given parameters
     # Sets index name of dataframe to EC Number
     top_match_bsm.index.name = 'EC-Number'
     # Finds the EC BSM for sb_name organism and transforms it into a data frame
     synbio_bsm = pd.DataFrame(ec_bsm.loc[sb_name], columns=[sb_name])
-    print('synbio_bsm is looks like ', synbio_bsm)
+    #print('synbio_bsm is looks like ', synbio_bsm)
     # Sets index name of dataframe to EC Numberpip ins
     synbio_bsm.index.name = 'EC-Number'
     # Merges two dataframes based on the EC Number rows based on outer, creating a large combined dataframe with EC BSM
@@ -41,7 +41,7 @@ def ec_comparison(sb_name, _5_output):
     top_match_bsm = top_match_bsm[(top_match_bsm.loc[:, top_match_name] != 0)] #this filters out all the zeroes from the top match dataframe
     print('top match bsm is, ', top_match_bsm)
 
-    synbio_bsm = synbio_bsm[(synbio_bsm.loc[:, sb_name] != 0)] #this also filters out all the zeroes from the top match dataframe
+    synbio_bsm = synbio_bsm[(synbio_bsm.loc[:, sb_name] != 0)] #this also filters out all the zeroes from the synbio match dataframe
     print('synbio_bsm is ', synbio_bsm)
 
 
@@ -53,31 +53,33 @@ def ec_comparison(sb_name, _5_output):
 #top_match_bsm = Dataframe with all of the EC's present on the top match 
 #synbio_bsm = Dataframe with all of EC's present on the Synbio organism 
 
-def substrate_changes_synbio_v_topmatch(sb_name, _to_folder, top_match_bsm, synbio_bsm):
+def substrate_changes_synbio_v_topmatch(file_name, _to_folder, top_match_bsm, synbio_bsm):
     # Opens MetaCyc list of all reactions
     metacyc_all_rxns = pd.read_csv(_to_folder + '/All-reactions-of-MetaCyc.txt',
                                    delimiter='\t', header=0, index_col=0) #reads in this file, will need to locate on work computer. 
     # Converts into database
     metacyc_all_rxns = pd.DataFrame(metacyc_all_rxns)
-    print('Metacyc_all_rxns looks like ', metacyc_all_rxns.head())
+    #print('Metacyc_all_rxns looks like ', metacyc_all_rxns.head())
 
     metacyc_all_rxns.columns = ['EC-Number', 'Substrates', 'Substrates InChI-Key', 'Reactants',
-                                'Reactants InChI-Key', 'Products', 'Products InChI-Key'] #this renames the columns in the dataframe
-    print('metacyc_all_rxns looks like\n', metacyc_all_rxns.head())
+                                'Reactants InChI-Key', 'Products', 'Products InChI-Key'] #this renames the columns in the dataframe starting with EC-Number... I don't know why. 
+    print('metacyc_all_rxns columns looks like\n', metacyc_all_rxns.columns)
     #print('Here is the reactants Inchi-key column ', metacyc_all_rxns['Reactants InChI-Key'])
 
-    metacyc_all_rxns['EC-Number'] = metacyc_all_rxns['EC-Number'].str.replace('EC-', '', regex=False) #gets rid of EC- in the speciic column
+    metacyc_all_rxns['EC-Number'] = metacyc_all_rxns['EC-Number'].str.replace('EC-', '', regex=False) #gets rid of EC- in the EC-number column, so we are left with just the actually number.
     # Merges based on EC number to create a list of reactions/substrates occurring in top match
     top_match_rxns = pd.merge(top_match_bsm, metacyc_all_rxns, on='EC-Number', how='inner')
-    print('top_match_rxns looks like :', top_match_rxns.head())
-    print(top_match_rxns['Reactants InChI-Key'])
+    print('top_match_rxns looks like :\n', top_match_rxns.head())
+    #print(top_match_rxns['Reactants InChI-Key'])
 
-    # Turn on to save the list of substrates found in top match
-    top_match_rxns.to_csv(sb_name + '_top_match_all_rxns.txt', header=True, index=True, sep='\t')
+    # Turn on to save the list of reactants found in top match
+    top_match_rxns.to_csv(file_name + '_top_match_all_rxns.txt', header=True, index=True, sep='\t') #outputs a csv from top_match_reactions
     # Isolates the InChI Key column and splits the column based on // to isolate all substrates for top match
-    top_match_InChI_Key = pd.DataFrame(top_match_rxns['Reactants InChI-Key'].astype(str).str.split('//', expand=True))
-    top_match_one_col = to_one_column(top_match_InChI_Key)
-    top_match_one_col.to_csv(sb_name + '_top_match_all_rxns.txt', header=True, index=True, sep='\t')
+    top_match_InChI_Key = pd.DataFrame(top_match_rxns['Reactants InChI-Key'].astype(str).str.split('//', expand=True)) #makes a new dataframe 
+    top_match_one_col = to_one_column(top_match_InChI_Key) #just some data processing 
+    top_match_one_col.to_csv(file_name + '_top_match_all_reactants.txt', header=True, index=True, sep='\t')
+    
+    
     # Merges based on EC number to create a list of reactions/substrates occurring in synbio
     synbio_rxns = pd.merge(synbio_bsm, metacyc_all_rxns, on='EC-Number', how='inner')
     # Merges the synbio binary summary matrix with the metacyc list to find the InChI-Key lists
@@ -85,7 +87,7 @@ def substrate_changes_synbio_v_topmatch(sb_name, _to_folder, top_match_bsm, synb
     synbio_InChI_Key = pd.DataFrame(synbio_rxns['Reactants InChI-Key'].astype(str).str.split('//', expand=True))
     synbio_one_col = to_one_column(synbio_InChI_Key)
     # Turn on to save the list of substrates found in synbio
-    synbio_one_col.to_csv(sb_name+'_synbio_all_rxns.txt', header=True, index= True, sep='\t')
+    synbio_one_col.to_csv(file_name+'_synbio_all_reactants.txt', header=True, index= True, sep='\t')
     # Isolates the InChI Key column and splits the column based on // to isolate all substrates for synbio
     # Creates an array of InChI Keys of substrates that can be found in both organisms, saves the array as index
     Combined_InChI_Key = pd.merge(synbio_one_col, top_match_one_col, on='InChI-Key', how='inner').reset_index(drop=True)
@@ -101,7 +103,7 @@ def substrate_changes_synbio_v_topmatch(sb_name, _to_folder, top_match_bsm, synb
     unique_top_match_InChI_Key = pd.DataFrame(unique_top_match_InChI_Key, columns=['InChI-Key'])
     # Removes the common InChI-Keys such as proton, ATP, and saves the list
     top_match_inchi_keys_translated = relevant_compounds(unique_top_match_InChI_Key) #takes in the dataframe and gets rid of common compounds
-    top_match_inchi_keys_translated.to_csv(sb_name + '_synbiovschassis_inchikey.txt', header=True, index=True, sep='\t')
+    top_match_inchi_keys_translated.to_csv(file_name + '_synbiovschassis_inchikey.txt', header=True, index=True, sep='\t')
     # unique_top_match_InChI_Key.to_csv(sb_name+'_synbiovschassis_inchikey.txt', header=True, index= True, sep='\t')
     print('Top Match vs. Synbio InChI Key Substrates Analysis Is Complete')
     return unique_top_match_InChI_Key
@@ -163,6 +165,7 @@ def relevant_compounds(df):
 _to_folder = '/projects/jodo9280/EcoDr/EcoDr/Competitor_Find'
 # sb_name = 'Aquificota_Actinobacteria_Chimera'
 sb_name = 'New_Synbio_Analysis_Output_Binary_matches.tsv'
+file_name = 'InChiKey'
 _5_output = '/projects/jodo9280/EcoDr/TestCases/New_Synbio_Analysis_Output_Binary'
 # path = '/home/anna/Desktop/EcoGenoRisk/HazID/NicheOverlap/Similar'
 # sb_name = 'E_Coli_Chimera'
