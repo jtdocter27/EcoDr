@@ -63,11 +63,12 @@ def substrate_changes_synbio_v_topmatch(file_name, _to_folder, top_match_bsm, sy
 
     metacyc_all_rxns.columns = ['EC-Number', 'Substrates', 'Substrates InChI-Key', 'Reactants',
                                 'Reactants InChI-Key', 'Products', 'Products InChI-Key'] #this renames the columns in the dataframe starting with EC-Number... I don't know why. 
-    print('metacyc_all_rxns columns looks like\n', metacyc_all_rxns.columns)
+    print('metacyc_all_rxns columns looks like\n\n', metacyc_all_rxns.columns)
     #print('Here is the reactants Inchi-key column ', metacyc_all_rxns['Reactants InChI-Key'])
 
     metacyc_all_rxns['EC-Number'] = metacyc_all_rxns['EC-Number'].str.replace('EC-', '', regex=False) #gets rid of EC- in the EC-number column, so we are left with just the actually number.
     # Merges based on EC number to create a list of reactions/substrates occurring in top match
+    #Top_match Dataframe Creation__________________________________
     top_match_rxns = pd.merge(top_match_bsm, metacyc_all_rxns, on='EC-Number', how='inner')
     print('top_match_rxns looks like :\n', top_match_rxns.head())
     #print(top_match_rxns['Reactants InChI-Key'])
@@ -77,9 +78,9 @@ def substrate_changes_synbio_v_topmatch(file_name, _to_folder, top_match_bsm, sy
     # Isolates the InChI Key column and splits the column based on // to isolate all substrates for top match
     top_match_InChI_Key = pd.DataFrame(top_match_rxns['Reactants InChI-Key'].astype(str).str.split('//', expand=True)) #makes a new dataframe 
     top_match_one_col = to_one_column(top_match_InChI_Key) #just some data processing 
-    top_match_one_col.to_csv(file_name + '_top_match_all_reactants.txt', header=True, index=True, sep='\t')
+    top_match_one_col.to_csv(file_name + '_top_match_only_reactants.txt', header=True, index=True, sep='\t')
     
-    
+    ##Synbio DataFrame Creation_______________________________________
     # Merges based on EC number to create a list of reactions/substrates occurring in synbio
     synbio_rxns = pd.merge(synbio_bsm, metacyc_all_rxns, on='EC-Number', how='inner')
     # Merges the synbio binary summary matrix with the metacyc list to find the InChI-Key lists
@@ -87,10 +88,12 @@ def substrate_changes_synbio_v_topmatch(file_name, _to_folder, top_match_bsm, sy
     synbio_InChI_Key = pd.DataFrame(synbio_rxns['Reactants InChI-Key'].astype(str).str.split('//', expand=True))
     synbio_one_col = to_one_column(synbio_InChI_Key)
     # Turn on to save the list of substrates found in synbio
-    synbio_one_col.to_csv(file_name+'_synbio_all_reactants.txt', header=True, index= True, sep='\t')
+    synbio_one_col.to_csv(file_name+'_synbio_only_reactants.txt', header=True, index= True, sep='\t')
     # Isolates the InChI Key column and splits the column based on // to isolate all substrates for synbio
     # Creates an array of InChI Keys of substrates that can be found in both organisms, saves the array as index
-    Combined_InChI_Key = pd.merge(synbio_one_col, top_match_one_col, on='InChI-Key', how='inner').reset_index(drop=True)
+
+    ##Combining Synbio and Top match Reactant Dtaframes
+    Combined_InChI_Key = pd.merge(synbio_one_col, top_match_one_col, on='InChI-Key', how='inner').reset_index(drop=True) #'inner' keeps only the common values between the two dataframes. This is important. 
     print('Synbio and Top Match Organism Substrate DataFrames Have Merged')
     # Returns the InChI Key names by referencing the index
     # Converts array into a single column list
@@ -100,9 +103,9 @@ def substrate_changes_synbio_v_topmatch(file_name, _to_folder, top_match_bsm, sy
     unique_top_match_InChI_Key = Combined_InChI_Key['InChI-Key'].drop_duplicates()
     unique_top_match_InChI_Key.reset_index(drop=True)
     # Saves list of InChI Keys
-    unique_top_match_InChI_Key = pd.DataFrame(unique_top_match_InChI_Key, columns=['InChI-Key'])
+    unique_top_match_InChI_Key = pd.DataFrame(unique_top_match_InChI_Key, columns=['Synbio and Top Match InChI-Key'])
     # Removes the common InChI-Keys such as proton, ATP, and saves the list
-    top_match_inchi_keys_translated = relevant_compounds(unique_top_match_InChI_Key) #takes in the dataframe and gets rid of common compounds
+    top_match_inchi_keys_translated = relevant_compounds(unique_top_match_InChI_Key) #takes in the dataframe and gets rid of common compounds like water. 
     top_match_inchi_keys_translated.to_csv(file_name + '_synbiovschassis_inchikey.txt', header=True, index=True, sep='\t')
     # unique_top_match_InChI_Key.to_csv(sb_name+'_synbiovschassis_inchikey.txt', header=True, index= True, sep='\t')
     print('Top Match vs. Synbio InChI Key Substrates Analysis Is Complete')
