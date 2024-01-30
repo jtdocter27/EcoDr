@@ -62,8 +62,9 @@ def substrate_changes_synbio_v_topmatch(sb_name, _to_folder, top_match_bsm, synb
     print('Metacyc_all_rxns looks like ', metacyc_all_rxns.head())
 
     metacyc_all_rxns.columns = ['EC-Number', 'Substrates', 'Substrates InChI-Key', 'Reactants',
-                                'Reactants InChI-Key', 'Products', 'Products InChI-Key'] #this renames the columnsin the dataframe
-    print('Here is the reactants Inchi-key column ', metacyc_all_rxns['Reactants InChI-Key'])
+                                'Reactants InChI-Key', 'Products', 'Products InChI-Key'] #this renames the columns in the dataframe
+    print('metacyc_all_rxns looks like\n', metacyc_all_rxns.head())
+    #print('Here is the reactants Inchi-key column ', metacyc_all_rxns['Reactants InChI-Key'])
 
     metacyc_all_rxns['EC-Number'] = metacyc_all_rxns['EC-Number'].str.replace('EC-', '', regex=False) #gets rid of EC- in the speciic column
     # Merges based on EC number to create a list of reactions/substrates occurring in top match
