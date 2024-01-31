@@ -101,7 +101,7 @@ def substrate_changes_synbio_v_topmatch(_to_folder, top_match_bsm, synbio_bsm):
     Combined_InChI_Key['InChI-Key'] = Combined_InChI_Key['InChI-Key'].str.strip()
     # Finds unique InChI Keys in the list
     unique_top_match_InChI_Key = Combined_InChI_Key['InChI-Key'].drop_duplicates()
-    unique_top_match_InChI_Key = unique_top_match_InChI_Key.dropna(subset=['InChI-Key'])
+    unique_top_match_InChI_Key = unique_top_match_InChI_Key.dropna(axis=0)
     unique_top_match_InChI_Key.reset_index(drop=True)
     # Saves list of InChI Keys
     unique_top_match_InChI_Key = pd.DataFrame(unique_top_match_InChI_Key, columns=['InChI-Key'])
