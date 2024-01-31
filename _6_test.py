@@ -105,12 +105,10 @@ def substrate_changes_synbio_v_topmatch(_to_folder, top_match_bsm, synbio_bsm):
     unique_top_match_InChI_Key.reset_index(drop=True)
     # Saves list of InChI Keys
     unique_top_match_InChI_Key = pd.DataFrame(unique_top_match_InChI_Key, columns=['InChI-Key'])
-    print('sum is', unique_top_match_InChI_Key.isna().sum())
 
     # Removes the common InChI-Keys such as proton, ATP, and saves the list
     top_match_inchi_keys_translated = relevant_compounds(unique_top_match_InChI_Key) #takes in the dataframe and gets rid of common compounds like water. 
     top_match_inchi_keys_translated = top_match_inchi_keys_translated.dropna()
-    print('sum is', top_match_inchi_keys_translated.isna().sum())
     top_match_inchi_keys_translated.to_csv('_synbiovschassis_inchikey.txt', header=True, index=True, sep='\t')
     # unique_top_match_InChI_Key.to_csv(sb_name+'_synbiovschassis_inchikey.txt', header=True, index= True, sep='\t')
     print('Top Match vs. Synbio InChI Key Substrates Analysis Is Complete')
@@ -162,6 +160,7 @@ def relevant_compounds(df):
 def inchikey_to_conventional_names(df):
     key = pd.read_csv(_to_folder + '/InchiKeystoCompoundNames.txt', delimiter='\t', header=0, index_col=None)
     translated_inchikeys = pd.merge(df, key, on='InChI-Key', how='left')
+    translated_inchikeys = translated_inchikeys.dropna()
     print('Translated Inchikeys Look like :\n', translated_inchikeys.head())
     return translated_inchikeys
 
