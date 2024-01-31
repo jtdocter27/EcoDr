@@ -161,7 +161,7 @@ def inchikey_to_conventional_names(df):
     key = pd.read_csv(_to_folder + '/InchiKeystoCompoundNames.txt', delimiter='\t', header=0, index_col=None)
     translated_inchikeys = pd.merge(df, key, on='InChI-Key', how='left')
     translated_inchikeys = translated_inchikeys.dropna()
-    translated_individual_rxns.to_csv(sb_name + '_names.txt', header=True, index=True, sep='\t')
+    translated_inchikeys.to_csv(sb_name + '_names.txt', header=True, index=True, sep='\t')
     print('Translated Inchikeys Look like :\n', translated_inchikeys.head())
     return translated_inchikeys
 ###__________________________________________________________________________________________####
