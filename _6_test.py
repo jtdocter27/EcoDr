@@ -94,6 +94,7 @@ def substrate_changes_synbio_v_topmatch(_to_folder, top_match_bsm, synbio_bsm):
 
     ##Combining Synbio and Top match Reactant Dtaframes
     Combined_InChI_Key = pd.merge(synbio_one_col, top_match_one_col, on='InChI-Key', how='inner').reset_index(drop=True) #'inner' keeps only the common values between the two dataframes. This is important. 
+    Combined_InChI_Key = Combined_InChI_Key.dropna()
     print('Synbio and Top Match Organism Substrate DataFrames Have Merged')
     # Returns the InChI Key names by referencing the index
     # Converts array into a single column list
@@ -101,7 +102,6 @@ def substrate_changes_synbio_v_topmatch(_to_folder, top_match_bsm, synbio_bsm):
     Combined_InChI_Key['InChI-Key'] = Combined_InChI_Key['InChI-Key'].str.strip()
     # Finds unique InChI Keys in the list
     unique_top_match_InChI_Key = Combined_InChI_Key['InChI-Key'].drop_duplicates()
-    unique_top_match_InChI_Key = unique_top_match_InChI_Key.dropna(axis=0)
     unique_top_match_InChI_Key.reset_index(drop=True)
     # Saves list of InChI Keys
     unique_top_match_InChI_Key = pd.DataFrame(unique_top_match_InChI_Key, columns=['InChI-Key'])
