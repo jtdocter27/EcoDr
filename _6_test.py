@@ -161,16 +161,57 @@ def inchikey_to_conventional_names(df):
     key = pd.read_csv(_to_folder + '/InchiKeystoCompoundNames.txt', delimiter='\t', header=0, index_col=None)
     translated_inchikeys = pd.merge(df, key, on='InChI-Key', how='left')
     translated_inchikeys = translated_inchikeys.dropna()
-    translated_inchikeys.to_csv(sb_name + '_names.txt', header=True, index=True, sep='\t')
+    translated_inchikeys.to_csv('InchiKey_names.txt', header=True, index=True, sep='\t') #this was originally in the running script, moved here for conciseness 
     print('Translated Inchikeys Look like :\n', translated_inchikeys.head())
     return translated_inchikeys
 ###__________________________________________________________________________________________####
-
-
-
-
-
-
+def mutualism1_modified_pathway(_to_folder, top_match_bsm, synbio_bsm):
+    # Opens MetaCyc list of all reactions
+    metacyc_all_rxns = pd.read_csv(_to_folder + '/All-reactions-of-MetaCyc.txt',
+                                   delimiter='\t', header=0, index_col=0)
+    # Converts into database
+    metacyc_all_rxns = pd.DataFrame(metacyc_all_rxns)
+    print('Old column names', metacyc_all_rxns.columns)
+    metacyc_all_rxns.columns = ['EC-Number', 'Substrates', 'Substrates InChI-Key', 'Reactants',
+                                'Reactants InChI-Key', 'Products', 'Products InChI-Key']
+    # String processing of dataframe by removing 'EC-' from the start of the EC number
+    print('Here is the reactants column', metacyc_all_rxns['Reactants InChI-Key'])
+    metacyc_all_rxns['EC-Number'] = metacyc_all_rxns['EC-Number'].str.replace('EC-', '', regex=False)
+    # Merges based on EC number to create a list of reactions/substrates occurring in top match
+    top_match_rxns = pd.merge(top_match_bsm, metacyc_all_rxns, on='EC-Number', how='inner')
+    print(top_match_rxns.columns)
+    print(top_match_rxns['Reactants InChI-Key'])
+    # Turn on to save the list of substrates found in top match
+    top_match_rxns.to_csv('topmatch_' + sb_name + '_chassis_all_rxns.txt', header=True, index=True, sep='\t')
+    # Isolates the InChI Key column and splits the column based on // to isolate all substrates for top match
+    chassis_InChI_Key = pd.DataFrame(top_match_rxns['Products InChI-Key'].astype(str).str.split('//', expand=True))
+    chassis_one_col = to_one_column(chassis_InChI_Key)
+    chassis_one_col.to_csv(sb_name + '_chassis_all_rxns.txt', header=True, index=True, sep='\t')
+    # Merges based on EC number to create a list of reactions/substrates occurring in synbio
+    synbio_rxns = pd.merge(synbio_bsm, metacyc_all_rxns, on='EC-Number', how='inner')
+    # Merges the synbio binary summary matrix with the metacyc list to find the InChI-Key lists
+    # Splits InChI-Keys based on the '//' separator
+    synbio_InChI_Key = pd.DataFrame(synbio_rxns['Reactants InChI-Key'].astype(str).str.split('//', expand=True))
+    synbio_one_col = to_one_column(synbio_InChI_Key)
+    # Turn on to save the list of substrates found in synbio
+    # synbio_one_col.to_csv(sb_name+'_synbio_all_rxns.txt', header=True, index= True, sep='\t')
+    # Isolates the InChI Key column and splits the column based on // to isolate all substrates for synbio
+    # Creates an array of InChI Keys of substrates that can be found in both organisms, saves the array as index
+    shared_InChI_Key = pd.merge(synbio_one_col, chassis_one_col, on='InChI-Key', how='inner').reset_index(drop=True)
+    print('I have merged')
+    # Returns the InChI Key names by referencing the index
+    # Converts array into a single column list
+    # Removes any spaces
+    shared_InChI_Key['InChI-Key'] = shared_InChI_Key['InChI-Key'].str.strip()
+    # Finds unique InChI Keys in the list
+    unique_chassis_InChI_Key = shared_InChI_Key['InChI-Key'].drop_duplicates()
+    unique_chassis_InChI_Key.reset_index(drop=True)
+    # Saves list of InChI Keys
+    unique_chassis_InChI_Key = pd.DataFrame(unique_chassis_InChI_Key, columns=['InChI-Key'])
+    # Removes the common InChI-Keys such as proton, ATP, and saves the list
+    chassis_inchi_keys_translated = relevant_compounds(unique_chassis_InChI_Key)
+    chassis_inchi_keys_translated.to_csv(sb_name + 'mutualism1.txt', header=True, index=True, sep='\t')
+    return chassis_inchi_keys_translated
 
 ###Calling Script###
 _to_folder = '/projects/jodo9280/EcoDr/EcoDr/Competitor_Find'
@@ -191,3 +232,4 @@ os.chdir(_5_output)
 #individual_genome_rxns = substrate_changes_synbio_v_chassis(synbio, _to_folder, synbio_bsm, top_match_bsm)
 individual_genome_rxns = substrate_changes_synbio_v_topmatch(_to_folder, synbio_bsm, top_match_bsm)
 translated_individual_rxns = inchikey_to_conventional_names(individual_genome_rxns)
+mutualism1 = mutualism1_modified_pathway(_to_folder, top_match_bsm,synbio_bsm)
