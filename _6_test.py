@@ -54,6 +54,7 @@ def ec_comparison(sb_name, _5_output):
 #synbio_bsm = Dataframe with all of EC's present on the Synbio organism 
 
 def substrate_changes_synbio_v_topmatch(_to_folder, top_match_bsm, synbio_bsm):
+    os.chdir('/projects/jodo9280/EcoDr/EcoDr/Competitor_Find')
     # Opens MetaCyc list of all reactions
     metacyc_all_rxns = pd.read_csv(_to_folder + '/All-reactions-of-MetaCyc.txt',
                                    delimiter='\t', header=0, index_col=0) #reads in this file, will need to locate on work computer. 
@@ -160,9 +161,10 @@ def inchikey_to_conventional_names(df):
     key = pd.read_csv(_to_folder + '/InchiKeystoCompoundNames.txt', delimiter='\t', header=0, index_col=None)
     translated_inchikeys = pd.merge(df, key, on='InChI-Key', how='left')
     translated_inchikeys = translated_inchikeys.dropna()
+    translated_individual_rxns.to_csv(sb_name + '_names.txt', header=True, index=True, sep='\t')
     print('Translated Inchikeys Look like :\n', translated_inchikeys.head())
     return translated_inchikeys
-
+###__________________________________________________________________________________________####
 
 
 
