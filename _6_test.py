@@ -156,7 +156,7 @@ def relevant_compounds(df):
     return df
 ####----------------------------------------------------------------------------------------###
 def inchikey_to_conventional_names(df):
-    key = pd.read_csv(_to_folder + 'InchiKeystoCompoundNames.txt', delimiter='\t', header=0, index_col=None)
+    key = pd.read_csv(_to_folder + '/InchiKeystoCompoundNames.txt', delimiter='\t', header=0, index_col=None)
     translated_inchikeys = pd.merge(df, key, on='InChI-Key', how='left')
     print('Translated Inchikeys Look like :\n', translated_inchikeys.head())
     return translated_inchikeys
