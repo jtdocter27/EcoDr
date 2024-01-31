@@ -104,6 +104,7 @@ def substrate_changes_synbio_v_topmatch(_to_folder, top_match_bsm, synbio_bsm):
     unique_top_match_InChI_Key.reset_index(drop=True)
     # Saves list of InChI Keys
     unique_top_match_InChI_Key = pd.DataFrame(unique_top_match_InChI_Key, columns=['InChI-Key'])
+
     # Removes the common InChI-Keys such as proton, ATP, and saves the list
     top_match_inchi_keys_translated = relevant_compounds(unique_top_match_InChI_Key) #takes in the dataframe and gets rid of common compounds like water. 
     top_match_inchi_keys_translated.to_csv('_synbiovschassis_inchikey.txt', header=True, index=True, sep='\t')
@@ -131,7 +132,6 @@ def to_one_column(df):
     one_col.reset_index(drop=True)
     print(one_col)
     return one_col
-
 ###______________________________________________________________________________________________________________________________###
 def relevant_compounds(df):
     # Finds the indexes where InChiKey for water are present
@@ -155,7 +155,11 @@ def relevant_compounds(df):
     # Returns list of relevant InChiKeys
     return df
 ####----------------------------------------------------------------------------------------###
-
+def inchikey_to_conventional_names(df):
+    key = pd.read_csv(_to_folder + 'InchiKeystoCompoundNames.txt', delimiter='\t', header=0, index_col=None)
+    translated_inchikeys = pd.merge(df, key, on='InChI-Key', how='left')
+    print('Translated Inchikeys Look like :\n', translated_inchikeys.head())
+    return translated_inchikeys
 
 
 
@@ -182,3 +186,4 @@ os.chdir(_5_output)
 # Returns the shared InChiKeys without white space or duplicates
 #individual_genome_rxns = substrate_changes_synbio_v_chassis(synbio, _to_folder, synbio_bsm, top_match_bsm)
 individual_genome_rxns = substrate_changes_synbio_v_topmatch(_to_folder, synbio_bsm, top_match_bsm)
+translated_individual_rxns = inchikey_to_conventional_names(individual_genome_rxns)
