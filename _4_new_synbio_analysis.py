@@ -6,7 +6,7 @@ import numpy as np#; print('numpy version:', np.__version__)
 import re#; print('re version:', re.__version__)
 import pandas as pd#; print('pandas version:', pd.__version__)
 from _2_Genomic_Library_Functions import diamond_impl, genome_extractor
-from _5_linear import pass_to_distance
+from _5_genomic_comparison import pass_to_distance
 import sys
 #from _1_competitorFind import ec_locator
 ##====================================================================================================================##
