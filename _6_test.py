@@ -182,7 +182,7 @@ def mutualism1_modified_pathway(_to_folder, top_match_bsm, synbio_bsm):
     metacyc_all_rxns['EC-Number'] = metacyc_all_rxns['EC-Number'].str.replace('EC-', '', regex=False)
     # Merges based on EC number to create a list of reactions/substrates occurring in top match
     top_match_rxns = pd.merge(top_match_bsm, metacyc_all_rxns, on='EC-Number', how='inner')
-    print('This is top_match_rxns\n'.columns)
+    print('This is top_match_rxns\n', top_match_rxns.head())
     #print(top_match_rxns['Reactants InChI-Key'])
 
     # Turn on to save the list of substrates found in top match
