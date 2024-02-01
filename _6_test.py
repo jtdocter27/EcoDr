@@ -221,7 +221,7 @@ def mutualism1_modified_pathway(_to_folder, top_match_bsm, synbio_bsm):
     top_match_InChI_Keys_translated = relevant_compounds(unique_top_match_InChI_Key)
     top_match_InChI_Keys_translated = top_match_InChI_Keys_translated[top_match_InChI_Keys_translated['InChI-Key'] !='nan']
     top_match_InChI_Keys_translated.to_csv('mutualism1.txt', header=True, index=True, sep='\t')
-    print('')
+    print('mutualism1 has been created')
     return top_match_InChI_Keys_translated
 ##_______________________________________________________________________________________________________________________###
 ###Calling Script###
