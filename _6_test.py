@@ -109,7 +109,7 @@ def substrate_changes_synbio_v_topmatch(_to_folder, top_match_bsm, synbio_bsm):
 
     # Removes the common InChI-Keys such as proton, ATP, and saves the list
     top_match_inchi_keys_translated = relevant_compounds(unique_top_match_InChI_Key) #takes in the dataframe and gets rid of common compounds like water. 
-    top_match_inchi_keys_translated.to_csv('_synbiovschassis_inchikey.txt', header=True, index=True, sep='\t')
+    top_match_inchi_keys_translated.to_csv('_synbio_x_topmatch_inchikey.txt', header=True, index=True, sep='\t')
     # unique_top_match_InChI_Key.to_csv(sb_name+'_synbiovschassis_inchikey.txt', header=True, index= True, sep='\t')
     print('Top Match vs. Synbio InChI Key Substrates Analysis Is Complete')
     return unique_top_match_InChI_Key
@@ -165,22 +165,26 @@ def inchikey_to_conventional_names(df):
     print('Translated Inchikeys Look like :\n', translated_inchikeys.head())
     return translated_inchikeys
 ###__________________________________________________________________________________________####
+#_to_folder = '/projects/jodo9280/EcoDr/EcoDr/Competitor_Find'
 def mutualism1_modified_pathway(_to_folder, top_match_bsm, synbio_bsm):
     # Opens MetaCyc list of all reactions
     metacyc_all_rxns = pd.read_csv(_to_folder + '/All-reactions-of-MetaCyc.txt',
                                    delimiter='\t', header=0, index_col=0)
     # Converts into database
     metacyc_all_rxns = pd.DataFrame(metacyc_all_rxns)
-    print('Old column names', metacyc_all_rxns.columns)
+    print('Old column names\n', metacyc_all_rxns.columns)
     metacyc_all_rxns.columns = ['EC-Number', 'Substrates', 'Substrates InChI-Key', 'Reactants',
                                 'Reactants InChI-Key', 'Products', 'Products InChI-Key']
+    print('New Columns Names\n', metacyc_all_rxns.columns)
+
     # String processing of dataframe by removing 'EC-' from the start of the EC number
-    print('Here is the reactants column', metacyc_all_rxns['Reactants InChI-Key'])
+    print('Here is the reactants column\n', metacyc_all_rxns['Reactants InChI-Key'])
     metacyc_all_rxns['EC-Number'] = metacyc_all_rxns['EC-Number'].str.replace('EC-', '', regex=False)
     # Merges based on EC number to create a list of reactions/substrates occurring in top match
     top_match_rxns = pd.merge(top_match_bsm, metacyc_all_rxns, on='EC-Number', how='inner')
-    print(top_match_rxns.columns)
-    print(top_match_rxns['Reactants InChI-Key'])
+    print('This is top_match_rxns\n'.columns)
+    #print(top_match_rxns['Reactants InChI-Key'])
+
     # Turn on to save the list of substrates found in top match
     top_match_rxns.to_csv('topmatch_' + sb_name + '_chassis_all_rxns.txt', header=True, index=True, sep='\t')
     # Isolates the InChI Key column and splits the column based on // to isolate all substrates for top match
