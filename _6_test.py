@@ -108,7 +108,8 @@ def substrate_changes_synbio_v_topmatch(_to_folder, top_match_bsm, synbio_bsm):
     unique_top_match_InChI_Key = pd.DataFrame(unique_top_match_InChI_Key, columns=['InChI-Key'])
 
     # Removes the common InChI-Keys such as proton, ATP, and saves the list
-    top_match_inchi_keys_translated = relevant_compounds(unique_top_match_InChI_Key) #takes in the dataframe and gets rid of common compounds like water. 
+    top_match_inchi_keys_translated = relevant_compounds(unique_top_match_InChI_Key)
+    top_match_inchi_keys_translated = top_match_inchi_keys_translated.drop(top_match_inchi_keys_translated[top_match_inchi_keys_translated['InChI-Key'] =='nan'].index, inplace=True) #takes in the dataframe and gets rid of common compounds like water. 
     top_match_inchi_keys_translated.to_csv('_synbio_x_topmatch_inchikey.txt', header=True, index=True, sep='\t')
     # unique_top_match_InChI_Key.to_csv(sb_name+'_synbiovschassis_inchikey.txt', header=True, index= True, sep='\t')
     print('Top Match vs. Synbio InChI Key Substrates Analysis Is Complete')
