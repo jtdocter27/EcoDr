@@ -218,9 +218,10 @@ def mutualism1_modified_pathway(_to_folder, top_match_bsm, synbio_bsm):
     unique_top_match_InChI_Key = pd.DataFrame(unique_top_match_InChI_Key, columns=['InChI-Key'])
     # Removes the common InChI-Keys such as proton, ATP, and saves the list
     top_match_InChI_Keys_translated = relevant_compounds(unique_top_match_InChI_Key)
+    top_match_inchi_keys_translated = top_match_inchi_keys_translated[top_match_inchi_keys_translated['InChI-Key'] !='nan']
     top_match_InChI_Keys_translated.to_csv('mutualism1.txt', header=True, index=True, sep='\t')
     return top_match_InChI_Keys_translated
-
+##_______________________________________________________________________________________________________________________###
 ###Calling Script###
 _to_folder = '/projects/jodo9280/EcoDr/EcoDr/Competitor_Find'
 # sb_name = 'Aquificota_Actinobacteria_Chimera'
