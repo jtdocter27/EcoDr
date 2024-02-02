@@ -87,14 +87,14 @@ def substrate_changes_synbio_v_topmatch(_to_folder, top_match_bsm, synbio_bsm):
     # Merges the synbio binary summary matrix with the metacyc list to find the InChI-Key lists
     # Splits InChI-Keys based on the '//' separator
     synbio_InChI_Key = pd.DataFrame(synbio_rxns['Reactants InChI-Key'].astype(str).str.split('//', expand=True))
-    synbio_one_col = to_one_column(synbio_InChI_Key)
+    synbio_reactants_one_col = to_one_column(synbio_InChI_Key)
     # Turn on to save the list of substrates found in synbio
-    synbio_one_col.to_csv('_synbio_only_reactants.txt', header=True, index= True, sep='\t')
+    synbio_reactants_one_col.to_csv('_synbio_only_reactants.txt', header=True, index= True, sep='\t')
     # Isolates the InChI Key column and splits the column based on // to isolate all substrates for synbio
     # Creates an array of InChI Keys of substrates that can be found in both organisms, saves the array as index
 
     ##Combining Synbio and Top match Reactant Dtaframes
-    Combined_InChI_Key = pd.merge(synbio_one_col, top_match_one_col, on='InChI-Key', how='inner').reset_index(drop=True) #'inner' keeps only the common values between the two dataframes. This is important. 
+    Combined_InChI_Key = pd.merge(synbio_reactants_one_col, top_match_one_col, on='InChI-Key', how='inner').reset_index(drop=True) #'inner' keeps only the common values between the two dataframes. This is important. 
     Combined_InChI_Key = Combined_InChI_Key.dropna(how='any')
     print('Synbio and Top Match Organism Substrate DataFrames Have Merged')
     # Returns the InChI Key names by referencing the index
@@ -201,12 +201,12 @@ def mutualism1_modified_pathway(_to_folder, top_match_bsm, synbio_bsm):
     # Merges the synbio binary summary matrix with the metacyc list to find the InChI-Key lists
     # Splits InChI-Keys based on the '//' separator
     synbio_InChI_Key = pd.DataFrame(synbio_rxns['Reactants InChI-Key'].astype(str).str.split('//', expand=True))
-    synbio_one_col = to_one_column(synbio_InChI_Key)
+    synbio_reactants_one_col = to_one_column(synbio_InChI_Key)
     # Turn on to save the list of substrates found in synbio
-    # synbio_one_col.to_csv(sb_name+'_synbio_all_rxns.txt', header=True, index= True, sep='\t')
+    # synbio_reactants_one_col.to_csv(sb_name+'_synbio_all_rxns.txt', header=True, index= True, sep='\t')
     # Isolates the InChI Key column and splits the column based on // to isolate all substrates for synbio
     # Creates an array of InChI Keys of substrates that can be found in both organisms, saves the array as index
-    shared_InChI_Key = pd.merge(synbio_one_col, top_match_one_col, on='InChI-Key', how='inner').reset_index(drop=True)
+    shared_InChI_Key = pd.merge(synbio_reactants_one_col, top_match_one_col, on='InChI-Key', how='inner').reset_index(drop=True)
     #print('I have merged')
     # Returns the InChI Key names by referencing the index
     # Converts array into a single column list
@@ -224,6 +224,64 @@ def mutualism1_modified_pathway(_to_folder, top_match_bsm, synbio_bsm):
     print('mutualism1 has been created')
     return top_match_InChI_Keys_translated
 ##_______________________________________________________________________________________________________________________###
+def mutualism2_modified_pathway(_to_folder, top_match_bsm, synbio_bsm):
+    ##Metacyc Processing_____________________________________________________
+    metacyc_all_rxns = pd.read_csv(_to_folder + '/All-reactions-of-MetaCyc.txt',
+                                   delimiter='\t', header=0, index_col=0)
+    # Converts into database
+    metacyc_all_rxns = pd.DataFrame(metacyc_all_rxns)
+    print('Old column names', metacyc_all_rxns.columns)
+    metacyc_all_rxns.columns = ['EC-Number', 'Substrates', 'Substrates InChI-Key', 'Reactants',
+                                'Reactants InChI-Key', 'Products', 'Products InChI-Key']
+    # String processing of dataframe by removing 'EC-' from the start of the EC number
+    print('Metacyc_all_rxns reactants column\n', metacyc_all_rxns['Reactants InChI-Key'])
+    metacyc_all_rxns['EC-Number'] = metacyc_all_rxns['EC-Number'].str.replace('EC-', '', regex=False)
+
+
+    #Top Match Processing______________________________________________________________
+    top_match_rxns = pd.merge(top_match_bsm, metacyc_all_rxns, on='EC-Number', how='inner')
+    print('Top_match reactions look like \n', top_match_rxns.columns)
+    #print(top_match_rxns['Reactants InChI-Key'])
+    # Turn on to save the list of substrates found in top match
+    top_match_rxns.to_csv('topmatch_' + 'top_match_all_rxns.txt', header=True, index=True, sep='\t')
+    # Isolates the InChI Key column and splits the column based on // to isolate all substrates for top match
+    top_match_InChI_Key = pd.DataFrame(top_match_rxns['Reactants InChI-Key'].astype(str).str.split('//', expand=True))
+    tm_reactants_one_col = to_one_column(top_match_InChI_Key)
+    tm_reactants_one_col.to_csv('top_match_reactants.txt', header=True, index=True, sep='\t')
+    # Merges based on EC number to create a list of reactions/substrates occurring in synbio
+
+    #Synbio Processing____________________________________________________________________
+    synbio_rxns = pd.merge(synbio_bsm, metacyc_all_rxns, on='EC-Number', how='inner')
+    # Merges the synbio binary summary matrix with the metacyc list to find the InChI-Key lists
+    # Splits InChI-Keys based on the '//' separator
+    synbio_InChI_Key = pd.DataFrame(synbio_rxns['Products InChI-Key'].astype(str).str.split('//', expand=True))
+    synbio_reactants_one_col = to_one_column(synbio_InChI_Key)
+    # Turn on to save the list of substrates found in synbio
+    # synbio_reactants_one_col.to_csv(sb_name+'_synbio_all_rxns.txt', header=True, index= True, sep='\t')
+    # Isolates the InChI Key column and splits the column based on // to isolate all substrates for synbio
+    # Creates an array of InChI Keys of substrates that can be found in both organisms, saves the array as index
+    shared_InChI_Key = pd.merge(synbio_reactants_one_col, tm_reactants_one_col, on='InChI-Key', how='inner').reset_index(drop=True)
+    print('Synbio products and topmatch reactants have been merged succesfully')
+    # Returns the InChI Key names by referencing the index
+    # Converts array into a single column list
+    # Removes any spaces
+
+    #Shared Dataframe Processing___________________________________________________________
+    shared_InChI_Key['InChI-Key'] = shared_InChI_Key['InChI-Key'].str.strip()
+    # Finds unique InChI Keys in the list
+    unique_chassis_InChI_Key = shared_InChI_Key['InChI-Key'].drop_duplicates()
+    unique_chassis_InChI_Key.reset_index(drop=True)
+    # Saves list of InChI Keys
+    unique_chassis_InChI_Key = pd.DataFrame(unique_chassis_InChI_Key, columns=['InChI-Key'])
+    # Removes the common InChI-Keys such as proton, ATP, and saves the list
+    chassis_inchi_keys_translated = relevant_compounds(unique_chassis_InChI_Key)
+    chassis_inchi_keys_translated = chassis_inchi_keys_translated[chassis_inchi_keys_translated['InChI-Key'] !='nan']
+
+    chassis_inchi_keys_translated.to_csv('mutualism2.txt', header=True, index=True, sep='\t')
+    # unique_chassis_InChI_Key.to_csv(sb_name+'_synbiovschassis_inchikey.txt', header=True, index= True, sep='\t')
+    print('Top Match vs. Synbio InChI Key Substrates Analysis Is Complete')
+    return chassis_inchi_keys_translated
+###________________________________________________________________________________________________________________________________________________________________________#####
 ###Calling Script###
 _to_folder = '/projects/jodo9280/EcoDr/EcoDr/Competitor_Find'
 # sb_name = 'Aquificota_Actinobacteria_Chimera'
@@ -244,3 +302,4 @@ os.chdir(_5_output)
 individual_genome_rxns = substrate_changes_synbio_v_topmatch(_to_folder, synbio_bsm, top_match_bsm)
 translated_individual_rxns = inchikey_to_conventional_names(individual_genome_rxns)
 mutualism1 = mutualism1_modified_pathway(_to_folder, top_match_bsm, synbio_bsm)
+mutualism2 = mutualism2_modified_pathway(_5_output, top_match_bsm, synbio_bsm)
