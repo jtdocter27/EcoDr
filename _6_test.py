@@ -329,7 +329,7 @@ def competition_modified_pathway(to_folder, different_ECs):
 
     unique_pathway_translated.to_csv('_modifiedpathway_inchikey.txt', header=True, index=True, sep='\t')
     print('Modified Pathway Substrates Analysis Is Complete')
-    return unique_pathway_translated
+    return unique_path_InChI_Key
 ##_______________________________________________________________________________________________________________________________________________________###
 
 
