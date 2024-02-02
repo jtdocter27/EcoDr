@@ -295,17 +295,15 @@ def competition_modified_pathway(to_folder, different_ECs):
     metacyc_all_rxns['EC-Number'] = metacyc_all_rxns['EC-Number'].str.replace('EC-', '', regex=False)
     # Finds the reactions associated with the modified pathway
     merged_rxns = pd.merge(different_ECs, metacyc_all_rxns, on='EC-Number', how='inner')
-    print('merged_rxns looks like \n', merged_rxns.head())
+    print('merged_rxns looks like \n', merged_rxns.columns)
     # Turn on to save the list of all reactions that occur due to modified pathways
     # merged_rxns.to_csv(sb_name+'_altered_pathway_merged_rxns.txt', header=True, index=True, sep='\t')
-
-
     # Splits dataframes based on whether the top match EC numbers are being turned on
-    top_match_modification = merged_rxns[merged_rxns.iloc[:, 1] == 1]
+    top_match_modification = merged_rxns[merged_rxns.iloc[:, 1] == 1] #filters rows that only have 1's 
     # Isolates the InChI Key column and splits the column based on // to isolate all substrates for top match
     top_match_mod_InChIKey = top_match_modification['Reactants InChI-Key'].astype(str).str.split('//', expand=True)
     top_match_one_col = to_one_column(top_match_mod_InChIKey)
-    print('top_match_one_col looks like \n', top_match_one_col.head())
+    print('top_match_one_col looks like \n', top_match_one_col)
     # Splits dataframes based on whether the synbio EC Numbers are being turned on
     synbio_modification = merged_rxns[merged_rxns.iloc[:, 2] == 1]
     # Isolates the InChI Key column and splits the column based on // to isolate all substrates for synbio
@@ -325,6 +323,9 @@ def competition_modified_pathway(to_folder, different_ECs):
     unique_path_InChI_Key = pd.DataFrame(unique_path_InChI_Key, columns=['InChI-Key'])
     # Saves list of InChI Keys
     unique_pathway_translated = relevant_compounds(unique_path_InChI_Key)
+    unique_pathway_translated = unique_pathway_translated[unique_pathway_translated['InChI-Key'] !='nan']
+    unique_pathway_translated = unique_pathway_translated.dropna(how='all')
+
     unique_pathway_translated.to_csv('_modifiedpathway_inchikey.txt', header=True, index=True, sep='\t')
     print('Modified Pathway Substrates Analysis Is Complete')
     return unique_path_InChI_Key
