@@ -34,9 +34,9 @@ def ec_comparison(sb_name, _5_output):
     different_ECs = pd.merge(top_match_bsm, synbio_bsm, on='EC-Number', how='outer')
     # Finds occurences where the sb_name and top match EC BSMs don't have the same binary values and extracts EC numbers
     different_ECs = different_ECs[different_ECs[sb_name] != different_ECs[top_match_name]]
-    print('different_ecs look like ', different_ECs)
+    #print('different_ecs look like ', different_ECs)
     # Turn on to save the list of EC numbers that are different between the two genomes and where the EC number is present
-    different_ECs.to_csv(sb_name + '_different_EC_profile.txt', header=True, index=True, sep='\t')
+    different_ECs.to_csv('synbio_vs.topmatch_difference_EC_profile.txt', header=True, index=True, sep='\t')
 
     top_match_bsm = top_match_bsm[(top_match_bsm.loc[:, top_match_name] != 0)] #this filters out all the zeroes from the top match dataframe
     print('top match bsm is, ', top_match_bsm)
@@ -284,6 +284,51 @@ def mutualism2_modified_pathway(_to_folder, top_match_bsm, synbio_bsm):
     print('Top Match vs. Synbio InChI Key Substrates Analysis Is Complete')
     return chassis_inchi_keys_translated
 ###________________________________________________________________________________________________________________________________________________________________________#####
+def competition_modified_pathway(to_folder, different_ECs):
+    # Opens MetaCyc list of all reactions
+    metacyc_all_rxns = pd.read_csv(to_folder + '/All-reactions-of-MetaCyc.txt',
+                                   delimiter='\t', header=0, index_col=0)
+    # Converts into database
+    metacyc_all_rxns = pd.DataFrame(metacyc_all_rxns)
+    metacyc_all_rxns.columns = ['EC-Number', 'Substrates', 'Substrates InChI-Key', 'Reactants', 'Reactants InChI-Key',
+                                'Products', 'Products InChI-Key']
+    metacyc_all_rxns['EC-Number'] = metacyc_all_rxns['EC-Number'].str.replace('EC-', '', regex=False)
+    # Finds the reactions associated with the modified pathway
+    merged_rxns = pd.merge(different_ECs, metacyc_all_rxns, on='EC-Number', how='inner')
+    print('merged_rxns looks like \n', merged_rxns.head())
+    # Turn on to save the list of all reactions that occur due to modified pathways
+    # merged_rxns.to_csv(sb_name+'_altered_pathway_merged_rxns.txt', header=True, index=True, sep='\t')
+
+
+    # Splits dataframes based on whether the top match EC numbers are being turned on
+    top_match_modification = merged_rxns[merged_rxns.iloc[:, 1] == 1]
+    # Isolates the InChI Key column and splits the column based on // to isolate all substrates for top match
+    top_match_mod_InChIKey = top_match_modification['Reactants InChI-Key'].astype(str).str.split('//', expand=True)
+    top_match_one_col = to_one_column(top_match_mod_InChIKey)
+    print('top_match_one_col looks like \n', top_match_one_col.head())
+    # Splits dataframes based on whether the synbio EC Numbers are being turned on
+    synbio_modification = merged_rxns[merged_rxns.iloc[:, 2] == 1]
+    # Isolates the InChI Key column and splits the column based on // to isolate all substrates for synbio
+    synbio_mod_InChIKey = synbio_modification['Reactants InChI-Key'].astype(str).str.split('//', expand=True)
+    synbio_mod_one_col = to_one_column(synbio_mod_InChIKey)
+    print('synbio_mod_one_col looks like \n', synbio_mod_one_col)
+    # Finds shared InChI Keys in the modified pathways, saves array as index of occurrence
+    # Returns the InChI Key names by referencing the index
+    pathway_shared_InChI_Key = pd.merge(top_match_one_col, synbio_mod_one_col, on=['InChI-Key'],
+                                        how='inner').reset_index(drop=True)
+    pathway_shared_InChI_Key.to_csv('BEFORE_EDITTING.txt', header=True, index=True, sep='\t')
+    # Removes white space from the column
+    pathway_shared_InChI_Key['InChI-Key'] = pathway_shared_InChI_Key['InChI-Key'].str.strip()
+    # Finds unique InChI Keys in the list
+    unique_path_InChI_Key = pathway_shared_InChI_Key['InChI-Key'].drop_duplicates()
+    unique_path_InChI_Key.reset_index(drop=True)
+    unique_path_InChI_Key = pd.DataFrame(unique_path_InChI_Key, columns=['InChI-Key'])
+    # Saves list of InChI Keys
+    unique_pathway_translated = relevant_compounds(unique_path_InChI_Key)
+    unique_pathway_translated.to_csv('_modifiedpathway_inchikey.txt', header=True, index=True, sep='\t')
+    print('Modified Pathway Substrates Analysis Is Complete')
+    return unique_path_InChI_Key
+
 ###Calling Script###
 _to_folder = '/projects/jodo9280/EcoDr/EcoDr/Competitor_Find'
 # sb_name = 'Aquificota_Actinobacteria_Chimera'
@@ -305,3 +350,4 @@ individual_genome_rxns = substrate_changes_synbio_v_topmatch(_to_folder, synbio_
 translated_individual_rxns = inchikey_to_conventional_names(individual_genome_rxns)
 mutualism1 = mutualism1_modified_pathway(_to_folder, top_match_bsm, synbio_bsm)
 mutualism2 = mutualism2_modified_pathway(_to_folder, top_match_bsm, synbio_bsm)
+pathway_modification = competition_modified_pathway(_to_folder, different_ECs)
