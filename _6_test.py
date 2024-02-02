@@ -276,7 +276,7 @@ def mutualism2_modified_pathway(_to_folder, top_match_bsm, synbio_bsm):
     # Removes the common InChI-Keys such as proton, ATP, and saves the list
     chassis_inchi_keys_translated = relevant_compounds(unique_chassis_InChI_Key)
     chassis_inchi_keys_translated = chassis_inchi_keys_translated[chassis_inchi_keys_translated['InChI-Key'] !='nan']
-    chassis_inchi_keys_translated = chassis_inchi_keys_translated[chassis_inchi_keys_translated['InChI-Key'] !='']
+    chassis_inchi_keys_translated = chassis_inchi_keys_translated.dropna(how='all')
 
 
     chassis_inchi_keys_translated.to_csv('mutualism2.txt', header=True, index=True, sep='\t')
