@@ -64,7 +64,7 @@ def substrate_changes_synbio_v_topmatch(_to_folder, top_match_bsm, synbio_bsm):
 
     metacyc_all_rxns.columns = ['EC-Number', 'Substrates', 'Substrates InChI-Key', 'Reactants',
                                 'Reactants InChI-Key', 'Products', 'Products InChI-Key'] #this renames the columns in the dataframe starting with EC-Number... I don't know why. 
-    print('metacyc_all_rxns columns looks like\n\n', metacyc_all_rxns.columns)
+    print('metacyc_all_rxns columns looks like\n', metacyc_all_rxns.columns)
     #print('Here is the reactants Inchi-key column ', metacyc_all_rxns['Reactants InChI-Key'])
 
     metacyc_all_rxns['EC-Number'] = metacyc_all_rxns['EC-Number'].str.replace('EC-', '', regex=False) #gets rid of EC- in the EC-number column, so we are left with just the actually number.
