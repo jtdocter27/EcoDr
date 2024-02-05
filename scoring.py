@@ -2,8 +2,9 @@ import pandas as pd
 import numpy as np
 import os as os
 
-def scoring(df1, df2, df3,df4,df5):
-    overall_sim = df1.size
+def scoring(df1, df2, df3, df4, df5):
+    overall_sim = df1.size #gives the rows*columns
+    print('size of overall_sim is \n', overall_sim)
     pathway_sim = df2.size
     common_sim = df3.size
     mutualism = df4.size

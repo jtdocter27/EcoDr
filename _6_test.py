@@ -243,7 +243,7 @@ def mutualism2_modified_pathway(_to_folder, top_match_bsm, synbio_bsm):
     print('Top_match reactions look like \n', top_match_rxns.columns)
     #print(top_match_rxns['Reactants InChI-Key'])
     # Turn on to save the list of substrates found in top match
-    top_match_rxns.to_csv('topmatch_' + 'top_match_all_rxns.txt', header=True, index=True, sep='\t')
+    top_match_rxns.to_csv('top_match_all_rxns.txt', header=True, index=True, sep='\t')
     # Isolates the InChI Key column and splits the column based on // to isolate all substrates for top match
     top_match_InChI_Key = pd.DataFrame(top_match_rxns['Reactants InChI-Key'].astype(str).str.split('//', expand=True))
     tm_reactants_one_col = to_one_column(top_match_InChI_Key)
@@ -255,12 +255,12 @@ def mutualism2_modified_pathway(_to_folder, top_match_bsm, synbio_bsm):
     # Merges the synbio binary summary matrix with the metacyc list to find the InChI-Key lists
     # Splits InChI-Keys based on the '//' separator
     synbio_InChI_Key = pd.DataFrame(synbio_rxns['Products InChI-Key'].astype(str).str.split('//', expand=True))
-    synbio_reactants_one_col = to_one_column(synbio_InChI_Key)
+    synbio_products_one_col = to_one_column(synbio_InChI_Key)
     # Turn on to save the list of substrates found in synbio
     # synbio_reactants_one_col.to_csv(sb_name+'_synbio_all_rxns.txt', header=True, index= True, sep='\t')
     # Isolates the InChI Key column and splits the column based on // to isolate all substrates for synbio
     # Creates an array of InChI Keys of substrates that can be found in both organisms, saves the array as index
-    shared_InChI_Key = pd.merge(synbio_reactants_one_col, tm_reactants_one_col, on='InChI-Key', how='inner').reset_index(drop=True)
+    shared_InChI_Key = pd.merge(synbio_products_one_col, tm_reactants_one_col, on='InChI-Key', how='inner').reset_index(drop=True)
     print('Synbio products and topmatch reactants have been merged succesfully')
     # Returns the InChI Key names by referencing the index
     # Converts array into a single column list
@@ -295,6 +295,7 @@ def competition_modified_pathway(to_folder, different_ECs):
     metacyc_all_rxns['EC-Number'] = metacyc_all_rxns['EC-Number'].str.replace('EC-', '', regex=False)
     # Finds the reactions associated with the modified pathway
     merged_rxns = pd.merge(different_ECs, metacyc_all_rxns, on='EC-Number', how='inner')
+    merged_rxns.to_csv('merged_rxns.txt', header=True, index=True, sep='\t')
     print('merged_rxns looks like \n', merged_rxns.columns)
     print('merged_rxns two rows look like\n', merged_rxns.head(2))
     # Turn on to save the list of all reactions that occur due to modified pathways
@@ -334,6 +335,7 @@ def competition_modified_pathway(to_folder, different_ECs):
 
 
 ###Calling Script###
+#Dataframe Processing_____________________________________________________________________________________________
 _to_folder = '/projects/jodo9280/EcoDr/EcoDr/Competitor_Find'
 # sb_name = 'Aquificota_Actinobacteria_Chimera'
 sb_name = 'New_Synbio_Analysis_Output_Binary_matches.tsv'
@@ -355,10 +357,10 @@ translated_individual_rxns = inchikey_to_conventional_names(individual_genome_rx
 mutualism1 = mutualism1_modified_pathway(_to_folder, top_match_bsm, synbio_bsm)
 mutualism2 = mutualism2_modified_pathway(_to_folder, top_match_bsm, synbio_bsm)
 pathway_modification = competition_modified_pathway(_to_folder, different_ECs)
+translated_pathway = inchikey_to_conventional_names(pathway_modification)
+translated_pathway.to_csv('_modifiedpathway_names.txt', header=True, index=True, sep='\t') #converts InChiKey's to normal compound names, in this case of all the shared reactants of TP and Synbio
 
-translated_pathway = inchikey_to_conventional_names(pathway_modification) #converts InChiKey's to normal compound names
-# Saves output
-translated_pathway.to_csv('_modifiedpathway_names.txt', header=True, index=True, sep='\t')
+##Scoring____________________________________________________________________________________________________________
 # Finds InChiKeys that are present in both sets
 non_repeated_InChIKeys = set(individual_genome_rxns) ^ set(pathway_modification)
 # Isolates only the column with the listed InChI-Keys
@@ -373,7 +375,7 @@ score = scoring(individual_genome_rxns, pathway_modification, non_repeated_InChI
 # distance = finding_distance(top_match)
 data = {'Individual Reactions': individual_genome_rxns.shape[0], 'Modified Pathway': pathway_modification.shape[0],
         'Set Overlap': non_repeated_InChIKeys.shape[0], 'Mutualism 1 Observed': mutualism1.shape[0],
-        'Mutualism 2 Observed': mutualism2.shape[0], 'Overall Score': score}  # , 'Distance': distance}
+        'Mutualism 2 Observed': mutualism2.shape[0], 'Overall Score': score}  # , 'Distance': distance} #.shape gives the (rows, columns), so .shape[0] gives just the rows
 
 overview = pd.DataFrame(data, index=[0])
 overview.to_csv('Final_CompetitorFind_Analysis.txt', header=True, index=True, sep='\t')
