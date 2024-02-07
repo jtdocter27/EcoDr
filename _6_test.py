@@ -2,10 +2,12 @@ import pandas as pd
 import numpy as np
 import os as os
 from scoring import scoring
+import requests
+import shutil
 ###==========================================================================================================================###
 #sb_name = 'Synbio_Organism'
 #_5_output = '/projects/jodo9280/EcoDr/TestCases/New_Synbio_Analysis_Output_Binary'
-
+###-------------------------------------------------------------------------------------
 def ec_comparison(sb_name, _5_output):
     # Reads the document that scores all genomes based on EC expression
     find_top_match = pd.read_csv(_5_output + '/Difference_Based_Comparison_Score.txt', delimiter='\t',
@@ -334,6 +336,19 @@ def competition_modified_pathway(to_folder, different_ECs):
 
 
 ###Calling Script###
+#MetaCyc File Creation
+url =  'https://websvc.biocyc.org/st-get?id=biocyc13-86497-3916238843&format=tsv' #https://websvc.biocyc.org/st-get?id=[SMARTTABLE-ID]&format=[json|xml|tsv]
+url = requests.get(url)
+path = 'All_Reactions_of_MetaCyc'
+if url.status_code == 200:
+    with open(path, 'wb') as path:
+        path.write(url.content)
+    print("All Reactions of Metacyc Succesfully Downloaded")
+    shutil.move(path, '/projects/jodo9280/EcoDr/EcoDr/Competitor_Find')
+else:
+    print(f"Nump Nump Nump Try Again. Status code: {url.status_code}")
+
+
 #Dataframe Processing_____________________________________________________________________________________________
 _to_folder = '/projects/jodo9280/EcoDr/EcoDr/Competitor_Find'
 # sb_name = 'Aquificota_Actinobacteria_Chimera'
