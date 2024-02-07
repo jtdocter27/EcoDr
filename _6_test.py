@@ -1,4 +1,3 @@
-import numpy
 import pandas as pd
 import numpy as np
 import os as os
@@ -362,19 +361,19 @@ translated_pathway.to_csv('_modifiedpathway_names.txt', header=True, index=True,
 
 ##Scoring____________________________________________________________________________________________________________
 # Finds InChiKeys that are present in both sets
-non_repeated_InChIKeys = set(individual_genome_rxns) ^ set(pathway_modification)
+repeated_InChIKeys = set(individual_genome_rxns) ^ set(pathway_modification) #Differences don't overlap with the shared pool, both organisms are pulling from different pools of resources rather than competing for the same
 # Isolates only the column with the listed InChI-Keys
-non_repeated_InChIKeys = pd.DataFrame(non_repeated_InChIKeys, columns=['InChI-Key'])
+repeated_InChIKeys = pd.DataFrame(repeated_InChIKeys, columns=['InChI-Key'])
 # Translates from InChI-Key format to conventional names
-duplicitous_compounds = inchikey_to_conventional_names(non_repeated_InChIKeys)
+duplicitous_compounds = inchikey_to_conventional_names(repeated_InChIKeys)
 # Saves as a CSV file
 duplicitous_compounds.to_csv('_duplicitous_compounds_translated.txt', header=True, index=True, sep='\t')
 # Sends to scoring() function to render score. Mutualism is substracted from the overall score as it promotes microbial
 # growth and sustains biodiversity. Weighting was decided based on number of compounds produced per run
-score = scoring(individual_genome_rxns, pathway_modification, non_repeated_InChIKeys, mutualism1, mutualism2)
+score = scoring(individual_genome_rxns, pathway_modification, repeated_InChIKeys, mutualism1, mutualism2)
 # distance = finding_distance(top_match)
 data = {'Individual Reactions': individual_genome_rxns.shape[0], 'Modified Pathway': pathway_modification.shape[0],
-        'Set Overlap': non_repeated_InChIKeys.shape[0], 'Mutualism 1 Observed': mutualism1.shape[0],
+        'Set Overlap': repeated_InChIKeys.shape[0], 'Mutualism 1 Observed': mutualism1.shape[0],
         'Mutualism 2 Observed': mutualism2.shape[0], 'Overall Score': score}  # , 'Distance': distance} #.shape gives the (rows, columns), so .shape[0] gives just the rows
 
 overview = pd.DataFrame(data, index=[0])
