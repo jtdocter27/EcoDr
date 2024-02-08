@@ -339,15 +339,19 @@ def competition_modified_pathway(to_folder, different_ECs):
 #MetaCyc File Creation
 url =  'https://websvc.biocyc.org/st-get?id=biocyc13-86497-3916238843&format=tsv' #https://websvc.biocyc.org/st-get?id=[SMARTTABLE-ID]&format=[json|xml|tsv]
 url = requests.get(url)
-path = '/projects/jodo9280/EcoDr/EcoDr/All_reactions_of_MetaCyc.txt'
+path = '/projects/jodo9280/EcoDr/EcoDr/All-reactions-of-MetaCyc.txt'
 if url.status_code == 200:
     with open(path, 'wb') as file:
         file.write(url.content)
     print("All Reactions of Metacyc Succesfully Downloaded")
-    shutil.move(path, '/projects/jodo9280/EcoDr/EcoDr/Competitor_Find')
 else:
     print(f"Nump Nump Nump Try Again. Status code: {url.status_code}")
-
+MC = pd.read_csv('All-reactions-of-MetaCyc.txt', delimiter='\t')
+MCEdit = MC[MC['Reaction'].str.contains('SUBSEQ,|\'end\'|(3)|is|beyond|the|end|of|the|sequence|(2).') == False]
+#MCEdit2 = MCEdit[MCEdit[]]
+strings_to_remove = ['SUBSEQ,','\'end\'', '(3)', 'is', 'beyond', 'the', 'end', 'of', 'the', 'sequence', '(2).' ]
+MCEdit.to_csv('All-reactions-of-MetaCyc.txt', sep='\t', index=False)
+shutil.move(path, '/projects/jodo9280/EcoDr/EcoDr/Competitor_Find')
 
 #Dataframe Processing_____________________________________________________________________________________________
 _to_folder = '/projects/jodo9280/EcoDr/EcoDr/Competitor_Find'
