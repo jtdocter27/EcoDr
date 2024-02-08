@@ -4,6 +4,7 @@ import os as os
 from scoring import scoring
 import requests
 import shutil
+import random
 ###==========================================================================================================================###
 #sb_name = 'Synbio_Organism'
 #_5_output = '/projects/jodo9280/EcoDr/TestCases/New_Synbio_Analysis_Output_Binary'
@@ -340,7 +341,8 @@ def competition_modified_pathway(to_folder, different_ECs):
 if os.path.exists('All-reactions-of-MetaCyc.txt'):
     os.remove('All-reactions-of-MetaCyc.txt')
 url =  'https://websvc.biocyc.org/st-get?id=biocyc13-86497-3916238843&format=tsv' #https://websvc.biocyc.org/st-get?id=[SMARTTABLE-ID]&format=[json|xml|tsv]
-url = requests.get(url)
+params = {'random_param': random.randint(1, 1000)}
+url = requests.get(url, parems=params)
 path = '/projects/jodo9280/EcoDr/EcoDr/All-reactions-of-MetaCyc.txt'
 destination_file = '/projects/jodo9280/EcoDr/EcoDr/Competitor_Find/All-reactions-of-MetaCyc.txt'
 if url.status_code == 200:
