@@ -352,7 +352,6 @@ else:
 MC = pd.read_csv('All-reactions-of-MetaCyc.txt', delimiter='\t')
 MCEdit = MC[MC['Reaction'].str.contains('SUBSEQ,|\'end\'|(3)|is|beyond|the|end|of|the|sequence|(2).') == False]
 #MCEdit2 = MCEdit[MCEdit[]]
-strings_to_remove = ['SUBSEQ,','\'end\'', '(3)', 'is', 'beyond', 'the', 'end', 'of', 'the', 'sequence', '(2).' ]
 MCEdit.to_csv('All-reactions-of-MetaCyc.txt', sep='\t', index=False, mode='w')
 if os.path.exists(destination_file):
     # Delete or rename the existing file
