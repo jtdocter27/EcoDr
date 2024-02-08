@@ -342,6 +342,7 @@ if os.path.exists('All-reactions-of-MetaCyc.txt'):
 url =  'https://websvc.biocyc.org/st-get?id=biocyc13-86497-3916238843&format=tsv' #https://websvc.biocyc.org/st-get?id=[SMARTTABLE-ID]&format=[json|xml|tsv]
 url = requests.get(url)
 path = '/projects/jodo9280/EcoDr/EcoDr/All-reactions-of-MetaCyc.txt'
+destination_file = '/projects/jodo9280/EcoDr/EcoDr/Competitor_Find/All-reactions-of-MetaCyc.txt'
 if url.status_code == 200:
     with open(path, 'wb') as file:
         file.write(url.content)
@@ -353,6 +354,10 @@ MCEdit = MC[MC['Reaction'].str.contains('SUBSEQ,|\'end\'|(3)|is|beyond|the|end|o
 #MCEdit2 = MCEdit[MCEdit[]]
 strings_to_remove = ['SUBSEQ,','\'end\'', '(3)', 'is', 'beyond', 'the', 'end', 'of', 'the', 'sequence', '(2).' ]
 MCEdit.to_csv('All-reactions-of-MetaCyc.txt', sep='\t', index=False, mode='w')
+if os.path.exists(destination_file):
+    # Delete or rename the existing file
+    # Example: Delete the existing file
+    os.remove(destination_file)
 shutil.move(path, '/projects/jodo9280/EcoDr/EcoDr/Competitor_Find')
 
 #Dataframe Processing_____________________________________________________________________________________________
