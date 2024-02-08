@@ -359,7 +359,7 @@ if os.path.exists(destination_file):
     # Example: Delete the existing file
     os.remove(destination_file)
 shutil.move(path, '/projects/jodo9280/EcoDr/EcoDr/Competitor_Find')
-
+print('forp')
 #Dataframe Processing_____________________________________________________________________________________________
 _to_folder = '/projects/jodo9280/EcoDr/EcoDr/Competitor_Find'
 # sb_name = 'Aquificota_Actinobacteria_Chimera'
