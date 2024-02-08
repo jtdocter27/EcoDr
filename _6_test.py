@@ -339,7 +339,7 @@ def competition_modified_pathway(to_folder, different_ECs):
 #MetaCyc File Creation
 url =  'https://websvc.biocyc.org/st-get?id=biocyc13-86497-3916238843&format=tsv' #https://websvc.biocyc.org/st-get?id=[SMARTTABLE-ID]&format=[json|xml|tsv]
 url = requests.get(url)
-path = 'All_reactions_of_MetaCyc.txt'
+path = '/projects/jodo9280/EcoDr/EcoDr/All_reactions_of_MetaCyc.txt'
 if url.status_code == 200:
     with open(path, 'wb') as path:
         path.write(url.content)
