@@ -337,6 +337,8 @@ def competition_modified_pathway(to_folder, different_ECs):
 
 ###Calling Script###
 #MetaCyc File Creation
+if os.path.exists('All-reactions-of-MetaCyc.txt'):
+    os.remove('All-reactions-of-MetaCyc.txt')
 url =  'https://websvc.biocyc.org/st-get?id=biocyc13-86497-3916238843&format=tsv' #https://websvc.biocyc.org/st-get?id=[SMARTTABLE-ID]&format=[json|xml|tsv]
 url = requests.get(url)
 path = '/projects/jodo9280/EcoDr/EcoDr/All-reactions-of-MetaCyc.txt'
