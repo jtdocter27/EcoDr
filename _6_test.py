@@ -350,7 +350,7 @@ MC = pd.read_csv('All-reactions-of-MetaCyc.txt', delimiter='\t')
 MCEdit = MC[MC['Reaction'].str.contains('SUBSEQ,|\'end\'|(3)|is|beyond|the|end|of|the|sequence|(2).') == False]
 #MCEdit2 = MCEdit[MCEdit[]]
 strings_to_remove = ['SUBSEQ,','\'end\'', '(3)', 'is', 'beyond', 'the', 'end', 'of', 'the', 'sequence', '(2).' ]
-MCEdit.to_csv('All-reactions-of-MetaCyc.txt', sep='\t', index=False)
+MCEdit.to_csv('All-reactions-of-MetaCyc.txt', sep='\t', index=False, mode='w')
 shutil.move(path, '/projects/jodo9280/EcoDr/EcoDr/Competitor_Find')
 
 #Dataframe Processing_____________________________________________________________________________________________
