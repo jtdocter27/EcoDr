@@ -341,7 +341,7 @@ url =  'https://websvc.biocyc.org/st-get?id=biocyc13-86497-3916238843&format=tsv
 url = requests.get(url)
 path = '/projects/jodo9280/EcoDr/EcoDr/All_reactions_of_MetaCyc.txt'
 if url.status_code == 200:
-    with open(path, 'wb') as path:
+    with open(path, 'w') as path:
         path.write(url.content)
     print("All Reactions of Metacyc Succesfully Downloaded")
     shutil.move(path, '/projects/jodo9280/EcoDr/EcoDr/Competitor_Find')
