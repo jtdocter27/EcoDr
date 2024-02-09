@@ -356,7 +356,7 @@ else:
     print(f"Durin's Bane has Struck Once More. Status code: {url.status_code}")
 MC = pd.read_csv('All-reactions-of-MetaCyc.txt', delimiter='\t')
 MCEdit = MC[MC['Reaction'].str.contains('SUBSEQ,|\'end\'|(3)|is|beyond|the|end|of|the|sequence|(2).') == False]
-#MCEdit2 = MCEdit[MCEdit[]]
+#This gets rid of all the junk strings that come with the dataframe. 
 MCEdit.to_csv('All-reactions-of-MetaCyc.txt', sep='\t', index=False, mode='w')
 if os.path.exists(destination_file):
     # Delete or rename the existing file
