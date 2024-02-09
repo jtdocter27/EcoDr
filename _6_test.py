@@ -350,7 +350,7 @@ if url.status_code == 200:
         file.write(url.content)
     print("All Reactions of Metacyc Succesfully Downloaded")
 else:
-    print(f"Nump Nump Nump Try Again. Status code: {url.status_code}")
+    print(f"Durin's Bane has Struck Once More. Status code: {url.status_code}")
 MC = pd.read_csv('All-reactions-of-MetaCyc.txt', delimiter='\t')
 MCEdit = MC[MC['Reaction'].str.contains('SUBSEQ,|\'end\'|(3)|is|beyond|the|end|of|the|sequence|(2).') == False]
 #MCEdit2 = MCEdit[MCEdit[]]
