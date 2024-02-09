@@ -341,6 +341,9 @@ def competition_modified_pathway(to_folder, different_ECs):
 if os.path.exists('All-reactions-of-MetaCyc.txt'):
     os.remove('All-reactions-of-MetaCyc.txt')
 url =  'https://websvc.biocyc.org/st-get?id=biocyc14-86497-3916486221&format=tsv' #https://websvc.biocyc.org/st-get?id=[SMARTTABLE-ID]&format=[json|xml|tsv]
+# Some notes onthis portion
+# Metacyc smarttable MUST by set to public. Otherwise, the URL will break 
+# Metacyc itself sucks to work with. Double check the URL has the column headings you need. Changes often do not save. 
 params = {'random_param': random.randint(1, 1000)}
 url = requests.get(url, params=params)
 path = '/projects/jodo9280/EcoDr/EcoDr/All-reactions-of-MetaCyc.txt'
