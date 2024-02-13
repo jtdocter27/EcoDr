@@ -12,15 +12,15 @@ inchikey_compound_name = '/projects/jodo9280/EcoDr/EcoDr/Competitor_Find/InchiKe
 
 def similarity_search(path, all_rxns_doc):
     os.chdir(path)
-    print('Enter your inhibitors InChI-Key code: ')
+    #print('Enter your inhibitors InChI-Key code: ')
     inhibitor = 'LRHPLDYGYMQRHN-UHFFFAOYSA-N'
-    print('Enter number of similar structures desired: ')
+    #print('Enter number of similar structures desired: ')
     n = input()
     status = 1
     analogous = []
     try:
-        inhibitor_info = pcp.get_compounds(inhibitor, 'inchikey', as_dataframe=True)
-        inhibitor_cid = inhibitor_info.index[0].astype('str')
+        inhibitor_info = pcp.get_compounds(inhibitor, 'inchikey', as_dataframe=True) #retrieves the compound from PubChem's Database
+        inhibitor_cid = inhibitor_info.index[0].astype('str') 
     except:
         print('Unable to find structure')
         status = 0
