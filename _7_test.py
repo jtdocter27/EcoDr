@@ -27,21 +27,21 @@ def similarity_search(path, all_rxns_doc):
     try:
         print('Finding similar structures...')
         similar = pcp.get_compounds(inhibitor_cid, 'cid', searchtype='similarity', listkey_count=n)
-        print(similar)
+        print('Similair is :', similar)
     except:
         print('Unable to find similar structures')
         status = 0
     try:
         print('Finding substructures...')
         substructure = pcp.get_compounds(inhibitor_cid, 'cid', searchtype='substructure', listkey_count=n)
-        print(substructure)
+        print('Substructure is :', substructure)
     except:
         print('Unable to find substructures')
         status = 0
     try:
         print('Finding superstructures...')
         superstructure = pcp.get_compounds(inhibitor_cid, 'cid', searchtype='superstructure', listkey_count=n)
-        print(superstructure)
+        print('Superstructure is :', superstructure)
     except:
         print('Unable to find superstructure')
         status = 0
