@@ -15,7 +15,8 @@ def similarity_search(path, all_rxns_doc):
     #print('Enter your inhibitors InChI-Key code: ')
     inhibitor = 'LRHPLDYGYMQRHN-UHFFFAOYSA-N'
     #print('Enter number of similar structures desired: ')
-    n = input()
+    n = input('Specify the Amount of Record you Would Like to Retrieve:\n')
+    print(' It seems the time has come for the boy without a fairy to begin his journey..')
     status = 1
     analogous = []
     try:
