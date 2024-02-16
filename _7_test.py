@@ -11,24 +11,26 @@ inchikey_compound_name = '/projects/jodo9280/EcoDr/EcoDr/Competitor_Find/InchiKe
 
 
 def similarity_search(path, all_rxns_doc):
-    os.chdir(path)
+    os.chdir(path) #this is just the path to the PoisInhibitor File. 
     #print('Enter your inhibitors InChI-Key code: ')
     inhibitor = 'LRHPLDYGYMQRHN-UHFFFAOYSA-N'
     #print('Enter number of similar structures desired: ')
-    n = input('Specify the Amount of Record you Would Like to Retrieve:\n')
+    n = input('Specify the Amount of Records you Would Like to Retrieve From PubChem:\n')
     print(' It seems the time has come for the boy without a fairy to begin his journey..')
     status = 1
     analogous = []
     try:
-        inhibitor_info = pcp.get_compounds(inhibitor, 'inchikey', as_dataframe=True) #retrieves the compound from PubChem's Database
+        inhibitor_info = pcp.get_compounds(inhibitor, 'inchikey', as_dataframe=True)
+        #pcp.get_compounds(identifier, type of identifier, creates an object as a pandas dataframe (True))
         inhibitor_cid = inhibitor_info.index[0].astype('str') 
+        print('Inhibitor is :\n', inhibitor_info)
     except:
         print('Unable to find structure')
         status = 0
     try:
         print('Finding similar structures...')
         similar = pcp.get_compounds(inhibitor_cid, 'cid', searchtype='similarity', listkey_count=n)
-        print('Similair is :', similar)
+        print('Similair Structure is :', similar)
     except:
         print('Unable to find similar structures')
         status = 0
@@ -48,13 +50,15 @@ def similarity_search(path, all_rxns_doc):
         status = 0
     if status == 1:
         analogs = similar + substructure + superstructure
+        print('analogs are :\n', analogs)
         inchikeys = []
         for compound in analogs:
             inchikeys.append(str(compound.inchikey))
-        analogous = pd.DataFrame({'Similar_Structure': inchikeys})
+        analogous = pd.DataFrame({'Similar_Structure InchiKeys': inchikeys})
         analogous.drop_duplicates()
         analogous.reset_index(drop=True)
         analogous.to_csv('similar_compounds.txt')
     return analogous, status
+
 
 [analogous, status] = similarity_search(path, all_rxns_doc)
