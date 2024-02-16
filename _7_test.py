@@ -12,8 +12,8 @@ inchikey_compound_name = '/projects/jodo9280/EcoDr/EcoDr/Competitor_Find/InchiKe
 
 def similarity_search(path, all_rxns_doc):
     os.chdir(path) #this is just the path to the PoisInhibitor File. 
-    #print('Enter your inhibitors InChI-Key code: ')
-    inhibitor = 'LRHPLDYGYMQRHN-UHFFFAOYSA-N'
+    inhibitor = input('Enter your inhibitors InChI-Key Code : \n')
+    #'LRHPLDYGYMQRHN-UHFFFAOYSA-N'
     #print('Enter number of similar structures desired: ')
     n = input('Specify the Amount of Records you Would Like to Retrieve From PubChem:\n')
     print('This is Orcrist, the Golbin Cleaver, a famous blade, made by the high elves of the west, my kin.\n May it serve you well [hands back to thorin]')
