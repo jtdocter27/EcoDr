@@ -15,7 +15,7 @@ def similarity_search(path, all_rxns_doc):
     inhibitor = input('Enter your inhibitors InChI-Key Code : \n')
     #'LRHPLDYGYMQRHN-UHFFFAOYSA-N'
     print('Enter number of similar structures desired')
-    print("Note, as a user, this is how specific or general you want your inhibitor search to be. 1 indicates you have high confidence that this ligand-enzyme match will be in the database. \n A value of 50 likely affords a general search based on functional profiles.")
+    print("Note, as a user, this is how specific or general you want your inhibitor search to be. \n\n 1 indicates you have high confidence that this ligand-enzyme match will be in the database. \n A value of 50 likely affords a general search based on functional profiles.")
     print("It is highly recommended that you inspect the molecular form of the final inhibitor to determine structural similarity to your target compound.")
     n = input('Specify the Amount of Records you Would Like to Retrieve From PubChem:\n')
     print('This is Orcrist, the Golbin Cleaver, a famous blade, made by the high elves of the west, my kin.\n May it serve you well [hands back to thorin]')
