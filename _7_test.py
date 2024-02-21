@@ -16,10 +16,9 @@ def similarity_search(path, all_rxns_doc):
     inhibitor = input('Enter your inhibitors InChI-Key Code : \n')
     #'LRHPLDYGYMQRHN-UHFFFAOYSA-N'
     print('Enter number of similar structures desired')
-    print("Note, as a user, this is how specific or general you want your inhibitor search to be. \n\n 1 indicates you have high confidence that this ligand-enzyme match will be in the database. \n A value of 50 likely affords a general search based on functional profiles.")
-    print("It is highly recommended that you inspect the molecular form of the final inhibitor to determine structural similarity to your target compound.")
+    print("Note, as a user, this is how specific or general you want your inhibitor search to be. \n\n 1 indicates you have high confidence that this ligand-enzyme match will be in the database. \n\n A value of 50 likely affords a general search based on functional profiles.")
     n = input('Specify the Amount of Records you Would Like to Retrieve From PubChem:\n')
-    print('This is Orcrist, the Golbin Cleaver, a famous blade, made by the high elves of the west, my kin.\n May it serve you well [hands back to thorin]')
+    print('This is Orcrist, the Golbin Cleaver, a famous blade, made by the high elves of the west, my kin.\n May it serve you well [hands back to Thorin]')
     status = 1
     analogous = []
     try:
@@ -106,7 +105,7 @@ def vulnerable_pop(ec_inchikeys_inhibited, analogous):
     # Merges analogous inhibitor list with list of EC numbers that are inhibited with their inhibitors
     # Overall result is EC number inhibited, Inhibitor Compound Name, Inhibitor InChI-Key name
     inhibited_by_sim_compounds_found = pd.merge(ec_inchikeys_inhibited, analogous, how='inner', left_on='InChI-Key',
-                                                right_on='Similar_Structure Inchikeys') #Merge the two dataframes on the overlapping InchiKeys
+                                                right_on='Similar_Structure InchiKeys') #Merge the two dataframes on the overlapping InchiKeys
     print(Yellow,'inhibited_by_sim_compound_found is:', inhibited_by_sim_compounds_found.head(10))
     # Isolates only the EC number, InChiKey names
     inhibited_by_sim_compounds_abridged = inhibited_by_sim_compounds_found[['EC Number', 'InChI-Key']]
