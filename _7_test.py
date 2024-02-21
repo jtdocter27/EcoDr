@@ -148,11 +148,12 @@ def vulnerable_pop(ec_inchikeys_inhibited, analogous):
                 genomes.append(found_orgs)
     # Opens the taxonomy spreadsheet
     taxonomy = pd.read_csv('/projects/jodo9280/EcoDr/taxonomy_2023_6_27.tsv', header=0, index_col=0, sep='\t')
-    taxonomy.set_index('Name_of_Genome')
     taxonomy.columns = ['Name_of_Genome', 'Domain', 'Phylum', 'Class', 'Order', 'Family', 'Genus', 'Species']
     one_dim_genome = list(chain.from_iterable(genomes)) #flattens a nested list in genomes into a single list. 
     df_genomes_inhibited = pd.DataFrame(one_dim_genome)
     df_genomes_inhibited.columns = ['Inhibited_Genomes']
+    taxonomy.reset_index(drop=True, inplace=True)
+    df_genomes_inhibited.reset_index(drop=True, inplace=True)
     # Merges the GCF organisms with their taxonomic lineage
     labelled_inhibited_genomes = pd.merge(taxonomy, df_genomes_inhibited, left_on='Name_of_Genome',
                                           right_on='Inhibited_Genomes', how='inner')
