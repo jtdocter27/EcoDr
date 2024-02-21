@@ -17,8 +17,8 @@ def similarity_search(path, all_rxns_doc):
     #'LRHPLDYGYMQRHN-UHFFFAOYSA-N'
     print('Enter number of similar structures desired')
     print("Note, as a user, this is how specific or general you want your inhibitor search to be. \n\n 1 indicates you have high confidence that this ligand-enzyme match will be in the database. \n\n A value of 50 likely affords a general search based on functional profiles.")
-    n = input('Specify the Amount of Records you Would Like to Retrieve From PubChem:\n')
-    print('This is Orcrist, the Golbin Cleaver, a famous blade, made by the high elves of the west, my kin.\n May it serve you well [hands back to Thorin]')
+    n = input('\nSpecify the Amount of Records you Would Like to Retrieve From PubChem:\n')
+    print('\nThis is Orcrist, the Golbin Cleaver, a famous blade, made by the high elves of the west, my kin.\n May it serve you well [hands back to Thorin]')
     status = 1
     analogous = []
     try:
@@ -157,6 +157,7 @@ def vulnerable_pop(ec_inchikeys_inhibited, analogous):
     # Merges the GCF organisms with their taxonomic lineage
     labelled_inhibited_genomes = pd.merge(taxonomy, df_genomes_inhibited, left_on='Name_of_Genome',
                                           right_on='Inhibited_Genomes', how='inner')
+    labelled_inhibited_genomes.reset_index()
     print(Yellow, "lebbeled_inhibited_genomes \n", labelled_inhibited_genomes)
     # Isolates the Species column and drops any duplicates, rows with NaN, empty rows, or rows with ,
     labelled_inhibited_genomes['Species'] = labelled_inhibited_genomes['Species'].drop_duplicates()
