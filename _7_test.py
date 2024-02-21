@@ -3,7 +3,6 @@ import pubchempy as pcp
 import numpy as np
 import os as os
 from itertools import chain
-Yellow = "\033[33m"
 
 path = '/projects/jodo9280/EcoDr/EcoDr/Poisinhibitor'
 all_rxns_doc = '/projects/jodo9280/EcoDr/EcoDr/Competitor_Find/All-reactions-of-MetaCyc.txt'
@@ -16,7 +15,7 @@ def similarity_search(path, all_rxns_doc):
     inhibitor = input('Enter your inhibitors InChI-Key Code : \n')
     #'LRHPLDYGYMQRHN-UHFFFAOYSA-N'
     print('Enter number of similar structures desired')
-    print("Note, as a user, this is how specific or general you want your inhibitor search to be. \n\n 1 indicates you have high confidence that this ligand-enzyme match will be in the database. \n\n A value of 50 likely affords a general search based on functional profiles.")
+    print("\nNote, as a user, this is how specific or general you want your inhibitor search to be. \n\n 1 indicates you have high confidence that this ligand-enzyme match will be in the database. \n\n A value of 50 likely affords a general search based on functional profiles.")
     n = input('\nSpecify the Amount of Records you Would Like to Retrieve From PubChem:\n')
     print('\nThis is Orcrist, the Golbin Cleaver, a famous blade, made by the high elves of the west, my kin.\n May it serve you well [hands back to Thorin]')
     status = 1
@@ -100,20 +99,20 @@ def vulnerable_pop(ec_inchikeys_inhibited, analogous):
         index_col=0, sep='\t')
     # Creates a list of all EC numbers
     current_working_ec = pd.DataFrame(combined_binary.columns)
-    print(Yellow, 'Current Working EC is:\n', current_working_ec.head(5))
+    print( 'Current Working EC is:\n', current_working_ec.head(5))
     current_working_ec.columns = ['Current Working ECs']
     # Merges analogous inhibitor list with list of EC numbers that are inhibited with their inhibitors
     # Overall result is EC number inhibited, Inhibitor Compound Name, Inhibitor InChI-Key name
     inhibited_by_sim_compounds_found = pd.merge(ec_inchikeys_inhibited, analogous, how='inner', left_on='InChI-Key',
                                                 right_on='Similar_Structure InchiKeys') #Merge the two dataframes on the overlapping InchiKeys
-    print(Yellow,'inhibited_by_sim_compound_found is:', inhibited_by_sim_compounds_found.head(10))
+    print('inhibited_by_sim_compound_found is:', inhibited_by_sim_compounds_found.head(10))
     # Isolates only the EC number, InChiKey names
     inhibited_by_sim_compounds_abridged = inhibited_by_sim_compounds_found[['EC Number', 'InChI-Key']]
     # Saves the specified dataframe, isolates by column names
     inhibited_by_sim_compounds_abridged.to_csv('org_inhibited_in_GCF_notation.txt')
     # Creates a list of all unique EC numbers inhibited
     ec_numbers_inhibited = inhibited_by_sim_compounds_abridged['EC Number'].drop_duplicates()
-    print(Yellow,'Total number of unique EC numbers inhibited is: ', ec_numbers_inhibited.shape)
+    print('Total number of unique EC numbers inhibited is: ', ec_numbers_inhibited.shape)
     # Creates a list of EC numbers that are present in both the EC BSM and the inhibitors list in ec_numbers_inhibited
 
 
@@ -132,14 +131,14 @@ def vulnerable_pop(ec_inchikeys_inhibited, analogous):
     for ec in ec_list_present['EC Number']:
         print(ec)
         if ec == 'EC Number':
-            print(Yellow,'EC Already Present')
+            print('EC Already Present')
         else:
             # If 1 is present in the EC column, isolate the rows with the present enzyme
             # Return a list of genomes that have the EC numebr present
             found_orgs = combined_binary[combined_binary.loc[:, ec] == 1].index.tolist() #looks for all EC's that are 1 and then takes the associated genome and puts it into a list. 
             print('Number of genomes that contain the enzyme: ',
                   combined_binary[combined_binary.loc[:, ec] == 1].shape[0])
-            print(Yellow, "Found Orgs are:\n", found_orgs)
+            print( "Found Orgs are:\n", found_orgs)
             if len(found_orgs) != 0:
                 # Create a dataframe of all genomes that have the EC number inhibited
                 new_df = pd.DataFrame(found_orgs, columns=[ec])
@@ -154,11 +153,11 @@ def vulnerable_pop(ec_inchikeys_inhibited, analogous):
     one_dim_genome = list(chain.from_iterable(genomes)) #flattens a nested list in genomes into a single list. 
     df_genomes_inhibited = pd.DataFrame(one_dim_genome)
     df_genomes_inhibited.columns = ['Inhibited_Genomes']
+    df_genomes_inhibited.reset_index()
     # Merges the GCF organisms with their taxonomic lineage
     labelled_inhibited_genomes = pd.merge(taxonomy, df_genomes_inhibited, left_on='Name_of_Genome',
                                           right_on='Inhibited_Genomes', how='inner')
-    labelled_inhibited_genomes.reset_index()
-    print(Yellow, "lebbeled_inhibited_genomes \n", labelled_inhibited_genomes)
+    print( "lebbeled_inhibited_genomes \n", labelled_inhibited_genomes)
     # Isolates the Species column and drops any duplicates, rows with NaN, empty rows, or rows with ,
     labelled_inhibited_genomes['Species'] = labelled_inhibited_genomes['Species'].drop_duplicates()
     labelled_inhibited_genomes.replace('', float('NaN'), inplace=True)
