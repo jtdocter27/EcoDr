@@ -106,7 +106,7 @@ def vulnerable_pop(ec_inchikeys_inhibited, analogous):
     # Merges analogous inhibitor list with list of EC numbers that are inhibited with their inhibitors
     # Overall result is EC number inhibited, Inhibitor Compound Name, Inhibitor InChI-Key name
     inhibited_by_sim_compounds_found = pd.merge(ec_inchikeys_inhibited, analogous, how='inner', left_on='InChI-Key',
-                                                right_on='Similar_Structure') #Merge the two dataframes on the overlapping InchiKeys
+                                                right_on='Similar_Structure Inchikeys') #Merge the two dataframes on the overlapping InchiKeys
     print(Yellow,'inhibited_by_sim_compound_found is:', inhibited_by_sim_compounds_found.head(10))
     # Isolates only the EC number, InChiKey names
     inhibited_by_sim_compounds_abridged = inhibited_by_sim_compounds_found[['EC Number', 'InChI-Key']]
