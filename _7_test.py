@@ -153,7 +153,7 @@ def vulnerable_pop(ec_inchikeys_inhibited, analogous):
     one_dim_genome = list(chain.from_iterable(genomes)) #flattens a nested list in genomes into a single list. 
     df_genomes_inhibited = pd.DataFrame(one_dim_genome)
     df_genomes_inhibited.columns = ['Inhibited_Genomes']
-    df_genomes_inhibited.reset_index()
+    taxonomy.reset_index()
     # Merges the GCF organisms with their taxonomic lineage
     labelled_inhibited_genomes = pd.merge(taxonomy, df_genomes_inhibited, left_on='Name_of_Genome',
                                           right_on='Inhibited_Genomes', how='inner')
