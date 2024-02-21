@@ -1,3 +1,7 @@
+###NOTICE
+###Genome extractor has been moved into _2_, for brevity. This is the old script. 
+
+
 # Creates summary matrix of all complete genomes and their EC numbers
 # -*- coding: utf-8 -*-
 import os;

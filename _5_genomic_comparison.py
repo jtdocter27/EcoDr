@@ -220,7 +220,7 @@ def calculating_distance(input_df, genome_names, lineage_preference, index_names
     # If wanting to save the full distance matrix, then turn the following flag on. Note: Well above 10 GB
     distances_parallel = pd.DataFrame(distances_parallel)
     print(distances_parallel)
-    print('Chocolate Sunday')
+    #print('Chocolate Sunday')
     # Returns the full distance matrix for dendrogram construction in R script
     #distances_parallel.to_csv('diff_weighted_unclustered_distance_matrix.txt', header=False, index=False, sep='\t')
     #distances_parallel.to_csv('both_chimeras_distance_matrix_clustered.txt', header=False, index=False, sep='\t')
