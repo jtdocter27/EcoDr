@@ -17,7 +17,7 @@ def similarity_search(path, all_rxns_doc):
     print('Enter number of similar structures desired')
     print("\nNote, as a user, this is how specific or general you want your inhibitor search to be. \n\n 1 indicates you have high confidence that this ligand-enzyme match will be in the database. \n\n A value of 50 likely affords a general search based on functional profiles.")
     n = input('\nSpecify the Amount of Records you Would Like to Retrieve From PubChem:\n')
-    print('\nThis is Orcrist, the Golbin Cleaver, a famous blade, made by the high elves of the west, my kin.\n May it serve you well [hands back to Thorin]')
+    print('\nThis is Orcrist, the Golbin Cleaver, a famous blade, made by the high elves of the west, my kin.\n May it serve you well [hands back to Thorin]\n')
     status = 1
     analogous = []
     try:
