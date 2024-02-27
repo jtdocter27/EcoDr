@@ -78,7 +78,7 @@ def inchikey_translation(inhibited_org, inchikey_compound_name):
     inhibitors_translated = pd.merge(list_of_orgs_inhibited, comp_to_inchikey, how='inner',
                                      left_on='Inhibitor Compound Name',
                                      right_on='BioCyc Id')
-    print('Inhibitors Translated Looks like :\n', inhibitors_translated)
+    print('Inhibitors Translated Looks like :\n', inhibitors_translated.head(2))
     inhibitors_translated['InChI-Key'] = inhibitors_translated['InChI-Key'].str.replace('InChIKey=', '')
     # Saves the dataframe to a csv
     inhibitors_translated.to_csv('translated_inchikey.txt', header=True, index=True, sep='\t')
@@ -112,7 +112,7 @@ def vulnerable_pop(ec_inchikeys_inhibited, analogous):
     inhibited_by_sim_compounds_abridged.to_csv('org_inhibited_in_GCF_notation.txt')
     # Creates a list of all unique EC numbers inhibited
     ec_numbers_inhibited = inhibited_by_sim_compounds_abridged['EC Number'].drop_duplicates()
-    print('Total number of unique EC numbers inhibited is: ', ec_numbers_inhibited.shape)
+    print('\nTotal number of unique EC numbers inhibited is: ', ec_numbers_inhibited.shape)
     # Creates a list of EC numbers that are present in both the EC BSM and the inhibitors list in ec_numbers_inhibited
 
 
@@ -121,7 +121,7 @@ def vulnerable_pop(ec_inchikeys_inhibited, analogous):
     # This addresses if new EC numbers are listed in the BRENDA dataset but not in the EC BSM
     ec_list_present = pd.merge(ec_numbers_inhibited, current_working_ec, how='inner', left_on='EC Number',
                                right_on='Current Working ECs')
-    ec_list_present.to_csv('ec_inhibited.txt', sep='\t')
+    ec_list_present.to_csv('binary_BRENDA_Overlap_inhibited.txt', sep='\t')
     # Creates summary dataframes
     for_particular_ec = pd.DataFrame(columns=['PoisInhibitor'])
     genomes = []
