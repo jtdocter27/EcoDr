@@ -144,20 +144,23 @@ def vulnerable_pop(ec_inchikeys_inhibited, analogous):
                 new_df = pd.DataFrame(found_orgs, columns=[ec])
                 # Vertically add the dataframe to the summary dataframe
                 for_particular_ec = pd.concat([for_particular_ec, new_df], axis=1)
+                print('For Particular ECs\n', for_particular_ec)
                 # Add the genomes to a list
                 genomes.append(found_orgs)
     # Opens the taxonomy spreadsheet
     taxonomy = pd.read_csv('/projects/jodo9280/EcoDr/taxonomy_2023_6_27.tsv', header=0, index_col=0, sep='\t')
     taxonomy.columns = ['Name_of_Genome', 'Domain', 'Phylum', 'Class', 'Order', 'Family', 'Genus', 'Species']
     one_dim_genome = list(chain.from_iterable(genomes)) #flattens a nested list in genomes into a single list. 
+    print('\nOne_dim_genome looks like\n', one_dim_genome)
     df_genomes_inhibited = pd.DataFrame(one_dim_genome)
     df_genomes_inhibited.columns = ['Inhibited_Genomes']
     taxonomy.reset_index(drop=True, inplace=True)
     df_genomes_inhibited.reset_index(drop=True, inplace=True)
+    print('df genomes inhibited looks likeL\n', df_genomes_inhibited)
     # Merges the GCF organisms with their taxonomic lineage
     labelled_inhibited_genomes = pd.merge(taxonomy, df_genomes_inhibited, left_on='Name_of_Genome',
                                           right_on='Inhibited_Genomes', how='inner')
-    print( "lebbeled_inhibited_genomes \n", labelled_inhibited_genomes)
+    print( "labbeled_inhibited_genomes \n", labelled_inhibited_genomes)
     # Isolates the Species column and drops any duplicates, rows with NaN, empty rows, or rows with ,
     labelled_inhibited_genomes['Species'] = labelled_inhibited_genomes['Species'].drop_duplicates()
     labelled_inhibited_genomes.replace('', float('NaN'), inplace=True)
@@ -179,6 +182,7 @@ def scoring(inhibited_organisms_by_ec, genomes):
     number_of_ec = inhibited_organisms_by_ec.shape[1] - 1
     print('Number of unique EC is: ', number_of_ec)
     inhibited_organisms_by_ec.to_csv('inhibited_organisms_by_ec.txt')
+    print('”Well, well! It might be worse, and then again it might be a good deal better.\n No ponies, and no food, and no knowing quite where we are, and hordes of angry goblins just behind!\n On we go!” ')
     return
 
 
