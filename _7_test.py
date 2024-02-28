@@ -3,6 +3,8 @@ import pubchempy as pcp
 import numpy as np
 import os as os
 from itertools import chain
+Purp = '\033[95m'
+esc = '\033[0m'
 
 path = '/projects/jodo9280/EcoDr/EcoDr/Poisinhibitor'
 all_rxns_doc = '/projects/jodo9280/EcoDr/EcoDr/Competitor_Find/All-reactions-of-MetaCyc.txt'
@@ -12,13 +14,13 @@ inchikey_compound_name = '/projects/jodo9280/EcoDr/EcoDr/Competitor_Find/InchiKe
 
 def similarity_search(path, all_rxns_doc):
     os.chdir(path) #this is just the path to the PoisInhibitor File. 
-    #inhibitor = 'LRHPLDYGYMQRHN-UHFFFAOYSA-N'
-    inhibitor = input('Enter your inhibitors InChI-Key Code : \n')
+    inhibitor = 'LRHPLDYGYMQRHN-UHFFFAOYSA-N'
+    #inhibitor = input('Enter your inhibitors InChI-Key Code : \n')
     #'LRHPLDYGYMQRHN-UHFFFAOYSA-N'
     print('Enter number of similar structures desired')
-    print("\nNote, as a user, this is how specific or general you want your inhibitor search to be. \n\n 1 indicates you have high confidence that this ligand-enzyme match will be in the database. \n\n A value of 50 likely affords a general search based on functional profiles.")
-    #n = 10
-    n = input('Specify the Amount of Records you Would Like to Retrieve From PubChem:\n')
+    print("\nNote, as a user, this is how specific or general you want your inhibitor search to be. \n\n 1 indicates you have high confidence that this ligand-enzyme match will be in the database. \n\n A value of 50 likely affords a general search based on functional profiles.\n")
+    n = 10
+    #n = input(Purp, 'Specify the Amount of Records you Would Like to Retrieve From PubChem:\n', esc)
     print('\nThis is Orcrist, the Golbin Cleaver, a famous blade, made by the high elves of the west, my kin.\n May it serve you well [hands back to Thorin]\n')
     status = 1
     analogous = []
