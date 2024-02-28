@@ -156,8 +156,9 @@ def vulnerable_pop(ec_inchikeys_inhibited, analogous):
     taxonomy.columns = ['Name_of_Genome', 'Domain', 'Phylum', 'Class', 'Order', 'Family', 'Genus', 'Species']
     one_dim_genome = list(chain.from_iterable(genomes)) #flattens a nested list in genomes into a single list. 
     one_dim_genome_cleaned = [item.replace('_protein_matches.tsv', '') for item in one_dim_genome]
-    print('\nOne_dim_genome looks like\n', one_dim_genome_cleaned)
-    df_genomes_inhibited = pd.DataFrame(one_dim_genome_cleaned)
+    one_dim_genome_cleaned2 = ['_'.join(item.split('_')[:2]) for item in one_dim_genome_cleaned]
+    print('\nOne_dim_genome looks like\n', one_dim_genome_cleaned2)
+    df_genomes_inhibited = pd.DataFrame(one_dim_genome_cleaned2)
     df_genomes_inhibited.columns = ['Inhibited_Genomes']
     taxonomy.reset_index(drop=True, inplace=True)
     df_genomes_inhibited.reset_index(drop=True, inplace=True)
