@@ -12,13 +12,13 @@ inchikey_compound_name = '/projects/jodo9280/EcoDr/EcoDr/Competitor_Find/InchiKe
 
 def similarity_search(path, all_rxns_doc):
     os.chdir(path) #this is just the path to the PoisInhibitor File. 
-    inhibitor = 'LRHPLDYGYMQRHN-UHFFFAOYSA-N'
-    #inhibitor = input('Enter your inhibitors InChI-Key Code : \n')
+    #inhibitor = 'LRHPLDYGYMQRHN-UHFFFAOYSA-N'
+    inhibitor = input('Enter your inhibitors InChI-Key Code : \n')
     #'LRHPLDYGYMQRHN-UHFFFAOYSA-N'
     print('Enter number of similar structures desired')
     print("\nNote, as a user, this is how specific or general you want your inhibitor search to be. \n\n 1 indicates you have high confidence that this ligand-enzyme match will be in the database. \n\n A value of 50 likely affords a general search based on functional profiles.")
-    n = 10
-    #n = input('Specify the Amount of Records you Would Like to Retrieve From PubChem:\n')
+    #n = 10
+    n = input('Specify the Amount of Records you Would Like to Retrieve From PubChem:\n')
     print('\nThis is Orcrist, the Golbin Cleaver, a famous blade, made by the high elves of the west, my kin.\n May it serve you well [hands back to Thorin]\n')
     status = 1
     analogous = []
@@ -153,6 +153,7 @@ def vulnerable_pop(ec_inchikeys_inhibited, analogous):
     taxonomy = pd.read_csv('/projects/jodo9280/EcoDr/taxonomy_2023_6_27.tsv', header=0, index_col=0, sep='\t')
     taxonomy.columns = ['Name_of_Genome', 'Domain', 'Phylum', 'Class', 'Order', 'Family', 'Genus', 'Species']
     one_dim_genome = list(chain.from_iterable(genomes)) #flattens a nested list in genomes into a single list. 
+    one_dim_genome_cleaned = [item.replace('_protein_matches.tsv', '') for item in one_dim_genome]
     print('\nOne_dim_genome looks like\n', one_dim_genome)
     df_genomes_inhibited = pd.DataFrame(one_dim_genome)
     df_genomes_inhibited.columns = ['Inhibited_Genomes']
