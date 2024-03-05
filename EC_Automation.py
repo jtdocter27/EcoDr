@@ -21,6 +21,7 @@ def EC_extract():
     if ec.status_code == 200:
         with open(ec_library, 'w+', newline='\n') as ec_file:
             ec_file.write(ec.text)
+    print(type(ec_file))
     print('EC List Has Been Created')
 ###_______________________________________________________________________________________________
     handle = open(ec_library)
