@@ -2,14 +2,17 @@ import numpy as np
 import json
 import pandas as pd
 from datetime import datetime
+import os as os
 
+path = '/projects/jodo9280/EcoDr/EcoDr/Poisinhibitor'
 with open('/projects/jodo9280/EcoDr/EcoDr/Poisinhibitor/brenda_2023_1.json', 'r') as file:
         data1 = json.load(file)
 
+os.chdir(path) 
 date = datetime.now()
 date2 = date.strftime('%Y-%m-%d')
 filename = 'BRENDA_Inhibitor_list: Updated {}.csv'.format(date2)
-
+print('Creating BRENDA Inhibitor List')
 
 ##Attempt 1__________________________________________________________________________________________________________________________________________________________________________
 def SPLENDA(): 
