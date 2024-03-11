@@ -49,7 +49,6 @@ def SPLENDA():
     BRENDA1.replace(r'^\s*$', pd.NA, regex=True, inplace=True)
     BRENDA1.dropna(subset = ['Inhibitor'], inplace=True)
     BRENDA1['Inhibitor'] = BRENDA1['Inhibitor'].str.replace('Value: ','')
-    BRENDA1 = BRENDA1.drop(columns=BRENDA1.columns[0])
     BRENDA1.to_csv(filename, sep='\t')
     print('Bloop Inhibitor List...Complete')
 
