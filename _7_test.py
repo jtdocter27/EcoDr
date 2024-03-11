@@ -3,14 +3,22 @@ import pubchempy as pcp
 import numpy as np
 import os as os
 from itertools import chain
+from datetime import datetime
+
+
 Purp = '\033[95m'
 esc = '\033[0m'
+date = datetime.now()
+date2 = date.strftime('%Y-%m-%d')
+filename = 'BRENDA_Inhibitor_list: Updated {}.csv'.format(date2)
 
 path = '/projects/jodo9280/EcoDr/EcoDr/Poisinhibitor'
 all_rxns_doc = '/projects/jodo9280/EcoDr/EcoDr/Competitor_Find/All-reactions-of-MetaCyc.txt'
-inhibited_org = '/projects/jodo9280/EcoDr/EcoDr/Poisinhibitor/prokaryote_inhibitor_list.csv'
+inhibited_org = '/projects/jodo9280/EcoDr/EcoDr/Poisinhibitor/'+ filename
 inchikey_compound_name = '/projects/jodo9280/EcoDr/EcoDr/Competitor_Find/InchiKeystoCompoundNames.txt'
 
+print('Please Double Check the Last Time the Inhibitor\'s List from BRENDA Was Updated\n')
+print("If Updates are needed, please download BRENDA JSON File from https://www.brenda-enzymes.org/download.php, and run through SPLENDA.py")
 
 def similarity_search(path, all_rxns_doc):
     os.chdir(path) #this is just the path to the PoisInhibitor File. 
@@ -70,8 +78,8 @@ def inchikey_translation(inhibited_org, inchikey_compound_name):
     # List was created by searching for inhibitors for prokaryotes 
     list_of_orgs_inhibited = pd.read_csv(inhibited_org, delimiter='\t')
     # Creates column names
-    list_of_orgs_inhibited.columns = ['EC Number', 'Enzyme Name', 'Inhibitor Compound Name', '-', 'Species', '-', '-',
-                                      'Primary accession Number']
+    # list_of_orgs_inhibited.columns = ['EC Number', 'Enzyme Name', 'Inhibitor Compound Name', '-', 'Species', '-', '-',
+    #                                   'Primary accession Number']
     # Opens BioCyc curated list of compounds and their inchikeys
     comp_to_inchikey = pd.read_csv(inchikey_compound_name, delimiter='\t')
     comp_to_inchikey.columns = ['BioCyc Id', 'InChI-Key']
@@ -80,7 +88,7 @@ def inchikey_translation(inhibited_org, inchikey_compound_name):
     comp_to_inchikey['BioCyc Id'] = comp_to_inchikey['BioCyc Id'].str.lower()
     # Merges two dataframes to create a list of cummulative list of compounds, their InChiKeys, and organisms inhibited
     inhibitors_translated = pd.merge(list_of_orgs_inhibited, comp_to_inchikey, how='inner',
-                                     left_on='Inhibitor Compound Name',
+                                     left_on='Inhibitor',
                                      right_on='BioCyc Id')
     print('Inhibitors Translated Looks like :\n', inhibitors_translated.head(2))
     inhibitors_translated['InChI-Key'] = inhibitors_translated['InChI-Key'].str.replace('InChIKey=', '')
