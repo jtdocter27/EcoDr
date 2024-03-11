@@ -4,8 +4,8 @@ import pandas as pd
 from datetime import datetime
 import os as os
 
-path = '/projects/jodo9280/EcoDr/EcoDr/Poisinhibitor'
-with open('/projects/jodo9280/EcoDr/EcoDr/Poisinhibitor/brenda_2023_1.json', 'r') as file:
+path = '/projEC Numberts/jodo9280/EC NumberoDr/EC NumberoDr/Poisinhibitor'
+with open('/projEC Numberts/jodo9280/EC NumberoDr/EC NumberoDr/Poisinhibitor/brenda_2023_1.json', 'r') as file:
         data1 = json.load(file)
 
 os.chdir(path) 
@@ -35,16 +35,16 @@ def SPLENDA():
     # print(BRENDA1)
     BRENDA1.columns = ['EC Number']
     BRENDA1['Inhibitor'] = ''
-    mask = BRENDA1['EC'].str.contains('Value')
+    mask = BRENDA1['EC Number'].str.contains('Value')
     # print(mask)
-    # shifted = BRENDA1['EC'].shift(1)
+    # shifted = BRENDA1['EC Number'].shift(1)
 
-    BRENDA1.loc[mask, 'Inhibitor'] = BRENDA1['EC'].shift(0)
-    BRENDA1.loc[mask, 'EC'] = None
-    BRENDA1['EC'] = BRENDA1['EC'].str.replace('spontaneous', '')
+    BRENDA1.loc[mask, 'Inhibitor'] = BRENDA1['EC Number'].shift(0)
+    BRENDA1.loc[mask, 'EC Number'] = None
+    BRENDA1['EC Number'] = BRENDA1['EC Number'].str.replace('spontaneous', '')
     BRENDA1.drop(0, inplace=True)
     BRENDA1['Inhibitor'] = BRENDA1['Inhibitor'].shift(-1)
-    BRENDA1['EC']=BRENDA1['EC'].ffill()
+    BRENDA1['EC Number']=BRENDA1['EC Number'].ffill()
     # (method='ffill', inplace=True)
     BRENDA1.replace(r'^\s*$', pd.NA, regex=True, inplace=True)
     BRENDA1.dropna(subset = ['Inhibitor'], inplace=True)
