@@ -41,7 +41,7 @@ def SPLENDA():
     BRENDA1['EC'] = BRENDA1['EC'].str.replace('spontaneous', '')
     BRENDA1.drop(0, inplace=True)
     BRENDA1['Inhibitor'] = BRENDA1['Inhibitor'].shift(-1)
-    BRENDA1['EC']-BRENDA1['EC'].ffill()
+    BRENDA1['EC']=BRENDA1['EC'].ffill()
     # (method='ffill', inplace=True)
     BRENDA1.replace(r'^\s*$', pd.NA, regex=True, inplace=True)
     BRENDA1.dropna(subset = ['Inhibitor'], inplace=True)
