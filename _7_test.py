@@ -176,11 +176,11 @@ def vulnerable_pop(ec_inchikeys_inhibited, analogous):
                                           right_on='Inhibited_Genomes', how='inner')
     print( "labbeled_inhibited_genomes \n", labelled_inhibited_genomes)
     # Isolates the Species column and drops any duplicates, rows with NaN, empty rows, or rows with ,
-    labelled_inhibited_genomes['Species'] = labelled_inhibited_genomes['Species'].drop_duplicates()
-    labelled_inhibited_genomes.replace('', float('NaN'), inplace=True)
-    labelled_inhibited_genomes.replace(',', float('NaN'), inplace=True)
-    unique_labelled = labelled_inhibited_genomes['Species'].dropna(axis=0)
-    unique_labelled.to_csv('labelled_inhibited_species.txt')
+    # labelled_inhibited_genomes['Species'] = labelled_inhibited_genomes['Species'].drop_duplicates()
+    # labelled_inhibited_genomes.replace('', float('NaN'), inplace=True)
+    # labelled_inhibited_genomes.replace(',', float('NaN'), inplace=True)
+    # unique_labelled = labelled_inhibited_genomes['Species'].dropna(axis=0)
+    # unique_labelled.to_csv('labelled_inhibited_species.txt')
     return for_particular_ec, genomes
 
 
