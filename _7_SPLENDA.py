@@ -33,7 +33,7 @@ def SPLENDA():
     
     BRENDA1 = pd.read_csv(filename, sep = '\t', header=None)
     # print(BRENDA1)
-    BRENDA1.columns = ['EC']
+    BRENDA1.columns = ['EC Number']
     BRENDA1['Inhibitor'] = ''
     mask = BRENDA1['EC'].str.contains('Value')
     # print(mask)
