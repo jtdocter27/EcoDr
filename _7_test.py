@@ -84,7 +84,7 @@ def inchikey_translation(inhibited_org, inchikey_compound_name):
     comp_to_inchikey = pd.read_csv(inchikey_compound_name, delimiter='\t')
     comp_to_inchikey.columns = ['BioCyc Id', 'InChI-Key']
     # Converts the common names of compounds to all lower case (ex: CU 2+ --> cu 2+)
-    list_of_orgs_inhibited['Inhibitor Compound Name'] = list_of_orgs_inhibited['Inhibitor Compound Name'].str.lower()
+    list_of_orgs_inhibited['Inhibitor'] = list_of_orgs_inhibited['Inhibitor'].str.lower()
     comp_to_inchikey['BioCyc Id'] = comp_to_inchikey['BioCyc Id'].str.lower()
     # Merges two dataframes to create a list of cummulative list of compounds, their InChiKeys, and organisms inhibited
     inhibitors_translated = pd.merge(list_of_orgs_inhibited, comp_to_inchikey, how='inner',
