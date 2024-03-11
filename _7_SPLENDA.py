@@ -1,3 +1,7 @@
+###______________________________________________________________________________________________________________________________________________###
+#John Docter, March 11th, 2024. 
+##This script eats BRENDA's JSON download and converts it into a usuable format for Pois Inhibitor. 
+
 import numpy as np
 import json
 import pandas as pd
