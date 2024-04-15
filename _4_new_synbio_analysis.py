@@ -16,7 +16,7 @@ sb_filename = '/projects/jodo9280/EcoDr/TestCases/GCF_002926195.1_ASM292619v1_pr
 
 file_loc = os.path.abspath(sb_filename) 
 
-sb_name = 'New_Synbio_Analysis_Output_Binary.txt'  
+sb_name = 'New_Synbio_Analysis_Output_Binary'  
 
 
 current_directory = os.getcwd()
