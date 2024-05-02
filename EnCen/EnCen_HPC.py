@@ -242,7 +242,7 @@ def genome_extractor(diamond_folder, name):
 metagenome_name = 'diamond_analysis_output' #-> folder
 desired_location = '/home/anna/Documents/JGI_soil_genomes' 
 # Freshwater = nump/nump/nump/files
-soil = '/home/anna/Documents/Soil_extracted_genomes'
+soil = '/home/anna/Documents/Soil_extracted_genomes' #This needs to be changed, this is what diamond is extracting from 
 abspath = os.path.abspath(soil)
 
 # EC_extract()
