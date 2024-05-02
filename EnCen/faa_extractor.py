@@ -2,7 +2,6 @@ import os
 import tarfile
 
 
-
 def tar_extraction(parent_folder):
     # References those files that are compressed
     extension = ".tar.gz"
@@ -20,18 +19,6 @@ def tar_extraction(parent_folder):
             os.remove(filepath)
 
 
-
-
-            # try:
-            # # Finds full path of files
-            #     gz_name = os.path.abspath(item)
-            # # Finds file name for file within, GCF and ASM names
-            #     print(file_name)
-            #     with gzip.open(gz_name, "rb") as f_in, open(file_name, "wb") as f_out:
-            #         shutil.copyfileobj(f_in, f_out)
-            #     os.remove(gz_name)  # delete zipped filep
-            # except Exception as e:
-                # print('GZIP fucked')
 
 # parent_folder = '/home/anna/Documents/EnCen_JGI_Genomes'
 parent_folder = '/home/anna/Documents/Soil_extracted_genomes'
