@@ -242,8 +242,10 @@ desired_location = '/projects/jodo9280/EcoDr/EcoDr/EnCen'
 soil = '/projects/jodo9280/EcoDr/EcoDr/EnCen/Soil_Metagenome' #This needs to be changed, this is what diamond is extracting from 
 abspath = os.path.abspath(soil)
 
+print('Welcome to Encen. \n Before we run your analysis, we need to create an updated library of Enzyme Comission Numbers and Uniprot FASTA files. \n Please Hold, program will tell you when these libraries are finished')
 EC_extract()
 tsv_to_fasta()
+
 
 
 os.chdir(desired_location) #-> we are in the folder we want
