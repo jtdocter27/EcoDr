@@ -82,18 +82,18 @@ def EC_extract():
 
 
 def diamond_impl(dest, name):
-    print(os.getcwd())
+    # print(os.getcwd())
     matches = ''
     output_folder = dest 
-    final_folder = '/home/anna/Documents/JGI_soil_genomes/diamond_analysis_output/'
-    print("DIAMOND search library is: ", output_folder)
+    final_folder = '/projects/jodo9280/EcoDr/EcoDr/EnCen/diamond_analysis_output/'
+    # print("DIAMOND search library is: ", output_folder)
     if os.path.isfile('reference.dmnd'):
         print("Library Detected")
     # If not present, then creates a DIAMOND library by referencing the exact location where the Uniprot library is saved
     # If there currently is no reference library (.dmnd), then command makedb creates a DIAMOND library
     else:
         print("Creation of DIAMOND-formatted library...")
-        makedb = ['diamond', 'makedb', '--in', '/home/anna/Documents/EnCen/uniprot.fasta', '-d',
+        makedb = ['diamond', 'makedb', '--in', '/projects/jodo9280/EcoDr/EcoDr/EnCen/uniprot.fasta', '-d',
                   'Uniprot_Reference_Library.dmnd']  # Reference library full pathway
         #This is a list for the DIAMOND specific makedb function. 
         subprocess.run(makedb)
@@ -144,7 +144,7 @@ def genome_extractor(diamond_folder, name):
     os.chdir(diamond_folder)
     print(os.getcwd())
     # Opens the list of of EC numbers
-    ec_open = np.loadtxt('/home/anna/Documents/JGI_soil_genomes/EC_library.csv',
+    ec_open = np.loadtxt('/projects/jodo9280/EcoDr/EcoDr/EnCen/EC_library.csv',
                          dtype='str')
     big_matrix = ["Name_of_Genome"]
     # Asks user to input name for EC matrix
@@ -235,38 +235,36 @@ def genome_extractor(diamond_folder, name):
     return [new_dir, file_name]
 
 
-# ### Calling Script
-
-
-
+#### Calling Script__________________________________________________________________________________________________________________###
 metagenome_name = 'diamond_analysis_output' #-> folder
-desired_location = '/home/anna/Documents/JGI_soil_genomes' 
+desired_location = '/projects/jodo9280/EcoDr/EcoDr/EnCen' 
 # Freshwater = nump/nump/nump/files
-soil = '/home/anna/Documents/Soil_extracted_genomes' #This needs to be changed, this is what diamond is extracting from 
+soil = '/projects/jodo9280/EcoDr/EcoDr/EnCen/Soil_Metagenome' #This needs to be changed, this is what diamond is extracting from 
 abspath = os.path.abspath(soil)
 
-# EC_extract()
-# tsv_to_fasta()
+EC_extract()
+tsv_to_fasta()
 
-#______________________________________________________________#
+
 os.chdir(desired_location) #-> we are in the folder we want
 if os.path.exists(metagenome_name):
     shutil.rmtree(metagenome_name)
     os.mkdir(metagenome_name)
 else:#makes a new directory called metagenome_name
     os.mkdir(metagenome_name)
-desired_location = desired_location + "/" + metagenome_name #-> this will make a folder called 'metagenome_analysis_output' within the 'desired_location' 
+#desired_location = desired_location + "/" + metagenome_name #-> this will make a folder called 'metagenome_analysis_output' within the 'desired_location' 
 # shutil.copy(abspath, desired_location) #moves  file to Test Cases folder
 #matches = metagenome + "_matches"
 
+##____________________________________________________________________________________________________________________________________###
 
 os.chdir(soil)
 diamond = diamond_impl(soil, '') #-> Takes in the path and directory
 # new_dir, saved_file_name = genome_extractor(desired_location, '') #-> At this point, we have the one hotted binary. 
 
 
-final_folder = '/home/anna/Documents/JGI_soil_genomes/diamond_analysis_output'
-desired_location = '/home/anna/Documents/JGI_soil_genomes'
+final_folder = '/projects/jodo9280/EcoDr/EcoDr/EnCen/diamond_analysis_output/'
+desired_location = '/projects/jodo9280/EcoDr/EcoDr/EnCen'
 # print(desired_location)
 for item in os.listdir(desired_location):
     if item.endswith('_matches.tsv'):
@@ -286,13 +284,18 @@ output = genome_extractor(diamond, '')
 # ### The Next Steps is to make the functional profile out of the synbio.faa
 
 
-
-synbio = '/home/anna/Documents/JGI_soil_genomes/Synbio/'
+synbio_folder_name = 'Synbio_Analysis_Output'
+synbio = '/projects/jodo9280/EcoDr/EcoDr/EnCen/Synbio_Analysis_Output/'
 name = 'Synbio_Functional_Profile'
-desired_location2 = '/home/anna/Documents/JGI_soil_genomes'
+desired_location2 = '/projects/jodo9280/EcoDr/EcoDr/EnCen'
 
 
-os.chdir(synbio) 
+os.chdir(desired_location2) 
+if os.path.exists(synbio_folder_name):
+    shutil.rmtree(synbio_folder_name)
+    os.mkdir(synbio_folder_name)
+else:#makes a new directory called metagenome_name
+    os.mkdir(synbio_folder_name)
 diamond_syn = diamond_impl(synbio, name)
 output2 = genome_extractor(diamond_syn, name)
 print(output2)
@@ -325,7 +328,7 @@ def read_in_binary_matrix(synbio_binary, sb_name):
     # print(synbio_binary)
     print(sb_name, " size of ", np.shape(synbio_binary), " successfully imported.")
     # Opens the matrix that includes the Bacteria and Archaea summary result
-    domain_binary = pd.read_csv('/home/anna/Documents/JGI_soil_genomes/JGI_soil_genomes_binary_matrix.txt',
+    domain_binary = pd.read_csv('/projects/jodo9280/EcoDr/EcoDr/EnCen/EnCen_binary_matrix.txt',
                                   delimiter=" ", header=0)
     #this is from chunk 1, and is the EC_Binary we generated earlier
     domain_binary = domain_binary.set_index('Name_of_Genome')
