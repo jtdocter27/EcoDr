@@ -227,8 +227,8 @@ def genome_extractor(diamond_folder, name):
         # Saves matrix as a text file for further analysis
         np.savetxt(file_name, big_matrix, fmt='%s')
         # Returns the location of the summary matrix and the name of the file
-        if not os.path.exists('/home/anna/Documents/JGI_soil_genomes/JGI_soil_genomes_binary_matrix.txt'):
-            shutil.move(os.path.abspath('JGI_soil_genomes_binary_matrix.txt'),'/home/anna/Documents/JGI_soil_genomes')
+        if not os.path.exists('/projects/jodo9280/EcoDr/EcoDr/EnCen/EcoDr_binary_matrix.txt'):
+            shutil.move(os.path.abspath('EcoDr_binary_matrix.txt'),'/projects/jodo9280/EcoDr/EcoDr/EnCen')
         else:
             print('File already Exists')
         print(new_dir)
