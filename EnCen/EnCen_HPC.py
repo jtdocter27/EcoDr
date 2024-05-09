@@ -286,17 +286,18 @@ output = genome_extractor(diamond, '')
 
 
 synbio_folder_name = 'Synbio_Analysis_Output'
-synbio = '/projects/jodo9280/EcoDr/EcoDr/EnCen/Synbio_Analysis_Output/'
+synbio = '/projects/jodo9280/EcoDr/EcoDr/EnCen/Synbio_Analysis_Output'
 name = 'Synbio_Functional_Profile'
 desired_location2 = '/projects/jodo9280/EcoDr/EcoDr/EnCen'
 
 
-os.chdir(desired_location2) 
+
 if os.path.exists(synbio_folder_name):
     shutil.rmtree(synbio_folder_name)
     os.mkdir(synbio_folder_name)
 else:#makes a new directory called metagenome_name
     os.mkdir(synbio_folder_name)
+os.chdir(synbio) 
 diamond_syn = diamond_impl(synbio, name) #diamond_syn = synbio, synbio_analysis_output folder
 output2 = genome_extractor(diamond_syn, name)
 print(output2)
