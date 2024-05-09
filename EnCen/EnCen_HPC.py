@@ -165,7 +165,7 @@ def genome_extractor(diamond_folder, name):
         #print("Summary Matrix exists")
         #return [new_dir, file_name]
     else:
-        for ec_force in ec_open:
+        for ec_force in ec_open: #idk why ec_force. Ec_force is actually just the EC Number 
             # Creates a horizontal header of all of the EC names
             big_matrix.append(ec_force)
         # Goes through all of the DIAMOND outputs in the folder
@@ -227,8 +227,8 @@ def genome_extractor(diamond_folder, name):
         # Saves matrix as a text file for further analysis
         np.savetxt(file_name, big_matrix, fmt='%s')
         # Returns the location of the summary matrix and the name of the file
-        if not os.path.exists('/home/anna/Documents/JGI_soil_genomes/JGI_soil_genomes_binary_matrix.txt'):
-            shutil.move(os.path.abspath('JGI_soil_genomes_binary_matrix.txt'),'/home/anna/Documents/JGI_soil_genomes')
+        if not os.path.exists('/projects/jodo9280/EcoDr/EcoDr/EnCen/EcoDr_binary_matrix.txt'):
+            shutil.move('/projects/jodo9280/EcoDr/EcoDr/EnCen/Soil_Metagenome/EcoDr_binary_matrix.txt','/projects/jodo9280/EcoDr/EcoDr/EnCen')
         else:
             print('File already Exists')
         print(new_dir)
@@ -238,7 +238,6 @@ def genome_extractor(diamond_folder, name):
 #### Calling Script__________________________________________________________________________________________________________________###
 metagenome_name = 'diamond_analysis_output' #-> folder
 desired_location = '/projects/jodo9280/EcoDr/EcoDr/EnCen' 
-# Freshwater = nump/nump/nump/files
 soil = '/projects/jodo9280/EcoDr/EcoDr/EnCen/Soil_Metagenome' #This needs to be changed, this is what diamond is extracting from 
 abspath = os.path.abspath(soil)
 
@@ -287,18 +286,19 @@ output = genome_extractor(diamond, '')
 
 
 synbio_folder_name = 'Synbio_Analysis_Output'
-synbio = '/projects/jodo9280/EcoDr/EcoDr/EnCen/Synbio_Analysis_Output/'
+synbio = '/projects/jodo9280/EcoDr/EcoDr/EnCen/Synbio_Analysis_Output'
 name = 'Synbio_Functional_Profile'
 desired_location2 = '/projects/jodo9280/EcoDr/EcoDr/EnCen'
 
 
-os.chdir(desired_location2) 
+
 if os.path.exists(synbio_folder_name):
     shutil.rmtree(synbio_folder_name)
     os.mkdir(synbio_folder_name)
 else:#makes a new directory called metagenome_name
     os.mkdir(synbio_folder_name)
-diamond_syn = diamond_impl(synbio, name)
+os.chdir(synbio) 
+diamond_syn = diamond_impl(synbio, name) #diamond_syn = synbio, synbio_analysis_output folder
 output2 = genome_extractor(diamond_syn, name)
 print(output2)
 
