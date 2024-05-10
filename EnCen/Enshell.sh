@@ -16,4 +16,4 @@ module purge
 module load anaconda
 conda activate eco_v1
 
-python EnCen_HPC.py
+python Encen_HPC.py
