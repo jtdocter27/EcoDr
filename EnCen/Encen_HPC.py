@@ -309,7 +309,7 @@ for item in os.listdir(synbio):
 # ### Synbio Functional Profile is now created. We now have both the environmental profile and the synbio profile. From Here down is distance scoring.
 
 # %%
-synbio_binary = '/projects/jodo9280/EcoDr/EcoDr/EnCen/functional_profile/Synbio_functional_profile'
+synbio_binary = '/projects/jodo9280/EcoDr/EcoDr/EnCen/functional_profiles/Synbio_functional_profile'
 
 # %%
 def genome_to_genome_diffcomp(synbio_binary, domain_binary):
