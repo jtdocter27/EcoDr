@@ -1,4 +1,4 @@
-
+# %%
 # -*- coding: utf-8 -*-
 #Initial Imports
 import gzip#; print('gzip version: ', gzip.__version__)
@@ -19,11 +19,20 @@ import numpy as np
 from sklearn.metrics import pairwise_distances
 import pandas as pd 
 import numpy as np 
+red = "\033[91m"
+reset_color = "\033[0m"
 
 
+
+#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
+
+# %% [markdown]
+# ## JGI_Soil_Genomes in this script can be thought of as the "Home" folder. Everything will branch out from there. When moving to the HPC, the equivalent will be the 'EnCen' folder
+
+# %% [markdown]
 # ### Creating Unitprot.fasta for Use in Diamond
 
-
+# %%
 def tsv_to_fasta():
     reference_library = 'uniprot.tsv' 
     #this creates a file named 'uniprot.tsv' on the working directory. Should show within the EcoDr/EcoDr folder. 
@@ -52,10 +61,10 @@ def tsv_to_fasta():
             output_file.write(output_row_with_space_replaced_with_ampersand)
     print('FASTA has been created from TSV and is named', output)
 
-
+# %% [markdown]
 # ### EC List Creation
 
-
+# %%
 def EC_extract():
     ec_library = 'EC_library.csv' 
     ua = UserAgent()
@@ -78,16 +87,17 @@ def EC_extract():
             csv_file.write(item +'\n')
     print('EC list Has Been Created')
 
+# %% [markdown]
 # ### Diamond
 
-
+# %%
 def diamond_impl(dest, name):
-    # print(os.getcwd())
+    print(os.getcwd())
     matches = ''
     output_folder = dest 
-    final_folder = '/projects/jodo9280/EcoDr/EcoDr/EnCen/diamond_analysis_output/'
-    # print("DIAMOND search library is: ", output_folder)
-    if os.path.isfile('reference.dmnd'):
+    final_folder = '/projects/jodo9280/EcoDr/EcoDr/EnCen/diamond_analysis_output'
+    print("DIAMOND library is located in: ", output_folder)
+    if os.path.isfile('/projects/jodo9280/EcoDr/EcoDr/EnCen/JGI_soil_genomes/Soil_Metagenome/Uniprot_Reference_Library.dmnd'):
         print("Library Detected")
     # If not present, then creates a DIAMOND library by referencing the exact location where the Uniprot library is saved
     # If there currently is no reference library (.dmnd), then command makedb creates a DIAMOND library
@@ -126,9 +136,7 @@ def diamond_impl(dest, name):
                           '--max-target-seqs', '1', '--outfmt', '6']
                 time.sleep(4)
                 subprocess.run(blastp)
-        # (2) Creates a folder for DIAMOND outputs
-        #if not os.path.exists(output_folder):
-            #os.makedirs('DIAMOND_matches')
+    
 
     # Moves all DIAMOND search outputs into the folder
         if item.endswith('.tsv'):
@@ -140,6 +148,10 @@ def diamond_impl(dest, name):
     # Returns the location of the DIAMOND matches folder
     return output_folder
 
+# %% [markdown]
+# ### Genome Extractor
+
+# %%
 def genome_extractor(diamond_folder, name):
     os.chdir(diamond_folder)
     print(os.getcwd())
@@ -147,17 +159,7 @@ def genome_extractor(diamond_folder, name):
     ec_open = np.loadtxt('/projects/jodo9280/EcoDr/EcoDr/EnCen/EC_library.csv',
                          dtype='str')
     big_matrix = ["Name_of_Genome"]
-    # Asks user to input name for EC matrix
-    # input_name = input("Save EC binary summary matrix as (no spaces or capital letters): ")
-    # Specifies document to be a csv type
-    # file_name= input_name+".csv"
-    # file_name = "synbio1_big_matrix.csv"
-    if name == "":
-        file_name = os.path.abspath(diamond_folder).rsplit('/', 9)[4] + '_binary_matrix.txt'
-        print(os.path.abspath(diamond_folder).rsplit('/', 9))
-        print(file_name)
-    else:
-        file_name = name
+    file_name = name + '_functional_profile'
     new_dir = diamond_folder + '/' + file_name
     # Checks to see if the document already exists using full pathway name
     if os.path.exists(new_dir):
@@ -165,18 +167,13 @@ def genome_extractor(diamond_folder, name):
         #print("Summary Matrix exists")
         #return [new_dir, file_name]
     else:
-        for ec_force in ec_open: #idk why ec_force. Ec_force is actually just the EC Number 
+        for ec_force in ec_open:
             # Creates a horizontal header of all of the EC names
             big_matrix.append(ec_force)
-        # Goes through all of the DIAMOND outputs in the folder
-        # Goes through all of the output files, each one is opened and read one line at a time. The lines are split to
-        # extract the EC numbers found in each line. If the EC number found in the DIAMOND output matches an
-        # EC entry in the list, the status is changed from a zero to a one. The binary status is catalogued horizontally
-        # for each genome, and following genomes are vertically stacked
+   
         for item in os.listdir(diamond_folder):
             if item.endswith("_matches.tsv"):
                 print(item)
-                # Finds the name of the DIAMOND output file
                 genome = [item] #Turns the GCF's into a list, where the GCF names in the matrix come from. 
                 genome_runner_ec = [item] #Turns the GCF's into a list, where the EC is appended
                 # Iterates through all of the EC numbers (1:8197)
@@ -191,29 +188,7 @@ def genome_extractor(diamond_folder, name):
                     print("Appending...")
 
                 for ec in ec_open:
-                    # print("EC we actually are looking for "+ ec)
-                    # Opens individual DIAMOND output files
-                    #CBM GCF = open(item, 'r')
-                    # Sets default for EC status is zero, meaning absent
-                    #CBM ec_now = 0
-                    # Takes the first line in the DIAMOND output file and splits it based on tab separation
-                    # Takes the second column of the split line, which has EC numbers separated by a ?, ;_
-                    # Strings splits have a new name assigned to them
-                    #CBM for line in GCF:
-                    #CBM    print(line)
-                    #CBM    no_tab = line.split('\t')
-                    #CBM    first_ec = no_tab[1].split("?")
-                    #CBM    separate_ec = first_ec[1].split(";_")
-                    #CBM    print("Seperate EC Likely Nightmare "+ separate_ec[0])
-                        # Checks for a full match between the EC number listed in the DIAMOND output and the EC number
-                        # found in the separate document
-                    #CBM    if re.fullmatch(ec, first_ec[1]) is not None:  # looks for full match of first EC number
-                    #CBM        ec_now = 1
-                        # In the case that there are more than one EC separated by ;, the function iterates through the list
-                        # and sees if there is a full match between the listed EC and the list
-                    #CBM    for i in separate_ec:
-                    #CBM        if re.fullmatch(ec, i) is not None:  # looks for full match of any other ECs listed
-                    #CBM            ec_now = 1
+                 
                     ec_now = 0
                     if [ec] in genome_runner_ec:
                         ec_now = 1
@@ -227,88 +202,116 @@ def genome_extractor(diamond_folder, name):
         # Saves matrix as a text file for further analysis
         np.savetxt(file_name, big_matrix, fmt='%s')
         # Returns the location of the summary matrix and the name of the file
-        if not os.path.exists('/projects/jodo9280/EcoDr/EcoDr/EnCen/EcoDr_binary_matrix.txt'):
-            shutil.move('/projects/jodo9280/EcoDr/EcoDr/EnCen/Soil_Metagenome/EcoDr_binary_matrix.txt','/projects/jodo9280/EcoDr/EcoDr/EnCen')
+        if not os.path.exists(os.path.abspath(file_name)):
+            shutil.move(os.path.abspath(file_name),'/projects/jodo9280/EcoDr/EcoDr/EnCen')
         else:
             print('File already Exists')
         print(new_dir)
     return [new_dir, file_name]
 
+# %% [markdown]
+# ### Calling Script
 
-#### Calling Script__________________________________________________________________________________________________________________###
+# %%
 metagenome_name = 'diamond_analysis_output' #-> folder
 desired_location = '/projects/jodo9280/EcoDr/EcoDr/EnCen' 
-soil = '/projects/jodo9280/EcoDr/EcoDr/EnCen/Soil_Metagenome' #This needs to be changed, this is what diamond is extracting from 
+# Freshwater = nump/nump/nump/files
+soil = '/home/anna/Documents/JGI_soil_genomes/Soil_Metagenome'
 abspath = os.path.abspath(soil)
+name = 'soil_metagenome'
 
-print('Welcome to Encen. \n Before we run your analysis, we need to create an updated library of Enzyme Comission Numbers and Uniprot FASTA files. \n Please Hold, program will tell you when these libraries are finished')
-EC_extract()
-tsv_to_fasta()
+#!Turn these back on when doing it on SP 
+# EC_extract()
+# tsv_to_fasta()
 
-
-
+#______________________________________________________________#
 os.chdir(desired_location) #-> we are in the folder we want
 if os.path.exists(metagenome_name):
     shutil.rmtree(metagenome_name)
     os.mkdir(metagenome_name)
 else:#makes a new directory called metagenome_name
     os.mkdir(metagenome_name)
-#desired_location = desired_location + "/" + metagenome_name #-> this will make a folder called 'metagenome_analysis_output' within the 'desired_location' 
+desired_location = desired_location + "/" + metagenome_name 
 # shutil.copy(abspath, desired_location) #moves  file to Test Cases folder
 #matches = metagenome + "_matches"
 
-##____________________________________________________________________________________________________________________________________###
-
+# %%
 os.chdir(soil)
 diamond = diamond_impl(soil, '') #-> Takes in the path and directory
 # new_dir, saved_file_name = genome_extractor(desired_location, '') #-> At this point, we have the one hotted binary. 
 
+# %%
+final_folder = '/projects/jodo9280/EcoDr/EcoDr/EnCen/diamond_analysis_output'
+desired_location = '/projects/jodo9280/EcoDr/EcoDr/EnCen/Soil_Metagenome'
+ff_name = 'functional_profiles'
+functional_folder = '/projects/jodo9280/EcoDr/EcoDr/EnCen/functional_profiles'
 
-final_folder = '/projects/jodo9280/EcoDr/EcoDr/EnCen/diamond_analysis_output/'
-desired_location = '/projects/jodo9280/EcoDr/EcoDr/EnCen'
 # print(desired_location)
 for item in os.listdir(desired_location):
-    if item.endswith('_matches.tsv'):
+    if item.endswith(('_matches.tsv', '.dmnd')):
         source = os.path.join(desired_location, item)
         destination = os.path.join(final_folder, item)
         shutil.move(source, destination)
-    # if item.endswith('.tsv'):
-    #             if os.path.exists(os.path.join(final_folder, item)):
-    #                 print(f"Overwriting: {item}")
-    #                 os.remove(os.path.join(final_folder, item))
-    #             shutil.move(os.path.abspath(item), final_folder)
 
-output = genome_extractor(diamond, '')
+# %% [markdown]
+# ### Diamond has found protein matches between the reference and the metagenome.faa's. They, along with the diamond library, are now in "diamond_analysis_output'
 
-# ### We Now Have the functional profiles of each soil .faa
+# %%
+output = genome_extractor(final_folder, name)
 
+os.chdir('/projects/jodo9280/EcoDr/EcoDr/EnCen')
+if os.path.exists(functional_folder):
+    shutil.rmtree(ff_name)
+    os.mkdir(ff_name)
+else:#makes a new directory called metagenome_name
+    os.mkdir(ff_name)
+
+for item in os.listdir(final_folder):
+    if item.endswith('_profile'):
+        source = os.path.join(final_folder, item)
+        destination = os.path.join(functional_folder, item)
+        shutil.move(source, destination)
+
+# %% [markdown]
+# ### We Now Have the functional profile of the entire metagenome. It has been created and moved to the functional profiles folder
+
+# %% [markdown]
 # ### The Next Steps is to make the functional profile out of the synbio.faa
 
+# %%
 
-synbio_folder_name = 'Synbio_Analysis_Output'
-synbio = '/projects/jodo9280/EcoDr/EcoDr/EnCen/Synbio_Analysis_Output'
-name = 'Synbio_Functional_Profile'
+synbio = '/projects/jodo9280/EcoDr/EcoDr/EnCen/synbio_inputs_and_outputs'
+name = 'Synbio'
+syn_folder_name = 'synbio_inputs_and_outputs'
 desired_location2 = '/projects/jodo9280/EcoDr/EcoDr/EnCen'
 
-
-
-if os.path.exists(synbio_folder_name):
-    shutil.rmtree(synbio_folder_name)
-    os.mkdir(synbio_folder_name)
+os.chdir('/projects/jodo9280/EcoDr/EcoDr/EnCen')
+if os.path.exists(synbio):
+   print('Synbio directory already exists')
 else:#makes a new directory called metagenome_name
-    os.mkdir(synbio_folder_name)
+    os.mkdir(syn_folder_name)
+
+print(f'{red}ATTENTION USER: SYNBIO OR COMPARISON ORGANISM .FAA MUST BE IN THE SYNBIO INPUTS AND OUTPUTS FOLDER. \n OTHERWISE, SCRIPT WILL CRASH{reset_color}')
+
+# %%
 os.chdir(synbio) 
-diamond_syn = diamond_impl(synbio, name) #diamond_syn = synbio, synbio_analysis_output folder
+diamond_syn = diamond_impl(synbio, name)
+
+# %%
 output2 = genome_extractor(diamond_syn, name)
-print(output2)
+for item in os.listdir(synbio):
+    if item.endswith('_profile'):
+        source = os.path.join(synbio, item)
+        destination = os.path.join(functional_folder, item)
+        shutil.move(source, destination)
 
-
+# %% [markdown]
 # ### Synbio Functional Profile is now created. We now have both the environmental profile and the synbio profile. From Here down is distance scoring.
 
+# %%
+synbio_binary = '/projects/jodo9280/EcoDr/EcoDr/EnCen/Synbio_functional_profile'
 
-synbio_binary = output2[0] #This is the synbio_functional_profile
-
-
+# %%
 def genome_to_genome_diffcomp(synbio_binary, domain_binary):
     names_of_orgs = pd.DataFrame(domain_binary.index) 
     diff = pd.DataFrame(abs(domain_binary.values - synbio_binary.values))
@@ -318,9 +321,9 @@ def genome_to_genome_diffcomp(synbio_binary, domain_binary):
     difference_based_comparison.columns = ['Organisms Compared to Synbio', 'Difference Score']
     difference_based_comparison = difference_based_comparison.sort_values(by='Difference Score',
                                                                           ignore_index=True).reset_index(drop=True)
-    difference_based_comparison.to_csv('Difference_Based_Comparison_Score.txt', header=True, index=True, sep='\t')
+    difference_based_comparison.to_csv('Absolute_Difference_Comparison_Score.txt', header=True, index=True, sep='\t')
 
-
+# %%
 def read_in_binary_matrix(synbio_binary, sb_name):
     # Converts synbio summary matrix into a dataframe
     synbio_binary = pd.read_csv(synbio_binary, delimiter=" ", header=0)
@@ -330,7 +333,7 @@ def read_in_binary_matrix(synbio_binary, sb_name):
     # print(synbio_binary)
     print(sb_name, " size of ", np.shape(synbio_binary), " successfully imported.")
     # Opens the matrix that includes the Bacteria and Archaea summary result
-    domain_binary = pd.read_csv('/projects/jodo9280/EcoDr/EcoDr/EnCen/EnCen_binary_matrix.txt',
+    domain_binary = pd.read_csv('/projects/jodo9280/EcoDr/EcoDr/EnCen/functional_profiles/soil_metagenome_functional_profile',
                                   delimiter=" ", header=0)
     #this is from chunk 1, and is the EC_Binary we generated earlier
     domain_binary = domain_binary.set_index('Name_of_Genome')
@@ -343,18 +346,19 @@ def read_in_binary_matrix(synbio_binary, sb_name):
     # Note, headers are lost and need to be directly passed
     # print("Shape of combined matrix using append is: ", np.shape(synbio_bacteria))
     print("Merging of bacteria data and synbio data is complete")
-    doc_name_1 = 'complete_binary_matrix.txt'
+    doc_name_1 = 'combined_synbio_metagenome_binary_matrix.txt'
     # Removes any duplicates
     all_matrix = synbio_bacteria[~synbio_bacteria.index.duplicated(keep='first')]
     # print(all_matrix)
     all_matrix.to_csv(doc_name_1, header=True, index=True, sep='\t')
     return all_matrix
 
+# %%
 def calculating_distance(input_df, genome_names,genome_ID):
     #calculating_distance(clustered_ec, list_genomes, clustering_pref, index_names, sb_name, rank)
     # Calculate the distances of the datafile using the pdist funciton from scipy. The intial return will only
     # provide the upper half of the comparisons (row-wise) to create a symetrical matrix then create squareform
-    name = genome_ID + "_" + "_unclustered_" + 'Distance_Matrix_Combined.txt'
+    name = genome_ID + '_Euclidean' + '_non_pairwise_distance_result.txt'
     distances_parallel = pairwise_distances(X=input_df, metric='euclidean', n_jobs=18)
     #imported function that takes in the ec, calculates the distance between rows, n_jobs is for large datasets
     # print("Shape of the entire distance matrix is: ", np.shape(distances_parallel))
@@ -366,7 +370,7 @@ def calculating_distance(input_df, genome_names,genome_ID):
     # Returns the full distance matrix for dendrogram construction in R script
     #distances_parallel.to_csv('diff_weighted_unclustered_distance_matrix.txt', header=False, index=False, sep='\t')
     #distances_parallel.to_csv('both_chimeras_distance_matrix_clustered.txt', header=False, index=False, sep='\t')
-    print("Distance matrix is downloaded")
+    # print("Distance matrix is downloaded")
     # print(genome_names)
     # Converts the distance matrix of synbio as a data frame. Concat binds the row names dataframe with the synbio distance
     # matrix. Result should be a [2,#of total genomes]
@@ -374,7 +378,7 @@ def calculating_distance(input_df, genome_names,genome_ID):
                                     distances_parallel.reset_index(drop=True)], axis=1)
     #axis=1 is the columns. Just adds genome names to the final score output
     distances_parallel.index = genome_names['Name_of_Genome'].tolist()
-    distances_parallel.to_csv('Chimera1_unclustered_unweighted_DM.txt', header = True, index = True, sep='\t')
+    distances_parallel.to_csv('Euclidean_pairwise_distance_results.txt', header = True, index = True, sep='\t')
     #distances_parallel.set_index('Name_of_Genome', inplace=True, drop=True)
     # Finds the row that contains the synbio genome based on genome ID
     tsv_name = genome_ID.replace(".faa", "")
@@ -389,6 +393,7 @@ def calculating_distance(input_df, genome_names,genome_ID):
     synbio_column.columns = ['Genome_Name', 'Calculated Distance']
     return synbio_column, name
 
+# %%
 def pass_to_distance(synbio_binary, sb_name, desired_location):
     all_matrix = read_in_binary_matrix(synbio_binary, sb_name)
     list_genomes = pd.DataFrame(all_matrix.index)
@@ -398,9 +403,15 @@ def pass_to_distance(synbio_binary, sb_name, desired_location):
     synbio_clustered_distances.to_csv(name, header=True, index=True, sep='\t')
     return synbio_clustered_distances, desired_location
 
+# %%
 # synbio = '/home/anna/Documents/JGI_soil_genomes/Synbio/'
 # name = 'Synbio_Functional_Profile'
 # desired_location2 = '/home/anna/Documents/JGI_soil_genomes'
 # synbio binary is the synbio functional profile. 
 [distance_list_for_synbio, new_loc ]= pass_to_distance(synbio_binary, name, desired_location2)
 print('Synbio Analysis Complete')
+
+# %% [markdown]
+# ### End of Distance Scoring
+
+
