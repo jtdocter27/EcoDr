@@ -216,7 +216,7 @@ def genome_extractor(diamond_folder, name):
 metagenome_name = 'diamond_analysis_output' #-> folder
 desired_location = '/projects/jodo9280/EcoDr/EcoDr/EnCen' 
 # Freshwater = nump/nump/nump/files
-soil = '/projects/jodo9280/EcoDr/EcoDr/EnCen/JGI_soil_genomes/Soil_Metagenome'
+soil = '/projects/jodo9280/EcoDr/EcoDr/EnCen/Soil_Metagenome'
 abspath = os.path.abspath(soil)
 name = 'soil_metagenome'
 
