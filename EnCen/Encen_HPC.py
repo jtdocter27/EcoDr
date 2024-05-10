@@ -221,8 +221,8 @@ abspath = os.path.abspath(soil)
 name = 'soil_metagenome'
 
 #!Turn these back on when doing it on SP 
-# EC_extract()
-# tsv_to_fasta()
+EC_extract()
+tsv_to_fasta()
 
 #______________________________________________________________#
 os.chdir(desired_location) #-> we are in the folder we want
