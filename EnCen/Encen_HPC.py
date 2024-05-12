@@ -296,6 +296,11 @@ print(f'{red}ATTENTION USER: SYNBIO OR COMPARISON ORGANISM .FAA MUST BE IN THE S
 # %%
 os.chdir(synbio) 
 diamond_syn = diamond_impl(synbio, name)
+for item in os.listdir(final_folder):
+    if item.endswith('bio_matches.tsv'):
+        source = os.path.join(final_folder, item)
+        destination = os.path.join(synbio, item)
+        shutil.move(source, destination)
 
 # %%
 output2 = genome_extractor(diamond_syn, name)
