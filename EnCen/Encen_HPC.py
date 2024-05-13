@@ -323,7 +323,7 @@ def genome_to_genome_diffcomp(synbio_binary, domain_binary):
     row_sum = diff.sum(axis=1)
     df1 = pd.DataFrame(row_sum)
     difference_based_comparison = pd.concat([names_of_orgs, df1], axis=1)
-    difference_based_comparison.columns = ['Organisms Compared to Synbio', 'Difference Score']
+    difference_based_comparison.columns = ['Metagenome Bin ID', 'Difference Score']
     difference_based_comparison = difference_based_comparison.sort_values(by='Difference Score',
                                                                           ignore_index=True).reset_index(drop=True)
     difference_based_comparison.to_csv('Absolute_Difference_Comparison_Score.txt', header=True, index=True, sep='\t')
