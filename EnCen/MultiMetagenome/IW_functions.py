@@ -73,15 +73,15 @@ def diamond_impl(dest, name):
     print(os.getcwd())
     matches = ''
     output_folder = dest 
-    final_folder = '/projects/jodo9280/EcoDr/EcoDr/EnCen/diamond_analysis_output'
+    final_folder = '/home/anna/Documents/JGI_soil_genomes/reference_diamond_analysis_output'
     print("DIAMOND library is located in: ", output_folder)
-    if os.path.isfile('/projects/jodo9280/EcoDr/EcoDr/EnCen/JGI_soil_genomes/Soil_Metagenome/Uniprot_Reference_Library.dmnd'):
+    if os.path.isfile(final_folder):
         print("Library Detected")
     # If not present, then creates a DIAMOND library by referencing the exact location where the Uniprot library is saved
     # If there currently is no reference library (.dmnd), then command makedb creates a DIAMOND library
     else:
         print("Creation of DIAMOND-formatted library...")
-        makedb = ['diamond', 'makedb', '--in', '/projects/jodo9280/EcoDr/EcoDr/EnCen/uniprot.fasta', '-d',
+        makedb = ['diamond', 'makedb', '--in', '/home/anna/Documents/JGI_soil_genomes/uniprot.fasta', '-d',
                   'Uniprot_Reference_Library.dmnd']  # Reference library full pathway
         #This is a list for the DIAMOND specific makedb function. 
         subprocess.run(makedb)
@@ -126,14 +126,14 @@ def diamond_impl(dest, name):
     # Returns the location of the DIAMOND matches folder
     return output_folder
 
-def genome_extractor(diamond_folder, name):
+def genome_extractor(diamond_folder, name, home_dir):
 
     os.chdir(diamond_folder)
     print(os.getcwd())
     # Opens the list of of EC numbers
-    ec_open = np.loadtxt('/projects/jodo9280/EcoDr/EcoDr/EnCen/EC_library.csv',
+    ec_open = np.loadtxt(home_dir + '/EC_library.csv',
                          dtype='str')
-    big_matrix = ["Name_of_Genome"]
+    big_matrix = ["Name_of_MetaGenome_Bin"]
     file_name = name + '_functional_profile'
     new_dir = diamond_folder + '/' + file_name
     # Checks to see if the document already exists using full pathway name
@@ -167,18 +167,13 @@ def genome_extractor(diamond_folder, name):
                     ec_now = 0
                     if [ec] in genome_runner_ec:
                         ec_now = 1
-
-                    # 1 or 0 will be appended to the summary matrix for each EC value in the list
                     genome.append(ec_now)
-                    #print(genome)
-                # Vertical stacking occurs for each genome in the DIAMOND output folder
+                  
                 big_matrix = np.vstack([big_matrix, genome])
-        #print(big_matrix)
-        # Saves matrix as a text file for further analysis
+
         np.savetxt(file_name, big_matrix, fmt='%s')
-        # Returns the location of the summary matrix and the name of the file
         if not os.path.exists(os.path.abspath(file_name)):
-            shutil.move(os.path.abspath(file_name),'/projects/jodo9280/EcoDr/EcoDr/EnCen')
+            shutil.move(os.path.abspath(file_name), home_dir)
         else:
             print('File already Exists')
         print(new_dir)
@@ -199,15 +194,15 @@ def read_in_binary_matrix(synbio_binary, sb_name):
     # Converts synbio summary matrix into a dataframe
     synbio_binary = pd.read_csv(synbio_binary, delimiter=" ", header=0)
     # print(synbio_binary)
-    synbio_binary = synbio_binary.set_index('Name_of_Genome')
+    synbio_binary = synbio_binary.set_index('Name_of_MetaGenome_Bin')
     #index is a label for all rows - allows the two seperate dataframes to come together since they share an index
     # print(synbio_binary)
     print(sb_name, " size of ", np.shape(synbio_binary), " successfully imported.")
     # Opens the matrix that includes the Bacteria and Archaea summary result
-    domain_binary = pd.read_csv('/projects/jodo9280/EcoDr/EcoDr/EnCen/functional_profiles/soil_metagenome_functional_profile',
+    domain_binary = pd.read_csv('/home/anna/Documents/JGI_soil_genomes/functional_profiles/Industrial_wastewater_metagenome_functional_profile',
                                   delimiter=" ", header=0)
     #this is from chunk 1, and is the EC_Binary we generated earlier
-    domain_binary = domain_binary.set_index('Name_of_Genome')
+    domain_binary = domain_binary.set_index('Name_of_MetaGenome_Bin')
     # print(domain_binary)
     # Sends to a function for direct genome to genome comparison based on EC summary matrix
     genome_to_genome_diffcomp(synbio_binary, domain_binary)
@@ -247,7 +242,7 @@ def calculating_distance(input_df, genome_names,genome_ID):
     distances_synbio = pd.concat([genome_names.reset_index(drop=True),
                                     distances_parallel.reset_index(drop=True)], axis=1)
     #axis=1 is the columns. Just adds genome names to the final score output
-    distances_parallel.index = genome_names['Name_of_Genome'].tolist()
+    distances_parallel.index = genome_names['Name_of_Meta_Genome'].tolist()
     distances_parallel.to_csv('Euclidean_pairwise_distance_results.txt', header = True, index = True, sep='\t')
     #distances_parallel.set_index('Name_of_Genome', inplace=True, drop=True)
     # Finds the row that contains the synbio genome based on genome ID
