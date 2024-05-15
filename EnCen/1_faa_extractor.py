@@ -1,3 +1,9 @@
+### Extracts all files from .tar compressed files. 
+# parent directory is the folder the extracted file is in 
+# This script is to be used before directory_clear.py
+
+
+
 import os
 import tarfile
 
@@ -21,5 +27,5 @@ def tar_extraction(parent_folder):
 
 
 # parent_folder = '/home/anna/Documents/EnCen_JGI_Genomes'
-parent_folder = '/home/anna/Documents/Soil_extracted_genomes'
+parent_folder = '/home/anna/Documents/JGI_soil_genomes/IW Original files/img_data_295860-8'
 tar_extraction(parent_folder)

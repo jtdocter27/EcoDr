@@ -172,10 +172,10 @@ def genome_extractor(diamond_folder, name, home_dir):
                 big_matrix = np.vstack([big_matrix, genome])
 
         np.savetxt(file_name, big_matrix, fmt='%s')
-        if not os.path.exists(os.path.abspath(file_name)):
-            shutil.move(os.path.abspath(file_name), home_dir)
-        else:
-            print('File already Exists')
+        # if not os.path.exists(os.path.abspath(file_name)):
+        #     shutil.move(os.path.abspath(file_name), home_dir)
+        # else:
+        #     print('File already Exists')
         print(new_dir)
     return [new_dir, file_name]
 ##_____________________________________________________________________________Dividing between functional profiles and Scoring Functions
@@ -199,7 +199,7 @@ def read_in_binary_matrix(synbio_binary, sb_name, mg_to_analyze):
     # print(synbio_binary)
     print(sb_name, " size of ", np.shape(synbio_binary), " successfully imported.")
     # Opens the matrix that includes the Bacteria and Archaea summary result
-    domain_binary = pd.read_csv('/home/anna/Documents/JGI_soil_genomes/functional_profiles/' + mg_to_analyze + '/' + '_metagenome_functional_profile',
+    domain_binary = pd.read_csv('/home/anna/Documents/JGI_soil_genomes/functional_profiles/' + mg_to_analyze + '_metagenome_functional_profile',
                                   delimiter=" ", header=0)
     #this is from chunk 1, and is the EC_Binary we generated earlier
     domain_binary = domain_binary.set_index('Name_of_MetaGenome_Bin')
@@ -242,7 +242,7 @@ def calculating_distance(input_df, genome_names,genome_ID):
     distances_synbio = pd.concat([genome_names.reset_index(drop=True),
                                     distances_parallel.reset_index(drop=True)], axis=1)
     #axis=1 is the columns. Just adds genome names to the final score output
-    distances_parallel.index = genome_names['Name_of_Meta_Genome'].tolist()
+    distances_parallel.index = genome_names['Name_of_MetaGenome_Bin'].tolist()
     distances_parallel.to_csv('Euclidean_pairwise_distance_results.txt', header = True, index = True, sep='\t')
     #distances_parallel.set_index('Name_of_Genome', inplace=True, drop=True)
     # Finds the row that contains the synbio genome based on genome ID
