@@ -190,7 +190,7 @@ def genome_to_genome_diffcomp(synbio_binary, domain_binary):
                                                                           ignore_index=True).reset_index(drop=True)
     difference_based_comparison.to_csv('Absolute_Difference_Comparison_Score.txt', header=True, index=True, sep='\t')
 
-def read_in_binary_matrix(synbio_binary, sb_name):
+def read_in_binary_matrix(synbio_binary, sb_name, mg_to_analyze):
     # Converts synbio summary matrix into a dataframe
     synbio_binary = pd.read_csv(synbio_binary, delimiter=" ", header=0)
     # print(synbio_binary)
@@ -199,7 +199,7 @@ def read_in_binary_matrix(synbio_binary, sb_name):
     # print(synbio_binary)
     print(sb_name, " size of ", np.shape(synbio_binary), " successfully imported.")
     # Opens the matrix that includes the Bacteria and Archaea summary result
-    domain_binary = pd.read_csv('/home/anna/Documents/JGI_soil_genomes/functional_profiles/Industrial_wastewater_metagenome_functional_profile',
+    domain_binary = pd.read_csv('/home/anna/Documents/JGI_soil_genomes/functional_profiles/' + mg_to_analyze + '/' + '_metagenome_functional_profile',
                                   delimiter=" ", header=0)
     #this is from chunk 1, and is the EC_Binary we generated earlier
     domain_binary = domain_binary.set_index('Name_of_MetaGenome_Bin')
@@ -258,8 +258,8 @@ def calculating_distance(input_df, genome_names,genome_ID):
     synbio_column.columns = ['Genome_Name', 'Calculated Distance']
     return synbio_column, name
 
-def pass_to_distance(synbio_binary, sb_name, desired_location):
-    all_matrix = read_in_binary_matrix(synbio_binary, sb_name)
+def pass_to_distance(synbio_binary, sb_name, desired_location, mg_to_analyze):
+    all_matrix = read_in_binary_matrix(synbio_binary, sb_name, mg_to_analyze)
     list_genomes = pd.DataFrame(all_matrix.index)
     # Completes distance calculation on an Euclidean basis. Returns the synbio column with genome names appended
     [synbio_clustered_distances, name] = calculating_distance(all_matrix, list_genomes, sb_name)
