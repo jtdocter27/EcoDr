@@ -17,7 +17,8 @@ import numpy as np
 from sklearn.metrics import pairwise_distances
 import pandas as pd 
 import numpy as np 
-
+import tkinter as tk
+from tkinter import filedialog
 
 def tsv_to_fasta():
     reference_library = 'uniprot.tsv' 
@@ -268,3 +269,19 @@ def pass_to_distance(synbio_binary, sb_name, desired_location, mg_to_analyze):
     return synbio_clustered_distances, desired_location
  
 
+def upload_file(home_dir, mg_to_analyze):
+            root = tk.Tk()
+            root.withdraw() # Hide the main window
+            file_paths = filedialog.askopenfilenames(initialdir= home_dir, title = 'Select metagenome ' + mg_to_analyze + ' .faa files you would like to compare to')
+            return file_paths
+
+def upload_file2(home_dir, mg_to_analyze):
+        root = tk.Tk()
+        root.withdraw() # Hide the main window
+        file_paths = filedialog.askopenfilenames(initialdir= home_dir, title = 'Select synbio.faa files you would like to analyze against the' + mg_to_analyze + ' metagenome')
+        return file_paths
+
+def move_files_to_folder(file_paths, destination_folder):
+        for file_path in file_paths:
+            if os.path.isfile(file_path):
+                shutil.move(file_path, destination_folder)
