@@ -111,7 +111,7 @@ def diamond_impl(dest, name):
                 print("Processing ", file_name)
                 # DIAMOND search using the full pathway of the protein files, max target sequence outputs only one best
                 # match with highest e-value which represent the chance of obtaining a better random match in the same database (Buchfink et al, 2021)
-                blastp = ['diamond', 'blastp', '-d', 'Uniprot_Reference_Library.dmnd', '-q', file_path, '-o', matches, 
+                blastp = ['diamond', 'blastp', '--quiet', '-d',  'Uniprot_Reference_Library.dmnd', '-q', file_path, '-o', matches, 
                           '--max-target-seqs', '1', '--outfmt', '6']
                 time.sleep(4)
                 subprocess.run(blastp)

@@ -11,7 +11,7 @@ def delete_files_not_ending_with(directory, extension):
             except:
                 print('Skipped over', filename)
 # Provide the directory path
-directory_path = '/home/anna/Documents/JGI_soil_genomes/IW Original files/img_data_295860-8'
+directory_path = '/home/anna/Downloads/img_data_295860-8'
 
 # Provide the file extension you want to keep
 file_extension_to_keep = '.faa'
