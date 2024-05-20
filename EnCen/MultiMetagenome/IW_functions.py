@@ -272,13 +272,13 @@ def pass_to_distance(synbio_binary, sb_name, desired_location, mg_to_analyze):
 def upload_file(home_dir, mg_to_analyze):
             root = tk.Tk()
             root.withdraw() # Hide the main window
-            file_paths = filedialog.askopenfilenames(initialdir= home_dir, title = 'Select metagenome ' + mg_to_analyze + ' .faa files you would like to compare to')
+            file_paths = filedialog.askopenfilenames(initialdir= home_dir, title = 'Select the ' + mg_to_analyze + ' metagenome .faa files you would like to analyze against')
             return file_paths
 
 def upload_file2(home_dir, mg_to_analyze):
         root = tk.Tk()
         root.withdraw() # Hide the main window
-        file_paths = filedialog.askopenfilenames(initialdir= home_dir, title = 'Select synbio.faa files you would like to analyze against the ' + mg_to_analyze + ' metagenome')
+        file_paths = filedialog.askopenfilenames(initialdir= home_dir, title = 'Select the synbio.faa files you would like to analyze against the ' + mg_to_analyze + ' metagenome')
         return file_paths
 
 def move_files_to_folder(file_paths, destination_folder):
