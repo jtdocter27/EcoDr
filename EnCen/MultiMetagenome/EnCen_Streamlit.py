@@ -16,7 +16,7 @@ from IW_functions import EC_extract, tsv_to_fasta, diamond_impl, genome_extracto
 
 #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a
 #Input Block_________________________________________________________________________________________________________________________________________________________________________________________
-st.markdown("<h1 style='text-align: center;'>Environmental Cencus</h1>", unsafe_allow_html=True)
+st.markdown("<h1 style='text-align: center;'>Environmental Census</h1>", unsafe_allow_html=True)
 st.header(':blue[A Bioinformatics Tool for Synthetic Biology Risk Assessments]', divider='rainbow')
 st.write(':green[Developed by John Docter, University of Colorado Boulder]')
 
@@ -56,6 +56,8 @@ for mg_to_analyze in choices:
         # move_files_to_folder(file_paths, upload_location)
         st.header(mg_to_analyze + ' Analysis', divider='gray')
         uploaded_file = st.file_uploader("Please upload the Biome .faa file(s) you would like to analyze against", type='.faa', accept_multiple_files=True)
+        if not uploaded_file:
+            st.stop()
         if uploaded_file:
            for f in uploaded_file:
                 temp_dir = tempfile.mkdtemp()
@@ -64,6 +66,8 @@ for mg_to_analyze in choices:
                         file.write(f.getvalue())
                 shutil.move(path, IW)
                 shutil.rmtree(temp_dir)
+        else:
+            st.write('Waiting on File Upload')
         
     ##__________________________________________________________________________________#Diamond Analysis
         os.chdir(home_dir)
@@ -122,6 +126,9 @@ for mg_to_analyze in choices:
        
  
         uploaded_file = st.file_uploader("Please upload the synbio .faa file you would like to analyze", type='.faa')
+        if not uploaded_file: 
+            st.stop()
+
         if uploaded_file:
             temp_dir = tempfile.mkdtemp()
             path = os.path.join(temp_dir, uploaded_file.name)
@@ -146,7 +153,7 @@ for mg_to_analyze in choices:
     #____________________________________________________________________________________#Distance Scoring
         synbio_binary = '/home/anna/Documents/JGI_soil_genomes/functional_profiles/Synbio_functional_profile'
         [distance_list_for_synbio, new_loc ]= pass_to_distance(synbio_binary, name, desired_location2, mg_to_analyze)
-        st.success(mg_to_analyze + 'Synbio Analysis Complete')
+        st.success(mg_to_analyze + ' Synbio Analysis Complete')
 
 #     elif mg_to_analyze == 'wwtp':
 #         metagenome_name = 'reference_diamond_analysis_output' #-> folder
