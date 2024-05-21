@@ -11,19 +11,19 @@ red = "\033[91m"
 reset_color = "\033[0m"
 import seaborn as sns
 import matplotlib.pyplot as plt
-
+import tempfile
 from IW_functions import EC_extract, tsv_to_fasta, diamond_impl, genome_extractor, genome_to_genome_diffcomp, read_in_binary_matrix, calculating_distance, pass_to_distance, upload_file, upload_file2, move_files_to_folder
 
 #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a
 #Input Block_________________________________________________________________________________________________________________________________________________________________________________________
-st.title('Welcome to Environmental Census (EnCen)')
-st.write(':blue[A bioinformatics tool for quantifying and displaying synthetic biology risk]')
-st.write(':green[Developed by John Docter, Univeristy of Colorado - Boulder]')
+st.markdown("<h1 style='text-align: center;'>Environmental Cencus</h1>", unsafe_allow_html=True)
+st.header(':blue[A Bioinformatics Tool for Synthetic Biology Risk Assessments]', divider='rainbow')
+st.write(':green[Developed by John Docter, University of Colorado Boulder]')
 
 
 intake = st.multiselect('Please choose which available metagenomes you like to analyze', 
                         ['Industrial Wastewater', 'Wastewater Treatment Plant', 'River'])
-'You selected: ', intake
+'You selected: ', str(intake)
 
 choices = [choice.strip().lower() for choice in intake]
 
@@ -50,11 +50,21 @@ for mg_to_analyze in choices:
         else:
             os.mkdir(IW)
 
-        # # Example usage
-        file_paths = upload_file(home_dir, mg_to_analyze)
-        upload_location = IW
-        move_files_to_folder(file_paths, upload_location)
-
+        #Below is the original file uplaod using tkinter
+        # file_paths = upload_file(home_dir, mg_to_analyze)
+          # upload_location = IW
+        # move_files_to_folder(file_paths, upload_location)
+        st.header(mg_to_analyze + ' Analysis', divider='gray')
+        uploaded_file = st.file_uploader("Please upload the Biome .faa file(s) you would like to analyze against", type='.faa', accept_multiple_files=True)
+        if uploaded_file:
+           for f in uploaded_file:
+                temp_dir = tempfile.mkdtemp()
+                path = os.path.join(temp_dir, f.name)
+                with open(path, "wb") as file:
+                        file.write(f.getvalue())
+                shutil.move(path, IW)
+                shutil.rmtree(temp_dir)
+        
     ##__________________________________________________________________________________#Diamond Analysis
         os.chdir(home_dir)
         if os.path.exists(metagenome_name):
@@ -65,7 +75,9 @@ for mg_to_analyze in choices:
         # home_dir = home_dir + "/" + metagenome_name 
 
         os.chdir(IW)
-        diamond = diamond_impl(IW, '') #-> Takes in the path and directory
+        with st.spinner('Diamond Sequence Aligner Matching Biome.faa files to Unitprot Reference'):
+            diamond = diamond_impl(IW, '') #-> Takes in the path and directory
+        st.success('Biome Sequences Aligned')
     # #________________________________________________________________________________# Creating reference functional profile
 
         dmnd_folder = '/home/anna/Documents/JGI_soil_genomes/reference_diamond_analysis_output'
@@ -108,13 +120,21 @@ for mg_to_analyze in choices:
             os.mkdir(syn_folder_name)
 
        
+ 
+        uploaded_file = st.file_uploader("Please upload the synbio .faa file you would like to analyze", type='.faa')
+        if uploaded_file:
+            temp_dir = tempfile.mkdtemp()
+            path = os.path.join(temp_dir, uploaded_file.name)
+            with open(path, "wb") as f:
+                f.write(uploaded_file.getvalue())
         
-        file_paths = upload_file2(home_dir, mg_to_analyze)
-        upload_location = synbio
-        move_files_to_folder(file_paths, upload_location)
+        shutil.move(path, synbio)
+        shutil.rmtree(temp_dir)
 
         os.chdir(synbio) 
-        diamond_syn = diamond_impl(synbio, name) #diamond_syn = synbio
+        with st.spinner('Diamond Aligner Matching Synbio.faa Sequences to Unitpro Reference'):
+            diamond_syn = diamond_impl(synbio, name) #diamond_syn = synbio
+        st.success('Synbio Sequences Aligned')
         output2 = genome_extractor(diamond_syn, name, home_dir)
 
         for item in os.listdir(synbio):
@@ -126,7 +146,7 @@ for mg_to_analyze in choices:
     #____________________________________________________________________________________#Distance Scoring
         synbio_binary = '/home/anna/Documents/JGI_soil_genomes/functional_profiles/Synbio_functional_profile'
         [distance_list_for_synbio, new_loc ]= pass_to_distance(synbio_binary, name, desired_location2, mg_to_analyze)
-        st.write(mg_to_analyze + ':green[Synbio Analysis Complete]')
+        st.success(mg_to_analyze + 'Synbio Analysis Complete')
 
 #     elif mg_to_analyze == 'wwtp':
 #         metagenome_name = 'reference_diamond_analysis_output' #-> folder
