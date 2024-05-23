@@ -387,41 +387,45 @@ for mg_to_analyze in choices:
         pass
 
 ##Vizualization______________________________________________________________________________________________________________________________________________________###
-st.write('Entering Viz Datablock')
+st.header('Difference Scoring', divider = 'gray')
 first_choice = None
 second_choice = None
 third_choice = None
 try:
     first_choice = choices[0]
-    # print(choices[0])
+    # first_choice
     second_choice = choices[1]
-    # print(choices[1])
+    # second_choice
     third_choice = choices[2]
-    # print(third_choice)
+    # third_choice
 
 except IndexError:
     pass
     
-
-
-diff_score1 = pd.read_csv('/home/anna/Documents/JGI_soil_genomes/' + first_choice + '_synbio_inputs_and_outputs/Absolute_Difference_Comparison_Score.txt', sep='\t')
-diff_score1['Biome'] = first_choice
-# print(diff_score1)
-diff_score2 = pd.read_csv('/home/anna/Documents/JGI_soil_genomes/' + second_choice + '_synbio_inputs_and_outputs/Absolute_Difference_Comparison_Score.txt', sep='\t')
-diff_score2['Biome'] = second_choice
-# print(diff_score2)
-diff_score3 = pd.read_csv('/home/anna/Documents/JGI_soil_genomes/' + third_choice + '_synbio_inputs_and_outputs/Absolute_Difference_Comparison_Score.txt', sep='\t')
-diff_score3['Biome'] = third_choice
-
-
-
+diff_score1 = None
+diff_score2 = None
+diff_score3 = None 
+try:
+    diff_score1 = pd.read_csv('/home/anna/Documents/JGI_soil_genomes/' + first_choice + '_synbio_inputs_and_outputs/Absolute_Difference_Comparison_Score.txt', sep='\t')
+    diff_score1['Biome'] = first_choice
+    # diff_score1
+    diff_score2 = pd.read_csv('/home/anna/Documents/JGI_soil_genomes/' + second_choice + '_synbio_inputs_and_outputs/Absolute_Difference_Comparison_Score.txt', sep='\t')
+    diff_score2['Biome'] = second_choice
+    # diff_score2
+    diff_score3 = pd.read_csv('/home/anna/Documents/JGI_soil_genomes/' + third_choice + '_synbio_inputs_and_outputs/Absolute_Difference_Comparison_Score.txt', sep='\t')
+    diff_score3['Biome'] = third_choice
+    # diff_score3
+except TypeError:
+    pass
 
 frames = [diff_score1, diff_score2, diff_score3]
+# frames
 combined= pd.concat(frames)
-st.write(combined)
+combined
 
 
 st.bar_chart(combined, x = 'Metagenome Bin ID', y= 'Difference Score', color='Biome') 
+
 
 # ax = sns.barplot(x = 'Metagenome Bin ID', y= 'Difference Score', hue ='Biome', data = combined, palette = 'Set2', orient='v', width = 0.5)
 # plt.xlabel('Metagenome Bin ID', labelpad=20)
