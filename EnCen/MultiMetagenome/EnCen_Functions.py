@@ -19,6 +19,7 @@ import pandas as pd
 import numpy as np 
 import tkinter as tk
 from tkinter import filedialog
+import streamlit as st 
 
 def tsv_to_fasta():
     reference_library = 'uniprot.tsv' 

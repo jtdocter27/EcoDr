@@ -20,10 +20,9 @@ from EnCen_Functions import EC_extract, tsv_to_fasta, diamond_impl, genome_extra
 st.markdown("<h1 style='text-align: center;'>Environmental Census</h1>", unsafe_allow_html=True)
 st.header(':blue[A Bioinformatics Tool for Synthetic Biology Risk Assessments]', divider='rainbow')
 st.write(':green[Developed by John Docter, University of Colorado Boulder]')
-st.write(':green[john.docter@colorado.edu]')
+st.write(':green[For Troubleshooting and Inquiries, Please Contact john.docter@colorado.edu]')
 
-
-intake = st.multiselect('Please choose which available metagenomes you like to analyze', 
+intake = st.multiselect('Please choose which metagenomes to analyze', 
                         ['Industrial Wastewater', 'Wastewater Treatment Plant', 'River'])
 'You selected: ', str(intake)
 
@@ -418,16 +417,14 @@ try:
 except TypeError:
     pass
 
-frames = [diff_score1, diff_score2, diff_score3]
-# frames
-combined= pd.concat(frames)
-combined
+try:
+    frames = [diff_score1, diff_score2, diff_score3]
+    # frames
+    combined= pd.concat(frames)
+    combined
+
+    st.bar_chart(combined, x = 'Metagenome Bin ID', y= 'Difference Score', color='Biome') 
+except ValueError:
+    st.write('Waiting on input')
 
 
-st.bar_chart(combined, x = 'Metagenome Bin ID', y= 'Difference Score', color='Biome') 
-
-
-# ax = sns.barplot(x = 'Metagenome Bin ID', y= 'Difference Score', hue ='Biome', data = combined, palette = 'Set2', orient='v', width = 0.5)
-# plt.xlabel('Metagenome Bin ID', labelpad=20)
-# plt.ylabel('Difference Score', labelpad=20)
-# sns.move_legend(ax, 'lower center',  bbox_to_anchor=(.5, 1), ncol=3, title=None, frameon=False)
