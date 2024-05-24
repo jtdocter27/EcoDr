@@ -71,6 +71,7 @@ def EC_extract():
             csv_file.write(item +'\n')
     print('EC list Has Been Created')
 
+@st.cache_data(persist=True)
 def diamond_impl(dest, name):
     print(os.getcwd())
     matches = ''
@@ -128,6 +129,7 @@ def diamond_impl(dest, name):
     # Returns the location of the DIAMOND matches folder
     return output_folder
 
+@st.cache_data(persist=True)
 def genome_extractor(diamond_folder, name, home_dir):
 
     os.chdir(diamond_folder)
@@ -259,6 +261,7 @@ def calculating_distance(input_df, genome_names,genome_ID):
     # Sets column names
     synbio_column.columns = ['Genome_Name', 'Calculated Distance']
     return synbio_column, name
+
 
 def pass_to_distance(synbio_binary, sb_name, desired_location, mg_to_analyze):
     all_matrix = read_in_binary_matrix(synbio_binary, sb_name, mg_to_analyze)
