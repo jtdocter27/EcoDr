@@ -18,10 +18,10 @@ from EnCen_Functions import EC_extract, tsv_to_fasta, diamond_impl, genome_extra
 #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a
 #Input Block_________________________________________________________________________________________________________________________________________________________________________________________
 st.markdown("<h1 style='text-align: center;'>Environmental Census</h1>", unsafe_allow_html=True)
-st.header(':blue[A Bioinformatics Tool for Synthetic Biology Risk Assessments]', divider='rainbow')
-st.write(':green[Developed by John Docter, University of Colorado Boulder]')
-st.write(':green[For Troubleshooting and Inquiries, Please Contact john.docter@colorado.edu]')
-
+st.header('A Bioinformatics Tool for Synthetic Biology Risk Assessments', divider='rainbow')
+st.write(':blue[Developed by John Docter, University of Colorado Boulder]')
+st.write(':blue[For Troubleshooting and Inquiries, Please Contact john.docter@colorado.edu]')
+st.header('Select Metagenome(s) to Analyze')
 intake = st.multiselect('Please choose which metagenomes to analyze', 
                         ['Industrial Wastewater', 'Wastewater Treatment Plant', 'River'])
 'You selected: ', str(intake)
@@ -82,7 +82,8 @@ for mg_to_analyze in choices:
         os.chdir(IW)
         with st.spinner('Diamond Sequence Aligner Matching Biome.faa files to Unitprot Reference'):
             diamond = diamond_impl(IW, '') #-> Takes in the path and directory
-        st.success('Biome Sequences Aligned')
+        st.success('Biome Sequences Aligned and Present Sequences Identified')
+
     # #________________________________________________________________________________# Creating reference functional profile
 
         dmnd_folder = '/home/anna/Documents/JGI_soil_genomes/reference_diamond_analysis_output'
@@ -98,6 +99,7 @@ for mg_to_analyze in choices:
         
 
         output = genome_extractor(dmnd_folder, name, home_dir)
+        st.success('Enzymatic Profile Created')
 
         os.chdir(home_dir)
         if os.path.exists(functional_folder):
@@ -143,6 +145,7 @@ for mg_to_analyze in choices:
             diamond_syn = diamond_impl(synbio, name) #diamond_syn = synbio
         st.success('Synbio Sequences Aligned')
         output2 = genome_extractor(diamond_syn, name, home_dir)
+        st.success('Synbio Enzymatic Profile Created')
 
         for item in os.listdir(synbio):
             if item.endswith('_profile'):
@@ -196,7 +199,7 @@ for mg_to_analyze in choices:
         os.chdir(IW)
         with st.spinner('Diamond Sequence Aligner Matching Biome.faa files to Unitprot Reference'):
             diamond = diamond_impl(IW, '') #-> Takes in the path and directory
-        st.success('Biome Sequences Aligned')
+        st.success('Biome Sequences Aligned and Present Sequences Identified')
     # #________________________________________________________________________________# Creating reference functional profile
 
         dmnd_folder = '/home/anna/Documents/JGI_soil_genomes/reference_diamond_analysis_output'
@@ -212,7 +215,7 @@ for mg_to_analyze in choices:
         
 
         output = genome_extractor(dmnd_folder, name, home_dir)
-
+        st.success('Enzymatic Profile Created')
         os.chdir(home_dir)
         if os.path.exists(functional_folder):
             shutil.rmtree(functional_folder)
@@ -256,6 +259,7 @@ for mg_to_analyze in choices:
             diamond_syn = diamond_impl(synbio, name) #diamond_syn = synbio
         st.success('Synbio Sequences Aligned')
         output2 = genome_extractor(diamond_syn, name, home_dir)
+        st.success('Synbio Enzymatic Profile Created')
 
         for item in os.listdir(synbio):
             if item.endswith('_profile'):
@@ -311,7 +315,7 @@ for mg_to_analyze in choices:
         os.chdir(IW)
         with st.spinner('Diamond Sequence Aligner Matching Biome.faa files to Unitprot Reference'):
             diamond = diamond_impl(IW, '') #-> Takes in the path and directory
-        st.success('Biome Sequences Aligned')
+        st.success('Biome Sequences Aligned and Present Sequences Identified')
     # #________________________________________________________________________________# Creating reference functional profile
 
         dmnd_folder = '/home/anna/Documents/JGI_soil_genomes/reference_diamond_analysis_output'
@@ -327,6 +331,7 @@ for mg_to_analyze in choices:
         
 
         output = genome_extractor(dmnd_folder, name, home_dir)
+        st.success('Enzymatic Profile Created')
 
         os.chdir(home_dir)
         if os.path.exists(functional_folder):
@@ -371,7 +376,7 @@ for mg_to_analyze in choices:
             diamond_syn = diamond_impl(synbio, name) #diamond_syn = synbio
         st.success('Synbio Sequences Aligned')
         output2 = genome_extractor(diamond_syn, name, home_dir)
-
+        st.success('Synbio Enzymatic Profile Created')
         for item in os.listdir(synbio):
             if item.endswith('_profile'):
                 source = os.path.join(synbio, item)
