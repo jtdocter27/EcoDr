@@ -12,7 +12,7 @@ reset_color = "\033[0m"
 import seaborn as sns
 import matplotlib.pyplot as plt
 import tempfile
-from EnCen_Functions import EC_extract, tsv_to_fasta, diamond_impl, genome_extractor, genome_to_genome_diffcomp, read_in_binary_matrix, calculating_distance, pass_to_distance, upload_file, upload_file2, move_files_to_folder
+from EnCen_Functions import EC_extract, tsv_to_fasta, diamond_impl, genome_extractor_ref, genome_extractor_syn, genome_to_genome_diffcomp, read_in_binary_matrix, calculating_distance, pass_to_distance, upload_file, upload_file2, move_files_to_folder
 
 #test8
 #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a
@@ -31,10 +31,6 @@ choices = [choice.strip().lower() for choice in intake]
 #Analysis______________________________________________________________________________________________
 home_dir = '/home/anna/Documents/JGI_soil_genomes' 
 
-os.chdir(home_dir)
-for file in os.listdir(home_dir):
-     if file.endswith(('_output', 'outputs', '_bins', '_profiles')):
-        shutil.rmtree(os.path.join(home_dir, file))
 
 for mg_to_analyze in choices:
     if mg_to_analyze == 'industrial wastewater':
@@ -50,6 +46,8 @@ for mg_to_analyze in choices:
             os.mkdir(IW)
         else:
             os.mkdir(IW)
+        
+
 
         #Below is the original file uplaod using tkinter
         # file_paths = upload_file(home_dir, mg_to_analyze)
@@ -98,15 +96,15 @@ for mg_to_analyze in choices:
                 shutil.move(source, destination)
         
 
-        output = genome_extractor(dmnd_folder, name, home_dir)
+        output = genome_extractor_ref(dmnd_folder, name, home_dir, functional_folder, ff_name)
         st.success('Enzymatic Profile Created')
 
-        os.chdir(home_dir)
-        if os.path.exists(functional_folder):
-            shutil.rmtree(functional_folder)
-            os.mkdir(ff_name)
-        else:#makes a new directory called metagenome_name
-            os.mkdir(ff_name)
+        # os.chdir(home_dir)
+        # if os.path.exists(functional_folder):
+        #     shutil.rmtree(functional_folder)
+        #     os.mkdir(ff_name)
+        # else:#makes a new directory called metagenome_name
+        #     os.mkdir(ff_name)
 
         for item in os.listdir(dmnd_folder):
             if item.endswith('_profile'):
@@ -137,26 +135,33 @@ for mg_to_analyze in choices:
             with open(path, "wb") as f:
                 f.write(uploaded_file.getvalue())
         
-        shutil.move(path, synbio)
-        shutil.rmtree(temp_dir)
+
+        path2 = os.path.join(synbio, uploaded_file.name)
+        if os.path.exists(path2):
+            st.write('Synbio profile already exists')
+        else:
+            shutil.move(path, synbio)
+            shutil.rmtree(temp_dir)
 
         os.chdir(synbio) 
         with st.spinner('Diamond Aligner Matching Synbio.faa Sequences to Unitpro Reference'):
             diamond_syn = diamond_impl(synbio, name) #diamond_syn = synbio
         st.success('Synbio Sequences Aligned')
-        output2 = genome_extractor(diamond_syn, name, home_dir)
+        output2 = genome_extractor_syn(diamond_syn, name, home_dir)
         st.success('Synbio Enzymatic Profile Created')
+
 
         for item in os.listdir(synbio):
             if item.endswith('_profile'):
                 source = os.path.join(synbio, item)
                 destination = os.path.join(functional_folder, item)
                 shutil.move(source, destination)
-
     #____________________________________________________________________________________#Distance Scoring
         synbio_binary = '/home/anna/Documents/JGI_soil_genomes/functional_profiles/Synbio_functional_profile'
         [distance_list_for_synbio, new_loc ]= pass_to_distance(synbio_binary, name, desired_location2, mg_to_analyze)
         st.success(mg_to_analyze + ' Synbio Analysis Complete')
+
+        
 
     elif mg_to_analyze == 'wastewater treatment plant':
         metagenome_name = 'reference_diamond_analysis_output' #-> folder
@@ -214,14 +219,14 @@ for mg_to_analyze in choices:
                 shutil.move(source, destination)
         
 
-        output = genome_extractor(dmnd_folder, name, home_dir)
+        output = genome_extractor_ref(dmnd_folder, name, home_dir, functional_folder, ff_name)
         st.success('Enzymatic Profile Created')
-        os.chdir(home_dir)
-        if os.path.exists(functional_folder):
-            shutil.rmtree(functional_folder)
-            os.mkdir(ff_name)
-        else:#makes a new directory called metagenome_name
-            os.mkdir(ff_name)
+        # os.chdir(home_dir)
+        # if os.path.exists(functional_folder):
+        #     shutil.rmtree(functional_folder)
+        #     os.mkdir(ff_name)
+        # else:#makes a new directory called metagenome_name
+        #     os.mkdir(ff_name)
 
         for item in os.listdir(dmnd_folder):
             if item.endswith('_profile'):
@@ -250,15 +255,18 @@ for mg_to_analyze in choices:
             with open(path, "wb") as f:
                 f.write(uploaded_file.getvalue())
         
-        shutil.move(path, synbio)
-        shutil.rmtree(temp_dir)
-
+        path2 = os.path.join(synbio, uploaded_file.name)
+        if os.path.exists(path2):
+            st.write('Synbio profile already exists')
+        else:
+            shutil.move(path, synbio)
+            shutil.rmtree(temp_dir)
 
         os.chdir(synbio) 
         with st.spinner('Diamond Aligner Matching Synbio.faa Sequences to Unitpro Reference'):
             diamond_syn = diamond_impl(synbio, name) #diamond_syn = synbio
         st.success('Synbio Sequences Aligned')
-        output2 = genome_extractor(diamond_syn, name, home_dir)
+        output2 = genome_extractor_syn(diamond_syn, name, home_dir)
         st.success('Synbio Enzymatic Profile Created')
 
         for item in os.listdir(synbio):
@@ -330,15 +338,15 @@ for mg_to_analyze in choices:
                 shutil.move(source, destination)
         
 
-        output = genome_extractor(dmnd_folder, name, home_dir)
+        output = genome_extractor_ref(dmnd_folder, name, home_dir, functional_folder, ff_name)
         st.success('Enzymatic Profile Created')
 
-        os.chdir(home_dir)
-        if os.path.exists(functional_folder):
-            shutil.rmtree(functional_folder)
-            os.mkdir(ff_name)
-        else:#makes a new directory called metagenome_name
-            os.mkdir(ff_name)
+        # os.chdir(home_dir)
+        # if os.path.exists(functional_folder):
+        #     shutil.rmtree(functional_folder)
+        #     os.mkdir(ff_name)
+        # else:#makes a new directory called metagenome_name
+        #     os.mkdir(ff_name)
 
         for item in os.listdir(dmnd_folder):
             if item.endswith('_profile'):
@@ -368,14 +376,18 @@ for mg_to_analyze in choices:
             with open(path, "wb") as f:
                 f.write(uploaded_file.getvalue())
         
-        shutil.move(path, synbio)
-        shutil.rmtree(temp_dir)
+        path2 = os.path.join(synbio, uploaded_file.name)
+        if os.path.exists(path2):
+            st.write('Synbio profile already exists')
+        else:
+            shutil.move(path, synbio)
+            shutil.rmtree(temp_dir)
 
         os.chdir(synbio) 
         with st.spinner('Diamond Aligner Matching Synbio.faa Sequences to Unitpro Reference'):
             diamond_syn = diamond_impl(synbio, name) #diamond_syn = synbio
         st.success('Synbio Sequences Aligned')
-        output2 = genome_extractor(diamond_syn, name, home_dir)
+        output2 = genome_extractor_syn(diamond_syn, name, home_dir)
         st.success('Synbio Enzymatic Profile Created')
         for item in os.listdir(synbio):
             if item.endswith('_profile'):
@@ -432,4 +444,8 @@ try:
 except ValueError:
     st.write('Waiting on input')
 
-
+ 
+os.chdir(home_dir)
+for file in os.listdir(home_dir):
+     if file.endswith(('_output', 'outputs', '_bins', '_profiles')):
+        shutil.rmtree(os.path.join(home_dir, file))

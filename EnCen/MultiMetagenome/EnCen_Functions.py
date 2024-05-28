@@ -71,7 +71,7 @@ def EC_extract():
             csv_file.write(item +'\n')
     print('EC list Has Been Created')
 
-@st.cache_data(persist=True)
+@st.cache_resource()
 def diamond_impl(dest, name):
     print(os.getcwd())
     matches = ''
@@ -129,8 +129,8 @@ def diamond_impl(dest, name):
     # Returns the location of the DIAMOND matches folder
     return output_folder
 
-@st.cache_data(persist=True)
-def genome_extractor(diamond_folder, name, home_dir):
+@st.cache_data()
+def genome_extractor_ref(diamond_folder, name, home_dir, functional_folder, ff_name):
 
     os.chdir(diamond_folder)
     print(os.getcwd())
@@ -180,7 +180,65 @@ def genome_extractor(diamond_folder, name, home_dir):
         #     shutil.move(os.path.abspath(file_name), home_dir)
         # else:
         #     print('File already Exists')
-        print(new_dir)
+        os.chdir(home_dir)
+        if os.path.exists(functional_folder):
+            pass
+            # shutil.rmtree(functional_folder)
+            # os.mkdir(ff_name)
+        else:#makes a new directory called metagenome_name
+            os.mkdir(ff_name)
+    return [new_dir, file_name]
+
+@st.cache_data()
+def genome_extractor_syn(diamond_folder, name, home_dir):
+    os.chdir(diamond_folder)
+    print(os.getcwd())
+    # Opens the list of of EC numbers
+    ec_open = np.loadtxt(home_dir + '/EC_library.csv',
+                         dtype='str')
+    big_matrix = ["Name_of_MetaGenome_Bin"]
+    file_name = name + '_functional_profile'
+    new_dir = diamond_folder + '/' + file_name
+    # Checks to see if the document already exists using full pathway name
+    if os.path.exists(new_dir):
+        pass
+        #print("Summary Matrix exists")
+        #return [new_dir, file_name]
+    else:
+        for ec_force in ec_open:
+            # Creates a horizontal header of all of the EC names
+            big_matrix.append(ec_force)
+   
+        for item in os.listdir(diamond_folder):
+            if item.endswith("_matches.tsv"):
+                print(item)
+                genome = [item] #Turns the GCF's into a list, where the GCF names in the matrix come from. 
+                genome_runner_ec = [item] #Turns the GCF's into a list, where the EC is appended
+                # Iterates through all of the EC numbers (1:8197)
+                
+                GCF = open(item, 'r') # CBM Added
+                
+                for line in GCF: # CBM Added
+                    no_tab = line.split('\t')
+                    first_ec = no_tab[1].split("?")
+                    separate_ec = first_ec[1].split(";_")
+                    genome_runner_ec.append(separate_ec)
+                    print("Appending...")
+
+                for ec in ec_open:
+                 
+                    ec_now = 0
+                    if [ec] in genome_runner_ec:
+                        ec_now = 1
+                    genome.append(ec_now)
+                  
+                big_matrix = np.vstack([big_matrix, genome])
+
+        np.savetxt(file_name, big_matrix, fmt='%s')
+        # if not os.path.exists(os.path.abspath(file_name)):
+        #     shutil.move(os.path.abspath(file_name), home_dir)
+        # else:
+        #     print('File already Exists')
     return [new_dir, file_name]
 ##_____________________________________________________________________________Dividing between functional profiles and Scoring Functions
 def genome_to_genome_diffcomp(synbio_binary, domain_binary):
