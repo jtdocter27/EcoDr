@@ -439,8 +439,10 @@ try:
     # frames
     combined= pd.concat(frames)
     combined
+    combined_sorted = combined.sort_values(by='Metagenome Bin ID')
 
-    st.bar_chart(combined, x = 'Metagenome Bin ID', y= 'Difference Score', color='Biome') 
+    st.bar_chart(combined_sorted, x = 'Metagenome Bin ID', y= 'Difference Score', color='Biome') 
+   
 except ValueError:
     st.write('Waiting on input')
 

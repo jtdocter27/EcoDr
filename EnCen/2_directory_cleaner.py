@@ -1,4 +1,4 @@
-###This code iterates through a directory and deletes all files that are not a .faa
+###This code iterates through a directory and deletes all files that are not a .faa. 
 import os
 
 def delete_files_not_ending_with(directory, extension):
