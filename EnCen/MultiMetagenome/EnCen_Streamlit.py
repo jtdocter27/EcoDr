@@ -159,7 +159,7 @@ for mg_to_analyze in choices:
     #____________________________________________________________________________________#Distance Scoring
         synbio_binary = '/home/anna/Documents/JGI_soil_genomes/functional_profiles/Synbio_functional_profile'
         [distance_list_for_synbio, new_loc ]= pass_to_distance(synbio_binary, name, desired_location2, mg_to_analyze)
-        st.balloons()
+        # st.balloons()
 
         
 
@@ -442,7 +442,7 @@ try:
     combined_sorted = combined.sort_values(by='Metagenome Bin ID')
 
     st.bar_chart(combined_sorted, x = 'Metagenome Bin ID', y= 'Difference Score', color='Biome') 
-    st.success('Analysis Complete', icon='🧬')
+    st.toast('Analysis Complete!', icon='🧬')
 except ValueError:
     st.write('Waiting on input')
 
