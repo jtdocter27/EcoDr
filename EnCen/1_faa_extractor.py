@@ -27,5 +27,5 @@ def tar_extraction(parent_folder):
 
 
 # parent_folder = '/home/anna/Documents/EnCen_JGI_Genomes'
-parent_folder = '/home/anna/Documents/JGI_soil_genomes/Test MGBs'
+parent_folder = '/home/anna/Documents/JGI_soil_genomes/Test MGBs/River'
 tar_extraction(parent_folder)

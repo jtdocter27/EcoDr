@@ -138,7 +138,7 @@ for mg_to_analyze in choices:
 
         path2 = os.path.join(synbio, uploaded_file.name)
         if os.path.exists(path2):
-            st.write('Synbio profile already exists')
+            pass
         else:
             shutil.move(path, synbio)
             shutil.rmtree(temp_dir)

@@ -175,6 +175,7 @@ def genome_extractor_ref(diamond_folder, name, home_dir, functional_folder, ff_n
                   
                 big_matrix = np.vstack([big_matrix, genome])
 
+
         np.savetxt(file_name, big_matrix, fmt='%s')
         # if not os.path.exists(os.path.abspath(file_name)):
         #     shutil.move(os.path.abspath(file_name), home_dir)
