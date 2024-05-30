@@ -13,9 +13,9 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import tempfile
 from EnCen_Functions import EC_extract, tsv_to_fasta, diamond_impl, genome_extractor_ref, genome_extractor_syn, genome_to_genome_diffcomp, read_in_binary_matrix, calculating_distance, pass_to_distance, upload_file, upload_file2, move_files_to_folder
+import altair as alt
 
-#test8
-#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a
+
 #Input Block_________________________________________________________________________________________________________________________________________________________________________________________
 st.markdown("<h1 style='text-align: center;'>Environmental Census</h1>", unsafe_allow_html=True)
 st.header('A Bioinformatics Tool for Synthetic Biology Risk Assessments', divider='rainbow')
@@ -257,7 +257,7 @@ for mg_to_analyze in choices:
         
         path2 = os.path.join(synbio, uploaded_file.name)
         if os.path.exists(path2):
-            st.write('Synbio profile already exists')
+            pass
         else:
             shutil.move(path, synbio)
             shutil.rmtree(temp_dir)
@@ -277,7 +277,7 @@ for mg_to_analyze in choices:
                 
         synbio_binary = '/home/anna/Documents/JGI_soil_genomes/functional_profiles/Synbio_functional_profile'
         [distance_list_for_synbio, new_loc ]= pass_to_distance(synbio_binary, name, desired_location2, mg_to_analyze)
-        st.success(mg_to_analyze + ' Synbio Analysis Complete')
+        # st.success(mg_to_analyze + ' Synbio Analysis Complete')
 
 
     elif mg_to_analyze == 'river':
@@ -378,7 +378,7 @@ for mg_to_analyze in choices:
         
         path2 = os.path.join(synbio, uploaded_file.name)
         if os.path.exists(path2):
-            st.write('Synbio profile already exists')
+            pass
         else:
             shutil.move(path, synbio)
             shutil.rmtree(temp_dir)
@@ -397,7 +397,7 @@ for mg_to_analyze in choices:
                 
         synbio_binary = '/home/anna/Documents/JGI_soil_genomes/functional_profiles/Synbio_functional_profile'
         [distance_list_for_synbio, new_loc ]= pass_to_distance(synbio_binary, name, desired_location2, mg_to_analyze)
-        st.success(mg_to_analyze.title() + ' Synbio Analysis Complete')
+        # st.success(mg_to_analyze.title() + ' Synbio Analysis Complete')
 
     else:
         pass
@@ -434,14 +434,23 @@ try:
 except TypeError:
     pass
 
+
+
+
+
+
 try:
     frames = [diff_score1, diff_score2, diff_score3]
     # frames
     combined= pd.concat(frames)
-    combined
     combined_sorted = combined.sort_values(by='Metagenome Bin ID')
+    combined_sorted = combined_sorted.drop('Unnamed: 0', axis=1)
+    combined_sorted['Metagenome Bin ID'] = combined_sorted['Metagenome Bin ID'].str.replace('_matches.tsv', '')
+    combined_sorted
 
-    st.bar_chart(combined_sorted, x = 'Metagenome Bin ID', y= 'Difference Score', color='Biome') 
+    # st.bar_chart(combined_sorted, x = 'Metagenome Bin ID', y= 'Difference Score', color='Biome') 
+    chart = alt.Chart(combined_sorted).mark_bar().encode(x='Metagenome Bin ID', y='Difference Score', color=alt.Color('Biome',  scale=alt.Scale(scheme='blues')))
+    st.altair_chart(chart, use_container_width=True)
     st.toast('Analysis Complete!', icon='🧬')
 except ValueError:
     st.write('Waiting on input')
