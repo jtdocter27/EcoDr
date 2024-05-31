@@ -455,6 +455,8 @@ try:
 except ValueError:
     st.write('Waiting on input')
 
+##Deletes all the files for the next run. Turn off if you want files to analyze, turn on if you are going to do multiple runs. 
+#Will have to delete files manually if you turn it off, else program gets confused
  
 os.chdir(home_dir)
 for file in os.listdir(home_dir):
