@@ -219,7 +219,7 @@ def genome_extractor_syn(diamond_folder, name, home_dir):
                 
                 GCF = open(item, 'r') # CBM Added
                 
-                for line in GCF: # CBM Added
+                for line in GCF: # CBM Added, this is chunk that extracts the EC's from _matches 
                     no_tab = line.split('\t')
                     first_ec = no_tab[1].split("?")
                     separate_ec = first_ec[1].split(";_")
