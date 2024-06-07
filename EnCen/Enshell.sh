@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #SBATCH --nodes=1
-#SBATCH --ntasks=50
+#SBATCH --ntasks=26
 #SBATCH --time=100:00:00
 #SBATCH --partition=blanca-cmbmgem
 #SBATCH --output=sample-%j.out
