@@ -24,8 +24,19 @@ def tar_extraction(parent_folder):
                 tar.extractall(path=parent_folder)
             os.remove(filepath)
 
+def delete_files_not_ending_with(directory, extension):
+    for filename in os.listdir(directory):
+        if not filename.endswith(extension):
+            try:
+                filepath = os.path.join(directory, filename)
+                os.remove(filepath)
+                print('Deleted :', filepath)
+            except:
+                print('Skipped over', filename)
 
 
 # parent_folder = '/home/anna/Documents/EnCen_JGI_Genomes'
-parent_folder = '/home/anna/Documents/JGI_soil_genomes/Test MGBs/River'
+parent_folder = '/home/anna/Documents/Metagenomes/Cow_Rumen/img_data_295860-20'
+file_extension_to_keep1 = '.faa'
 tar_extraction(parent_folder)
+delete_files_not_ending_with(parent_folder, file_extension_to_keep1)
