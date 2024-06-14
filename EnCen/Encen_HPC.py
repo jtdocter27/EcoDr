@@ -216,9 +216,9 @@ def genome_extractor(diamond_folder, name):
 metagenome_name = 'diamond_analysis_output' #-> folder
 desired_location = '/projects/jodo9280/EcoDr/EcoDr/EnCen' 
 # Freshwater = nump/nump/nump/files
-soil = '/projects/jodo9280/EcoDr/EcoDr/EnCen/Agricultural_Bulk_Soil/img_data_295860-22'
+soil = '/projects/jodo9280/EcoDr/EcoDr/EnCen/Cow_Rumen/img_data_295860-20'
 abspath = os.path.abspath(soil)
-name = 'Agricultural_Bulk_Soil_Metagenome'
+name = 'Cow_Rumen_Metagenome'
 
 #!Turn these back on when doing it on SP 
 EC_extract()
@@ -242,7 +242,7 @@ diamond = diamond_impl(soil, '') #-> Takes in the path and directory
 
 # %%
 final_folder = '/projects/jodo9280/EcoDr/EcoDr/EnCen/diamond_analysis_output'
-desired_location = '/projects/jodo9280/EcoDr/EcoDr/EnCen/Agricultural_Bulk_Soil/img_data_295860-22'
+desired_location = '/projects/jodo9280/EcoDr/EcoDr/EnCen/Cow_Rumen/img_data_295860-20'
 ff_name = 'functional_profiles'
 functional_folder = '/projects/jodo9280/EcoDr/EcoDr/EnCen/functional_profiles'
 
@@ -338,7 +338,7 @@ def read_in_binary_matrix(synbio_binary, sb_name):
     # print(synbio_binary)
     print(sb_name, " size of ", np.shape(synbio_binary), " successfully imported.")
     # Opens the matrix that includes the Bacteria and Archaea summary result
-    domain_binary = pd.read_csv('/projects/jodo9280/EcoDr/EcoDr/EnCen/functional_profiles/Agricultural_Bulk_Soil_Metagenome_functional_profile',
+    domain_binary = pd.read_csv('/projects/jodo9280/EcoDr/EcoDr/EnCen/functional_profiles/Cow_Rumen_Metagenome_functional_profile',
                                   delimiter=" ", header=0)
     #this is from chunk 1, and is the EC_Binary we generated earlier
     domain_binary = domain_binary.set_index('Name_of_Genome')
