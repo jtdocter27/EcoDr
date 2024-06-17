@@ -218,7 +218,7 @@ desired_location = '/projects/jodo9280/EcoDr/EcoDr/EnCen'
 # Freshwater = nump/nump/nump/files
 soil = '/projects/jodo9280/EcoDr/EcoDr/EnCen/River_Sediment/img_data_295860-19'
 abspath = os.path.abspath(soil)
-name = 'Lake_Sediment_Metagenome'
+name = 'River_Sediment_Metagenome'
 
 #!Turn these back on when doing it on SP 
 EC_extract()
