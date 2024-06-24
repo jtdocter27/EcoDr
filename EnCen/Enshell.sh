@@ -10,7 +10,7 @@
 #SBATCH --mail-type=all
 #SBATCH --mail-user=jodo9280@colorado.edu
 #SBATCH --output=output.%j.out
-#SBATCH --mem=215G
+#SBATCH --mem=15G
 
 module purge
 module load anaconda
