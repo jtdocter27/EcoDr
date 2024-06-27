@@ -95,15 +95,41 @@ def synbio_fun_profile(synbio_matrix):
     # print(synbio_df)
     return synbio_df
 
+def tm_fun_profile(synbio_matrix):
+    profile = pd.read_csv(synbio_matrix, header=None)
+
+    funcprof = profile.iloc[:,0].str.split(' ', expand=True) #this is the fancy bit of code that takes all the rows and first column (this is only one column in this dataframe to begin with) and splits each element by the space character. Expand = true puts each value in it's own column
+    # print(funcprof)
+    # print(funcprof.head())
+    # print('total rows are: ', len(funcprof))
+    # print('total columns are:', funcprof.shape[1])
+
+    # funcprof.columns = funcprof.iloc[0] #assigns the first row (iloc[0] to the columns of the dataframe)
+    # funcprof = funcprof[1:] #creates a new dataframe from the second row onward. 
+    # # print(funcprof)
+    
+
+    new_col = funcprof.iloc[0].tolist()
+    new_col2 = funcprof.iloc[1].tolist()
+    synbio_df = pd.DataFrame({'EC Number': new_col, 'Top Match Presence/Absence': new_col2})
+    synbio_df = synbio_df.drop(0)
+    # print(synbio_df)
+    return synbio_df
+
 biome_functional_profile = '/home/anna/Desktop/JD_Niche_OverLap (Git)/Niche_JD/Eco_V2/EnCen/HPC Results/functional_profiles/Activated_Sludge_Metagenome_functional_profile'
 final = percentages (biome_functional_profile)
 together = EC_extract()
 synbio_matrix = '/home/anna/Desktop/JD_Niche_OverLap (Git)/Niche_JD/Eco_V2/EnCen/HPC Results/functional_profiles/Synbio_functional_profile'
 synbio = synbio_fun_profile(synbio_matrix)
-# print(synbio)
+
+top_match_bin = '/home/anna/Documents/UBA6164/UBA6164_functional_profile'
+top_match = tm_fun_profile(top_match_bin)
+
+
 #Now we have the dataframe of EC's and %'s, and the dataframe that has EC's and Names_______________________________________________________________________________________________________________
 merged = pd.merge(final, together, how='inner', on='EC Number')
 merged2 = pd.merge(merged, synbio, how='inner', on='EC Number')
-merged3 = merged2.sort_values(by=['Percentage'], ascending=False) #sort the column percentage from high to low 
-merged3.to_excel('Biome Synbio EC Comparison.xlsx', index=False)
+merged3 = pd.merge(merged2, top_match, how='inner', on='EC Number')
+merged4 = merged3.sort_values(by=['Percentage'], ascending=False) #sort the column percentage from high to low 
+merged4.to_excel('Biome Synbio Top Match EC Comparison.xlsx', index=False)
 

@@ -32,6 +32,7 @@ def EC_extract():
     ecnames = [record['DE'] for record in records]
     print(type(ecnumbers)) #This is a list at this point in the code
     together = pd.DataFrame({'EC Number': ecnumbers, 'Name': ecnames})
-    together.to_csv('EC_name_&_num.csv', index=False)
+    # together.to_csv('EC_name_&_num.csv', index=False)
+    print(together)
 
 EC_extract()
