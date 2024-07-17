@@ -16,25 +16,31 @@ def percentages(biome_functional_profile):
 
     funcprof = profile.iloc[:,0].str.split(' ', expand=True) #this is the fancy bit of code that takes all the rows and first column (this is only one column in this dataframe to begin with) and splits each element by the space character. Expand = true puts each value in it's own column
 
-    # print(funcprof.head())
+    # funcprof.to_excel('Funcprof1.xlsx', index=False)
     # print('total rows are: ', len(funcprof))
     # print('total columns are:', funcprof.shape[1])
 
     funcprof.columns = funcprof.iloc[0] #assigns the first row (iloc[0] to the columns of the dataframe)
     funcprof = funcprof[1:] #creates a new dataframe from the second row onward. 
+    
+    # funcprof.to_excel('Funcprof2.xlsx', index=False)
 
     for col in funcprof.columns[1:]:
         funcprof[col] = pd.to_numeric(funcprof[col]) #converts all the dtype=object data to numbers. This is because pd.read_csv read the dataframe in as a string. 
 
-    sum = funcprof.iloc[:, 1:].sum() #sums all rows, second column onward. 
+    # funcprof.to_excel('Funcprof3.xlsx', index=False)
+
+    sum = funcprof.iloc[:, 1:].sum() #sums column-wise, second column onward. 
+    # sum.to_excel('Bins.xlsx', index=False)
 
     row = len(funcprof) -1 #just get's the amount of rows minus the summed row. 
-    # print(row)
+    print(row) 
     funcprof.loc[len(funcprof)] = sum #adds the summed row onto the dataframe
     # print(funcprof)
+    # funcprof.to_excel('Funcprof4.xlsx', index=False)
 
     percentage = funcprof.iloc[1373].div(row) #divides the summed row by the amount of rows, i.e. finding the percentage of each enzyme. 
-    print(percentage)
+    print(funcprof.iloc[1373])
     final = pd.DataFrame(percentage) #turns numpy array into dataframe...why this is a numpy array, I don't know. 
     # final.reset_index(inplace=True)
     # print(final)
@@ -46,7 +52,8 @@ def percentages(biome_functional_profile):
     # final = final.sort_values(by=['Percentage'], ascending=False) #sort the column percentage from high to low 
     final.reset_index(inplace=True)
     final.columns = ['EC Number', 'Percentage']
-    
+    # final.to_excel('Final.xlsx', index=False)
+
     return final
 #At this point we have a dataframe of percentages and EC numbers______________________________________________________________________________________________________________________________________
 def EC_extract():
@@ -116,10 +123,10 @@ def tm_fun_profile(synbio_matrix):
     # print(synbio_df)
     return synbio_df
 
-biome_functional_profile = '/home/anna/Desktop/JD_Niche_OverLap (Git)/Niche_JD/Eco_V2/EnCen/HPC Results/functional_profiles/Activated_Sludge_Metagenome_functional_profile'
+biome_functional_profile = '/home/anna/Desktop/JD_Niche_OverLap (Git)/Niche_JD/Eco_V2/EnCen/HPC Results/Activated_Sludge/functional_profiles/Activated_Sludge_Metagenome_functional_profile'
 final = percentages (biome_functional_profile)
 together = EC_extract()
-synbio_matrix = '/home/anna/Desktop/JD_Niche_OverLap (Git)/Niche_JD/Eco_V2/EnCen/HPC Results/functional_profiles/Synbio_functional_profile'
+synbio_matrix = '/home/anna/Desktop/JD_Niche_OverLap (Git)/Niche_JD/Eco_V2/EnCen/HPC Results/Activated_Sludge/functional_profiles/Synbio_functional_profile'
 synbio = synbio_fun_profile(synbio_matrix)
 
 top_match_bin = '/home/anna/Documents/UBA6164/UBA6164_functional_profile'
