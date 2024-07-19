@@ -34,13 +34,13 @@ def percentages(biome_functional_profile):
     # sum.to_excel('Bins.xlsx', index=False)
 
     row = len(funcprof) -1 #just get's the amount of rows minus the summed row. 
-    print(row) 
+    # print(row) 
     funcprof.loc[len(funcprof)] = sum #adds the summed row onto the dataframe
     # print(funcprof)
     # funcprof.to_excel('Funcprof4.xlsx', index=False)
 
-    percentage = funcprof.iloc[1373].div(row) #divides the summed row by the amount of rows, i.e. finding the percentage of each enzyme. 
-    print(funcprof.iloc[1373])
+    percentage = funcprof.iloc[row].div(row) #divides the summed row by the amount of rows, i.e. finding the percentage of each enzyme. 
+    # print(funcprof.iloc[row])
     final = pd.DataFrame(percentage) #turns numpy array into dataframe...why this is a numpy array, I don't know. 
     # final.reset_index(inplace=True)
     # print(final)
@@ -54,7 +54,7 @@ def percentages(biome_functional_profile):
     final.columns = ['EC Number', 'Percentage']
     # final.to_excel('Final.xlsx', index=False)
 
-    return final
+    return final, row
 #At this point we have a dataframe of percentages and EC numbers______________________________________________________________________________________________________________________________________
 def EC_extract():
     ec_library = 'EC_library.csv'
@@ -66,8 +66,7 @@ def EC_extract():
     if ec.status_code == 200:
         with open(ec_library, 'w+', newline='\n') as ec_file:
             ec_file.write(ec.text)
-    print(type(ec_file))
-    print('EC List Has Been Created')
+    # print(type(ec_file))
 ###__________________________________________________________________________________________________________________________________________________________________________________________________
     handle = open(ec_library)
     records = Enzyme.parse(handle)
@@ -123,13 +122,29 @@ def tm_fun_profile(synbio_matrix):
     # print(synbio_df)
     return synbio_df
 
-biome_functional_profile = '/home/anna/Desktop/JD_Niche_OverLap (Git)/Niche_JD/Eco_V2/EnCen/HPC Results/Activated_Sludge/functional_profiles/Activated_Sludge_Metagenome_functional_profile'
-final = percentages (biome_functional_profile)
+def top_match_presence_screen(biome_full_dataframe):
+    biome_full_pd = pd.read_excel(biome_full_dataframe, header=0)
+    # print(biome_full_pd.dtypes)
+    top_match_only = biome_full_pd[biome_full_pd['Top Match Presence/Absence'] == 1]
+    # print(top_match_only.head(7))
+    return top_match_only
+
+def lost_functions(top_match_dataframe): #This assumes that all functions that are lost are the ones that the synbio doesn't have that the top match does when it is replaced. 
+    lost_functions = top_match_dataframe[top_match_dataframe['Synbio Presence/Absence'] == 0]
+    return lost_functions
+
+def percent_shift(lost_functions_df, row):
+    percent_loss = 1/row #this is the % loss of losing one instance of the enzyme, the ratio given is one enzyme per bin. 
+    lost_functions_df['Percentages After Loss'] = lost_functions_df['Percentage'] - percent_loss
+    return lost_functions_df
+
+biome_functional_profile = '/home/anna/Desktop/JD_Niche_OverLap (Git)/Niche_JD/Eco_V2/EnCen/HPC Results/River_Sediment/River_Sediment_Metagenome_functional_profile'
+final, row = percentages(biome_functional_profile)
 together = EC_extract()
 synbio_matrix = '/home/anna/Desktop/JD_Niche_OverLap (Git)/Niche_JD/Eco_V2/EnCen/HPC Results/Activated_Sludge/functional_profiles/Synbio_functional_profile'
 synbio = synbio_fun_profile(synbio_matrix)
 
-top_match_bin = '/home/anna/Documents/UBA6164/UBA6164_functional_profile'
+top_match_bin = '/home/anna/Desktop/JD_Niche_OverLap (Git)/Niche_JD/Eco_V2/EnCen/HPC Results/River_Sediment/Yersinia_intermedia_functional_profile'
 top_match = tm_fun_profile(top_match_bin)
 
 
@@ -140,3 +155,17 @@ merged3 = pd.merge(merged2, top_match, how='inner', on='EC Number')
 merged4 = merged3.sort_values(by=['Percentage'], ascending=False) #sort the column percentage from high to low 
 merged4.to_excel('Biome Synbio Top Match EC Comparison.xlsx', index=False)
 
+
+
+
+
+biome_full_dataframe = '/home/anna/Desktop/JD_Niche_OverLap (Git)/Niche_JD/Eco_V2/EnCen/Biome Synbio Top Match EC Comparison.xlsx'
+# print(biome_full_dataframe)
+top_match_dataframe = top_match_presence_screen(biome_full_dataframe)
+# print(top_match_dataframe.head(10))
+# top_match_dataframe.to_excel('Only Present Enzyme Biome Synbio Top Match EC Comparison.xlsx', index=False)
+lost_functions_df = lost_functions(top_match_dataframe)
+# print(lost_functions_df.head(4))
+# lost_functions_df.to_excel('Lost_Functions.xlsx', index=False)
+percent_shift_df = percent_shift(lost_functions_df, row)
+percent_shift_df.to_excel('percent shift after functional loss.xlsx', index=False)

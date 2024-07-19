@@ -8,7 +8,7 @@ import pandas as pd
 
 
 def top_match_presence_screen(biome_full_dataframe):
-    biome_full_pd = pd.read_excel(biome_full_dataframe, header=0)
+    biome_full_pd = pd.read_excel(biome_full_dataframe, header=0, dtype={'Top Match Presence/Absence': int})
     top_match_only = biome_full_pd[biome_full_pd['Top Match Presence/Absence'] == 1]
     return top_match_only
 
@@ -23,10 +23,10 @@ def percent_shift(lost_functions_df):
 
 
 
-biome_full_dataframe = '/home/anna/Desktop/JD_Niche_OverLap (Git)/Niche_JD/Eco_V2/EnCen/Biome Analysis Results/Biome Synbio Top Match EC Comparison.xlsx'
+biome_full_dataframe = '/home/anna/Desktop/JD_Niche_OverLap (Git)/Niche_JD/Eco_V2/EnCen/Biome Synbio Top Match EC Comparison.xlsx'
 top_match_dataframe = top_match_presence_screen(biome_full_dataframe)
 # top_match_dataframe.to_excel('Only Present Enzyme Biome Synbio Top Match EC Comparison.xlsx', index=False)
 lost_functions_df = lost_functions(top_match_dataframe)
 # lost_functions_df.to_excel('Lost_Functions.xlsx', index=False)
 percent_shift_df = percent_shift(lost_functions_df)
-# percent_shift_df.to_excel('percent shift after functional loss.xlsx', index=False)
+percent_shift_df.to_excel('percent shift after functional loss.xlsx', index=False)

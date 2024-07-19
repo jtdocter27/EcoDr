@@ -184,10 +184,10 @@ def genome_extractor(diamond_folder, name):
         print(new_dir)
     return [new_dir, file_name]
 # ______________________________________________________________________________________
-synbio = '/home/anna/Documents/UBA6164'
-name = 'UBA6164'
-syn_folder_name = 'UBA6164'
-desired_location2 = '/home/anna/Documents/UBA6164'
+synbio = '/home/anna/Desktop/JD_Niche_OverLap (Git)/Niche_JD/Eco_V2/EnCen/HPC Results/River_Sediment'
+name = 'Yersinia_intermedia'
+syn_folder_name = 'Yersinia_intermedia'
+desired_location2 = '/home/anna/Desktop/JD_Niche_OverLap (Git)/Niche_JD/Eco_V2/EnCen/HPC Results/River_Sediment'
 
 os.chdir(synbio)
 
