@@ -82,7 +82,8 @@ def input_domain():
     str_date = now.strftime("%Y_%m_%d") # _%H-%M-%S")
     # domain = input("Enter domain:")
     # Change when done testing
-    domain = input("Enter archaea, bacteria, or fungi: ")
+    domain = 'bacteria'
+    # domain = input("Enter archaea, bacteria, or fungi: ")
     folder1_name = domain + "_" + str_date + "_" + 'Assembly Summary File'
     # Changes path to this new location to store all of the files in
     # Creates a new folder in this path. Folder name will start with the timestamp and end with the domain name
