@@ -48,7 +48,7 @@ print(activated_sludge_all)
 
 plt.figure(figsize=(12, 12))
 sns.scatterplot(data= activated_sludge_all, x='Percentage', y='EC Number', color = 'black', label = 'All Biome')
-sns.scatterplot(data= activated_sludge, x='Percentage', y='EC Number', color='red', label='Lost Functions')
+sns.scatterplot(data= activated_sludge, x='Percentage', y='EC Number', color='red', label='Displaced Functions')
 # plt.yticks(rotation=75)
 y_values = activated_sludge['EC Number'].values
 plt.yticks(ticks=y_values)
