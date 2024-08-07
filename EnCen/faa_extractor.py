@@ -36,7 +36,7 @@ def delete_files_not_ending_with(directory, extension):
 
 
 # parent_folder = '/home/anna/Documents/EnCen_JGI_Genomes'
-parent_folder = '/home/anna/Documents/Metagenomes/Cow_Rumen/img_data_295860-20'
+parent_folder = '/home/anna/Desktop/JD_Niche_OverLap (Git)/Niche_JD/Eco_V2/EnCen/Model Validation/Soil Rhizosphere Metagenome/img_data_295860-23'
 file_extension_to_keep1 = '.faa'
 tar_extraction(parent_folder)
 delete_files_not_ending_with(parent_folder, file_extension_to_keep1)
