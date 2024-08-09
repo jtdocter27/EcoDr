@@ -17986,3 +17986,61 @@ EnCen/Paper Results/Model Validation/Soil Rhizosphere Metagenome/img_data_295860
 EnCen/Paper Results/Model Validation/Soil Rhizosphere Metagenome/img_data_295860-23/3300042876/README
 EnCen/Paper Results/Model Validation/Soil Endosphere Outputs/functional_profiles/R16_functional_profile
 EnCen/Paper Results/Model Validation/Soil Endosphere Outputs/functional_profiles/Soil_Endosphere_Metagenome_functional_profile
+EnCen/Paper Results/3300056624_27(AS_Top_Match).faa
+EC_library.csv
+EnCen/HPC and Functional Profile Results/Vibrio Natriegens NBRC 15636 w_butanol Genes.faa
+EnCen/HPC and Functional Profile Results/Activated_Sludge/UBA6164 protein.faa
+EnCen/HPC and Functional Profile Results/Activated_Sludge/functional_profiles/Activated_Sludge_Metagenome_functional_profile
+EnCen/HPC and Functional Profile Results/Activated_Sludge/functional_profiles/Synbio_functional_profile
+EnCen/HPC and Functional Profile Results/Activated_Sludge/synbio_inputs_and_outputs/Act_Sludge_Absolute_Difference_Comparison_Score.txt
+.gitignore
+EnCen/HPC and Functional Profile Results/Activated_Sludge/synbio_inputs_and_outputs/combined_synbio_metagenome_binary_matrix.txt
+EnCen/HPC and Functional Profile Results/Activated_Sludge/synbio_inputs_and_outputs/Euclidean_pairwise_distance_results.txt
+EnCen/HPC and Functional Profile Results/Activated_Sludge/synbio_inputs_and_outputs/Synbio_Euclidean_non_pairwise_distance_result.txt
+EnCen/HPC and Functional Profile Results/Activated_Sludge/synbio_inputs_and_outputs/Synbio_matches.tsv
+EnCen/HPC and Functional Profile Results/Activated_Sludge/synbio_inputs_and_outputs/Uniprot_Reference_Library.dmnd
+EnCen/HPC and Functional Profile Results/Activated_Sludge/synbio_inputs_and_outputs/Vibrio Natriegens NBRC 15636 w_butanol Genes.faa
+EnCen/HPC and Functional Profile Results/Agricultural Bulk Soil/Bulk Soil Metagenome Functional Profile.txt
+EnCen/HPC and Functional Profile Results/Agricultural Bulk Soil/Bulk_Soil_Absolute_Difference_Comparison_Score.txt
+EnCen/HPC and Functional Profile Results/Agricultural Bulk Soil/Buttiauxella brennerae ATCC 51605 protein.faa
+EnCen/HPC and Functional Profile Results/Agricultural Bulk Soil/Buttiauxella brennerae ATCC 51605_functional_profile
+EnCen/HPC and Functional Profile Results/Agricultural Bulk Soil/Buttiauxella_brennerae_functional_profile
+EnCen/HPC and Functional Profile Results/Agricultural Bulk Soil/Buttiauxella_brennerae_matches.tsv
+EnCen/HPC and Functional Profile Results/Agricultural Bulk Soil/Uniprot_Reference_Library.dmnd
+EnCen/HPC and Functional Profile Results/Agricultural Bulk Soil/uniprot.fasta
+EnCen/HPC and Functional Profile Results/Cow Rumen/Cow_Rumen_Absolute_Difference_Comparison_Score.txt
+EnCen/HPC and Functional Profile Results/Cow Rumen/Cow_Rumen_Metagenome_functional_profile
+EnCen/HPC and Functional Profile Results/Cow Rumen/Succinivibrio dextrinosolvens protein(top_match).faa
+EnCen/HPC and Functional Profile Results/Cow Rumen/Succinivibrio_dextrinosolvens_functional_profile
+EnCen/HPC and Functional Profile Results/Cow Rumen/Succinivibrio_dextrinosolvens_matches.tsv
+EnCen/HPC and Functional Profile Results/Cow Rumen/Uniprot_Reference_Library.dmnd
+EnCen/HPC and Functional Profile Results/Cow Rumen/uniprot.fasta
+EnCen/HPC and Functional Profile Results/Lake Sediment/Aeromonas popoffi protein.faa
+EnCen/HPC and Functional Profile Results/Lake Sediment/Aeromonas_popoffi_functional_profile
+EnCen/HPC and Functional Profile Results/Lake Sediment/Aeromonas_popoffi_matches.tsv
+EnCen/HPC and Functional Profile Results/Lake Sediment/Lake_Sediment_Absolute_Difference_Comparison_Score.txt
+EnCen/HPC and Functional Profile Results/Lake Sediment/Lake_Sediment_Metagenome_functional_profile
+EnCen/HPC and Functional Profile Results/Lake Sediment/Uniprot_Reference_Library.dmnd
+EnCen/HPC and Functional Profile Results/Lake Sediment/uniprot.fasta
+EnCen/HPC and Functional Profile Results/River_Sediment/River_Sediment_Metagenome_functional_profile
+EnCen/HPC and Functional Profile Results/River_Sediment/River_Sediment)Absolute_Difference_Comparison_Score.txt
+EnCen/HPC and Functional Profile Results/River_Sediment/Uniprot_Reference_Library.dmnd
+EnCen/HPC and Functional Profile Results/River_Sediment/uniprot.fasta
+EnCen/HPC and Functional Profile Results/River_Sediment/Yersinia intermedia protein.faa
+EnCen/HPC and Functional Profile Results/River_Sediment/Yersinia_intermedia_functional_profile
+EnCen/HPC and Functional Profile Results/River_Sediment/Yersinia_intermedia_matches.tsv
+EnCen/HPC Results/Activated_Sludge/synbio_inputs_and_outputs/Act_Sludge_Absolute_Difference_Comparison_Score.txt
+EnCen/Paper Results/uniprot.fasta
+EnCen/Paper Results/Biome Analysis Results/Activated Sludge/3300056624_27.faa
+EnCen/Paper Results/Biome Analysis Results/Activated Sludge/3300056624_27(AS_Top_Match)_functional_profile
+EnCen/Paper Results/Biome Analysis Results/Activated Sludge/3300056624_27(AS_Top_Match)_matches.tsv
+EnCen/Paper Results/Biome Analysis Results/Agricultural Bulk Soil/3300048687_7(Top_Match)_functional_profile
+EnCen/Paper Results/Biome Analysis Results/Agricultural Bulk Soil/3300048687_7(Top_Match)_matches.tsv
+EnCen/Paper Results/Biome Analysis Results/Agricultural Bulk Soil/3300048687_7(Top_Match).faa
+EnCen/Paper Results/Biome Analysis Results/Agricultural Bulk Soil/Lost_Functions.xlsx
+EnCen/Paper Results/Biome Analysis Results/Agricultural Bulk Soil/Only Present Enzyme Biome Synbio Top Match EC Comparison.xlsx
+EnCen/Paper Results/Biome Analysis Results/Agricultural Bulk Soil/Uniprot_Reference_Library.dmnd
+EnCen/Paper Results/Biome Analysis Results/Lake_Sediment/Biome Synbio Top Match EC Comparison.xlsx
+EnCen/Paper Results/Biome Analysis Results/Lake_Sediment/percent shift after functional loss.xlsx
+HazID/slice_of_brenda.txt
+EnCen/HPC Results/Activated_Sludge/synbio_inputs_and_outputs/Act_Sludge_Absolute_Difference_Comparison_Score.txt
