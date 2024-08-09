@@ -216,7 +216,7 @@ def genome_extractor(diamond_folder, name):
 metagenome_name = 'diamond_analysis_output' #-> folder
 desired_location = '/projects/jodo9280/EcoDr/EcoDr/EnCen' 
 # Freshwater = nump/nump/nump/files
-soil = '/home/anna/Desktop/JD_Niche_OverLap (Git)/Niche_JD/Eco_V2/EnCen/Paper Results/Model Validation/Soil Rhizosphere Metagenome/img_data_295860-23'
+soil = '/projects/jodo9280/EcoDr/EcoDr/EnCen/Soil Rhizosphere Metagenome/img_data_295860-23'
 abspath = os.path.abspath(soil)
 name = 'Soil_Endosphere_Metagenome'
 
@@ -242,7 +242,7 @@ diamond = diamond_impl(soil, '') #-> Takes in the path and directory
 
 # %%
 final_folder = '/projects/jodo9280/EcoDr/EcoDr/EnCen/diamond_analysis_output'
-desired_location = '/home/anna/Desktop/JD_Niche_OverLap (Git)/Niche_JD/Eco_V2/EnCen/Paper Results/Model Validation/Soil Rhizosphere Metagenome/img_data_295860-23'
+desired_location = '/projects/jodo9280/EcoDr/EcoDr/EnCen/Soil Rhizosphere Metagenome/img_data_295860-23'
 ff_name = 'functional_profiles'
 functional_folder = '/projects/jodo9280/EcoDr/EcoDr/EnCen/functional_profiles'
 
