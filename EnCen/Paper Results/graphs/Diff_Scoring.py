@@ -17,23 +17,23 @@ def abs_process(dataframe):
 
 
 
-activated_sludge = '/home/anna/Desktop/JD_Niche_OverLap (Git)/Niche_JD/Eco_V2/EnCen/HPC Results/Activated_Sludge/synbio_inputs_and_outputs/Act_Sludge_Absolute_Difference_Comparison_Score.txt'
+activated_sludge = '/home/anna/Desktop/JD_Niche_OverLap (Git)/Niche_JD/Eco_V2/EnCen/HPC and Functional Profile Results/Activated_Sludge/synbio_inputs_and_outputs/Act_Sludge_Absolute_Difference_Comparison_Score.txt'
 activated_sludge_df = abs_process(activated_sludge)
 activated_sludge_df['Biome'] = 'Activated Sludge'
 
-ag_bulk = '/home/anna/Desktop/JD_Niche_OverLap (Git)/Niche_JD/Eco_V2/EnCen/HPC Results/Agricultural_Bulk_Soil/Ag_Bulk_soilAbsolute_Difference_Comparison_Score.txt'
+ag_bulk = '/home/anna/Desktop/JD_Niche_OverLap (Git)/Niche_JD/Eco_V2/EnCen/HPC and Functional Profile Results/Agricultural Bulk Soil/Bulk_Soil_Absolute_Difference_Comparison_Score.txt'
 ag_bulk_df = abs_process(ag_bulk)
 ag_bulk_df['Biome'] = 'Agricultural Bulk Soil'
 
-cow_rumen = '/home/anna/Desktop/JD_Niche_OverLap (Git)/Niche_JD/Eco_V2/EnCen/HPC Results/Cow_Rumen/Cow_Rumen_Absolute_Difference_Comparison_Score.txt'
+cow_rumen = '/home/anna/Desktop/JD_Niche_OverLap (Git)/Niche_JD/Eco_V2/EnCen/HPC and Functional Profile Results/Cow Rumen/Cow_Rumen_Absolute_Difference_Comparison_Score.txt'
 cow_rumen_df = abs_process(cow_rumen)
 cow_rumen_df['Biome'] = 'Cow Rumen'
 
-lake_sediment = '/home/anna/Desktop/JD_Niche_OverLap (Git)/Niche_JD/Eco_V2/EnCen/HPC Results/Lake_Sediment/Lake_Sediment_Absolute_Difference_Comparison_Score.txt'
+lake_sediment = '/home/anna/Desktop/JD_Niche_OverLap (Git)/Niche_JD/Eco_V2/EnCen/HPC and Functional Profile Results/Lake Sediment/Lake_Sediment_Absolute_Difference_Comparison_Score.txt'
 lake_sediment_df = abs_process(lake_sediment)
 lake_sediment_df['Biome'] = 'Lake Sediment'
 
-river_sediment = '/home/anna/Desktop/JD_Niche_OverLap (Git)/Niche_JD/Eco_V2/EnCen/HPC Results/River_Sediment/River_Sediment)Absolute_Difference_Comparison_Score.txt'
+river_sediment = '/home/anna/Desktop/JD_Niche_OverLap (Git)/Niche_JD/Eco_V2/EnCen/HPC and Functional Profile Results/River_Sediment/River_Sediment)Absolute_Difference_Comparison_Score.txt'
 river_sediment_df =  abs_process(river_sediment)
 river_sediment_df['Biome'] = 'River Sediment'
 
