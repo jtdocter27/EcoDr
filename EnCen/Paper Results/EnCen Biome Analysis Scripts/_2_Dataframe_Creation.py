@@ -138,17 +138,18 @@ def percent_shift(lost_functions_df, row):
     lost_functions_df['Percentages After Loss'] = lost_functions_df['Percentage'] - percent_loss
     return lost_functions_df
 
-biome_functional_profile = '/home/anna/Desktop/JD_Niche_OverLap (Git)/Niche_JD/Eco_V2/EnCen/HPC Results/River_Sediment/River_Sediment_Metagenome_functional_profile'
+biome_functional_profile = '/home/anna/Desktop/JD_Niche_OverLap (Git)/Niche_JD/Eco_V2/EnCen/HPC Results/Agricultural Bulk Soil/Bulk Soil Metagenome Functional Profile.txt'
 final, row = percentages(biome_functional_profile)
 together = EC_extract()
-synbio_matrix = '/home/anna/Desktop/JD_Niche_OverLap (Git)/Niche_JD/Eco_V2/EnCen/HPC Results/Activated_Sludge/functional_profiles/Synbio_functional_profile'
+synbio_matrix = '/home/anna/Desktop/JD_Niche_OverLap (Git)/Niche_JD/Eco_V2/EnCen/HPC Results/Activated_Sludge/functional_profiles/Synbio_functional_profile' #This stays the same because we are comparing each one to vibrio
 synbio = synbio_fun_profile(synbio_matrix)
 
-top_match_bin = '/home/anna/Desktop/JD_Niche_OverLap (Git)/Niche_JD/Eco_V2/EnCen/HPC Results/River_Sediment/Yersinia_intermedia_functional_profile'
+top_match_bin = '/home/anna/Desktop/JD_Niche_OverLap (Git)/Niche_JD/Eco_V2/EnCen/Paper Results/Biome Analysis Results/Agricultural Bulk Soil/3300048687_7(Top_Match)_functional_profile'
 top_match = tm_fun_profile(top_match_bin)
 
 
 #Now we have the dataframe of EC's and %'s, and the dataframe that has EC's and Names_______________________________________________________________________________________________________________
+os.chdir('/home/anna/Desktop/JD_Niche_OverLap (Git)/Niche_JD/Eco_V2/EnCen/Paper Results/Biome Analysis Results/Agricultural Bulk Soil')
 merged = pd.merge(final, together, how='inner', on='EC Number')
 merged2 = pd.merge(merged, synbio, how='inner', on='EC Number')
 merged3 = pd.merge(merged2, top_match, how='inner', on='EC Number')
@@ -159,13 +160,13 @@ merged4.to_excel('Biome Synbio Top Match EC Comparison.xlsx', index=False)
 
 
 
-biome_full_dataframe = '/home/anna/Desktop/JD_Niche_OverLap (Git)/Niche_JD/Eco_V2/EnCen/Biome Synbio Top Match EC Comparison.xlsx'
+biome_full_dataframe = '/home/anna/Desktop/JD_Niche_OverLap (Git)/Niche_JD/Eco_V2/EnCen/Paper Results/Biome Analysis Results/Agricultural Bulk Soil/Biome Synbio Top Match EC Comparison.xlsx'
 # print(biome_full_dataframe)
 top_match_dataframe = top_match_presence_screen(biome_full_dataframe)
 # print(top_match_dataframe.head(10))
-# top_match_dataframe.to_excel('Only Present Enzyme Biome Synbio Top Match EC Comparison.xlsx', index=False)
+top_match_dataframe.to_excel('Only Present Enzyme Biome Synbio Top Match EC Comparison.xlsx', index=False)
 lost_functions_df = lost_functions(top_match_dataframe)
 # print(lost_functions_df.head(4))
-# lost_functions_df.to_excel('Lost_Functions.xlsx', index=False)
+lost_functions_df.to_excel('Lost_Functions.xlsx', index=False)
 percent_shift_df = percent_shift(lost_functions_df, row)
-percent_shift_df.to_excel('percent shift after functional loss.xlsx', index=False)
+# percent_shift_df.to_excel('percent shift after functional loss.xlsx', index=False)

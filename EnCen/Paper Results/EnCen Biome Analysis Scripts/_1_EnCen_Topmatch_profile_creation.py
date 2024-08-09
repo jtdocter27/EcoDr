@@ -73,15 +73,15 @@ def diamond_impl(dest, name):
     print(os.getcwd())
     matches = ''
     output_folder = dest 
-    final_folder = '/home/anna/Documents/UBA6164'
+    final_folder = '/home/anna/Desktop/JD_Niche_OverLap (Git)/Niche_JD/Eco_V2/EnCen/Paper Results'
     print("DIAMOND library is located in: ", output_folder)
-    if os.path.isfile('/home/anna/Documents/JGI_soil_genomes/Soil_Metagenome_Test/Uniprot_Reference_Library.dmnd'):
+    if os.path.isfile('/home/anna/Desktop/JD_Niche_OverLap (Git)/Niche_JD/Eco_V2/EnCen/Paper Results/Uniprot_Reference_Library.dmnd'):
         print("Library Detected")
     # If not present, then creates a DIAMOND library by referencing the exact location where the Uniprot library is saved
     # If there currently is no reference library (.dmnd), then command makedb creates a DIAMOND library
     else:
         print("Creation of DIAMOND-formatted library...")
-        makedb = ['diamond', 'makedb', '--in', '/home/anna/Documents/UBA6164/uniprot.fasta', '-d',
+        makedb = ['diamond', 'makedb', '--in', '/home/anna/Desktop/JD_Niche_OverLap (Git)/Niche_JD/Eco_V2/EnCen/Paper Results/uniprot.fasta', '-d',
                   'Uniprot_Reference_Library.dmnd']  # Reference library full pathway
         #This is a list for the DIAMOND specific makedb function. 
         subprocess.run(makedb)
@@ -131,7 +131,7 @@ def genome_extractor(diamond_folder, name):
     os.chdir(diamond_folder)
     print(os.getcwd())
     # Opens the list of of EC numbers
-    ec_open = np.loadtxt('/home/anna/Documents/UBA6164/EC_library.csv',
+    ec_open = np.loadtxt('/home/anna/Desktop/JD_Niche_OverLap (Git)/Niche_JD/Eco_V2/EnCen/Paper Results/EC_library.csv',
                          dtype='str')
     big_matrix = ["Name_of_Genome"]
     file_name = name + '_functional_profile'
@@ -177,17 +177,17 @@ def genome_extractor(diamond_folder, name):
         # Saves matrix as a text file for further analysis
         np.savetxt(file_name, big_matrix, fmt='%s')
         # Returns the location of the summary matrix and the name of the file
-        if not os.path.exists(os.path.abspath(file_name)):
-            shutil.move(os.path.abspath(file_name),'/home/anna/Documents/UBA6164')
-        else:
-            print('')
+        # if not os.path.exists(os.path.abspath(file_name)):
+        #     shutil.move(os.path.abspath(file_name),'/home/anna/Documents/UBA6164')
+        # else:
+        #     print('')
         print(new_dir)
     return [new_dir, file_name]
 # ______________________________________________________________________________________
-synbio = '/home/anna/Desktop/JD_Niche_OverLap (Git)/Niche_JD/Eco_V2/EnCen/HPC Results/River_Sediment'
-name = 'Yersinia_intermedia'
-syn_folder_name = 'Yersinia_intermedia'
-desired_location2 = '/home/anna/Desktop/JD_Niche_OverLap (Git)/Niche_JD/Eco_V2/EnCen/HPC Results/River_Sediment'
+synbio = '/home/anna/Desktop/JD_Niche_OverLap (Git)/Niche_JD/Eco_V2/EnCen/Paper Results/Biome Analysis Results/Agricultural Bulk Soil'
+name = '3300048687_7(Top_Match)'
+syn_folder_name = '3300048687_7(Top_Match)'
+desired_location2 = '/home/anna/Desktop/JD_Niche_OverLap (Git)/Niche_JD/Eco_V2/EnCen/Paper Results/Biome Analysis Results/Activated Sludge/New_results'
 
 os.chdir(synbio)
 
