@@ -218,7 +218,7 @@ desired_location = '/projects/jodo9280/EcoDr/EcoDr/EnCen'
 # Freshwater = nump/nump/nump/files
 soil = '/projects/jodo9280/EcoDr/EcoDr/EnCen/Soil Rhizosphere Metagenome/img_data_295860-23'
 abspath = os.path.abspath(soil)
-name = 'Soil_Endosphere_Metagenome'
+name = 'Soil_Rhizosphere_Metagenome'
 
 #!Turn these back on when doing it on SP 
 EC_extract()
@@ -338,7 +338,7 @@ def read_in_binary_matrix(synbio_binary, sb_name):
     # print(synbio_binary)
     print(sb_name, " size of ", np.shape(synbio_binary), " successfully imported.")
     # Opens the matrix that includes the Bacteria and Archaea summary result
-    domain_binary = pd.read_csv('/projects/jodo9280/EcoDr/EcoDr/EnCen/functional_profiles/Soil_Endosphere_Metagenome_functional_profile',
+    domain_binary = pd.read_csv('/projects/jodo9280/EcoDr/EcoDr/EnCen/functional_profiles/Soil_Rhizosphere_Metagenome_functional_profile',
                                   delimiter=" ", header=0)
     #this is from chunk 1, and is the EC_Binary we generated earlier
     domain_binary = domain_binary.set_index('Name_of_Genome')
