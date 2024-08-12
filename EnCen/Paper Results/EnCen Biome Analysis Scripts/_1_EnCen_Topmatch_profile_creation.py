@@ -3,7 +3,6 @@ import os#; print('os version: ', os.__version__)
 import re#; print('re version: ', re.__version__)
 import shutil#; print('shutil version: ', shutil.__version__)
 import requests#; print('requests version: ', requests.__version__)
-import wget#; print('wget version: ', wget.__version__)
 import subprocess#; print('subprocess version: ', subprocess.__version__)
 import time#; print('time version: ', time.__version__)
 from datetime import datetime
@@ -184,10 +183,10 @@ def genome_extractor(diamond_folder, name):
         print(new_dir)
     return [new_dir, file_name]
 # ______________________________________________________________________________________
-synbio = '/home/anna/Desktop/JD_Niche_OverLap (Git)/Niche_JD/Eco_V2/EnCen/Paper Results/Biome Analysis Results/Agricultural Bulk Soil'
-name = '3300048687_7(Top_Match)'
-syn_folder_name = '3300048687_7(Top_Match)'
-desired_location2 = '/home/anna/Desktop/JD_Niche_OverLap (Git)/Niche_JD/Eco_V2/EnCen/Paper Results/Biome Analysis Results/Activated Sludge/New_results'
+synbio = '/home/anna/Desktop/JD_Niche_OverLap (Git)/Niche_JD/Eco_V2/EnCen/Paper Results/Biome Analysis Results/Cow Rumen'
+name = '3300032007_53(Cow_Rumen_Top_Match)'
+syn_folder_name = '3300032007_53(Cow_Rumen_Top_Match)'
+# desired_location2 = '/home/anna/Desktop/JD_Niche_OverLap (Git)/Niche_JD/Eco_V2/EnCen/Paper Results/Biome Analysis Results/Activated Sludge/New_results'
 
 os.chdir(synbio)
 
