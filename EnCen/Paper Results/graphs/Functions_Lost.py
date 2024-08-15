@@ -7,8 +7,8 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-activated_sludge= pd.read_excel('/home/anna/Desktop/JD_Niche_OverLap (Git)/Niche_JD/Eco_V2/EnCen/Biome Analysis Results/Activated Sludge/Lost_Functions.xlsx')
-activated_sludge_all = pd.read_excel('/home/anna/Desktop/JD_Niche_OverLap (Git)/Niche_JD/Eco_V2/EnCen/Biome Analysis Results/Activated Sludge/Biome Synbio Top Match EC Comparison.xlsx')
+activated_sludge= pd.read_excel('/home/anna/Desktop/JD_Niche_OverLap (Git)/Niche_JD/Eco_V2/EnCen/Paper Results/Biome Analysis Results/Activated Sludge/Lost_Functions.xlsx')
+activated_sludge_all = pd.read_excel('/home/anna/Desktop/JD_Niche_OverLap (Git)/Niche_JD/Eco_V2/EnCen/Paper Results/Biome Analysis Results/Activated Sludge/Biome Synbio Top Match EC Comparison.xlsx')
  #remember lost functions are just those that the topmatch bin has and the invading organism does not have. 
 # print(activated_sludge.head(10))
 

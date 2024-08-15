@@ -103,7 +103,7 @@ def synbio_fun_profile(synbio_matrix):
 
 def tm_fun_profile(synbio_matrix):
     profile = pd.read_csv(synbio_matrix, header=None)
-
+    # print(profile)
     funcprof = profile.iloc[:,0].str.split(' ', expand=True) #this is the fancy bit of code that takes all the rows and first column (this is only one column in this dataframe to begin with) and splits each element by the space character. Expand = true puts each value in it's own column
     # print(funcprof)
     # print(funcprof.head())
@@ -125,6 +125,7 @@ def tm_fun_profile(synbio_matrix):
 def top_match_presence_screen(biome_full_dataframe):
     biome_full_pd = pd.read_excel(biome_full_dataframe, header=0)
     # print(biome_full_pd.dtypes)
+    biome_full_pd['Top Match Presence/Absence'] = pd.to_numeric(biome_full_pd['Top Match Presence/Absence'])
     top_match_only = biome_full_pd[biome_full_pd['Top Match Presence/Absence'] == 1]
     # print(top_match_only.head(7))
     return top_match_only
@@ -138,18 +139,18 @@ def percent_shift(lost_functions_df, row):
     lost_functions_df['Percentages After Loss'] = lost_functions_df['Percentage'] - percent_loss
     return lost_functions_df
 
-biome_functional_profile = '/home/anna/Desktop/JD_Niche_OverLap (Git)/Niche_JD/Eco_V2/EnCen/HPC and Functional Profile Results/Cow Rumen/Cow_Rumen_Metagenome_functional_profile'
+biome_functional_profile = '/home/anna/Desktop/JD_Niche_OverLap (Git)/Niche_JD/Eco_V2/EnCen/HPC and Functional Profile Results/Lake Sediment/Lake_Sediment_Metagenome_functional_profile'
 final, row = percentages(biome_functional_profile)
 together = EC_extract()
 synbio_matrix = '/home/anna/Desktop/JD_Niche_OverLap (Git)/Niche_JD/Eco_V2/EnCen/HPC and Functional Profile Results/Activated_Sludge/functional_profiles/Synbio_functional_profile' #This stays the same because we are comparing each one to vibrio
 synbio = synbio_fun_profile(synbio_matrix)
 
-top_match_bin = '/home/anna/Desktop/JD_Niche_OverLap (Git)/Niche_JD/Eco_V2/EnCen/Paper Results/Biome Analysis Results/Cow Rumen/3300032007_53(Cow_Rumen_Top_Match)_functional_profile'
+top_match_bin = '/home/anna/Desktop/JD_Niche_OverLap (Git)/Niche_JD/Eco_V2/EnCen/Paper Results/Biome Analysis Results/Lake_Sediment/3300045561_8(Lake_sediment_Top_Match)_functional_profile'
 top_match = tm_fun_profile(top_match_bin)
 
 
 #Now we have the dataframe of EC's and %'s, and the dataframe that has EC's and Names_______________________________________________________________________________________________________________
-os.chdir('/home/anna/Desktop/JD_Niche_OverLap (Git)/Niche_JD/Eco_V2/EnCen/Paper Results/Biome Analysis Results/Cow Rumen')
+os.chdir('/home/anna/Desktop/JD_Niche_OverLap (Git)/Niche_JD/Eco_V2/EnCen/Paper Results/Biome Analysis Results/Lake_Sediment')
 merged = pd.merge(final, together, how='inner', on='EC Number')
 merged2 = pd.merge(merged, synbio, how='inner', on='EC Number')
 merged3 = pd.merge(merged2, top_match, how='inner', on='EC Number')
@@ -160,8 +161,8 @@ merged4.to_excel('Biome Synbio Top Match EC Comparison.xlsx', index=False)
 
 
 
-biome_full_dataframe = '/home/anna/Desktop/JD_Niche_OverLap (Git)/Niche_JD/Eco_V2/EnCen/Paper Results/Biome Analysis Results/Cow Rumen/Biome Synbio Top Match EC Comparison.xlsx'
-# print(biome_full_dataframe)
+biome_full_dataframe = '/home/anna/Desktop/JD_Niche_OverLap (Git)/Niche_JD/Eco_V2/EnCen/Paper Results/Biome Analysis Results/Lake_Sediment/Biome Synbio Top Match EC Comparison.xlsx'
+# print(biome_full_dataframe.head)
 top_match_dataframe = top_match_presence_screen(biome_full_dataframe)
 # print(top_match_dataframe.head(10))
 top_match_dataframe.to_excel('Only Present Enzyme Biome Synbio Top Match EC Comparison.xlsx', index=False)

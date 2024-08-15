@@ -7,7 +7,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import re
 
-activated_sludge = pd.read_excel('/home/anna/Desktop/JD_Niche_OverLap (Git)/Niche_JD/Eco_V2/EnCen/Biome Analysis Results/Activated Sludge/Biome Synbio Top Match EC Comparison.xlsx')
+activated_sludge = pd.read_excel('/home/anna/Desktop/JD_Niche_OverLap (Git)/Niche_JD/Eco_V2/EnCen/Paper Results/Biome Analysis Results/Activated Sludge/Biome Synbio Top Match EC Comparison.xlsx')
 # print(activated_sludge.dtypes)
 
 activated_sludge['EC subclass'] = activated_sludge['EC Number'].str.extract(r'^\d+\.(\d+)', expand = False)
