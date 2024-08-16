@@ -22,35 +22,38 @@ def EC_parse2(value):
 
 activated_sludge['EC Class and Subclass'] = activated_sludge['EC Number'].apply(EC_parse1)
 activated_sludge2 = activated_sludge[['EC Class and Subclass', 'Percentage', 'Name']]
-print(activated_sludge2)
+# activated_sludge2.to_excel('bivariate.xlsx', index=False)
+# print(activated_sludge2)
 
 
+##This is the Bivariate Plot__________________________________________________________________________________________________
+# sns.scatterplot(data=activated_sludge2, x= 'EC Class and Subclass', y='Percentage', color = 'blue', hue='Name',s=200) #Bivariate Plot 
+# plt.tight_layout(rect=[0, 0, 0.75, 1])
+# plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left', borderaxespad=0)
+# plt.title('Percentages of Rare Functions Grouped by EC Class and Subclass')
+# # plt.xticks([1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7.5])
+# plt.show()
 
-
-sns.displot(data=activated_sludge2, x= 'EC Class and Subclass', y='Percentage', color = 'red', kind="kde", rug=True) #Bivariate Plot 
-plt.legend()
-plt.title('Percentages of Rare Functions Grouped by EC Class and Subclass')
-plt.xticks([1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7.5])
-plt.show()
-
-
-activated_sludge['EC Class'] = activated_sludge['EC Number'].apply(EC_parse2)
-activated_sludge3 = activated_sludge[['EC Class', 'Percentage', 'Name']]
-print(activated_sludge3)
-sns.displot(data=activated_sludge3, x= 'EC Class') #hist, counts vs. EC
-plt.title('Counts of Rare Functions Grouped by EC Class')
-plt.show()
+# ##This is the counts of each rare function_______________________________________________________________________________________
+# activated_sludge['EC Class'] = activated_sludge['EC Number'].apply(EC_parse2)
+# activated_sludge3 = activated_sludge[['EC Class', 'Percentage', 'Name']]
+# print(activated_sludge3)
+# sns.countplot(y='EC Class',  data=activated_sludge3)#hist, counts vs. EC
+# plt.title('Counts of Rare Functions Grouped by EC Class')
+# plt.show()
 
 
 activated_sludge_all = activated_sludge_all[activated_sludge_all['Percentage'] !=0.0]
 print(activated_sludge_all)
 
-
+##This is visualizing the displaced functions in the entire funcitonal profile________________________________________________________
 plt.figure(figsize=(12, 12))
-sns.scatterplot(data= activated_sludge_all, x='Percentage', y='EC Number', color = 'black', label = 'All Biome')
-sns.scatterplot(data= activated_sludge, x='Percentage', y='EC Number', color='red', label='Displaced Functions')
+sns.scatterplot(data= activated_sludge_all, x='Percentage', y='EC Number', color = 'grey', label = 'All Biome')
+sns.scatterplot(data= activated_sludge, x='Percentage', y='EC Number', color='blue', hue = 'Name', palette='rocket', s=75)
+plt.subplots_adjust(left=0.15, right=0.85, top=0.85, bottom=0.15)  # Adjust margins
 # plt.yticks(rotation=75)
 y_values = activated_sludge['EC Number'].values
-plt.yticks(ticks=y_values)
-plt.title('Metagenome Lost Functions')
+plt.yticks(ticks=[], rotation = 45)
+plt.title('Metagenome Displaced Functions Overlayed on All Biome Functions')
+plt.tick_params(left=False)
 plt.show()
