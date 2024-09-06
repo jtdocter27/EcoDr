@@ -17,4 +17,3 @@ module load python
 
 python test.py
 
-#top line is a shebang. Leave as is final shell script for simple python job
