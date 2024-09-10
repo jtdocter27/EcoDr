@@ -24,11 +24,13 @@ for NA in sixteen_s:
 ##3) BLASTn 
 sequence1=final[0]
 result_stream = Blast.qblast('blastn', 'refseq_rna', sequence1)
+print('Blasting.....')
 
 with open("blast_output.xml", "wb") as out_stream: #writes the contents to a file and then reopens to so if there's an issue, don't have to rerun BLAST all over again
+
     out_stream.write(result_stream.read())
 result_stream.close()
-result_stream = open("my_blast.xml", "rb")
+result_stream = open("blast_output.xml", "rb")
 
 
 #4) Parse Blast Output for relevant information 
