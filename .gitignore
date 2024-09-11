@@ -18111,3 +18111,5 @@ RiskQ/blast_output.xml
 RiskQ/NeighborReplace_New.py
 RiskQ/Validation Run/Lake_Biome_Data.tsv
 RiskQ/Validation Run/Variovorax paradoxus 16s rRNA.fasta
+RiskQ/Validation Run/.~lock.Lake_Biome_Data.tsv#
+.gitignore
