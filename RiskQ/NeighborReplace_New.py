@@ -10,7 +10,7 @@ Blast.email = 'john.docter@colorado.edu'
 #________________________________________________________________________________________________________________________________________________________________________________
 ##1) Input Synbio FASTA
 final = []
-sixteen_s = SeqIO.parse('/home/anna/Desktop/JD_Niche_OverLap (Git)/Niche_JD/Eco_V2/RiskQ/Vibrio_Natriegens_16S.fasta', 'fasta')
+sixteen_s = SeqIO.parse('/home/anna/Desktop/JD_Niche_OverLap (Git)/Niche_JD/Eco_V2/RiskQ/Validation Run/Variovorax paradoxus 16s rRNA.fasta', 'fasta') #https://www.ncbi.nlm.nih.gov/search/all/?term=Variovorax%20paradoxus%2016s%20rRNA
 for NA in sixteen_s:
      sequence = str(NA.seq)
      final.append(sequence)
@@ -18,7 +18,7 @@ for NA in sixteen_s:
 
 
 #2) Import Biome FASTA and parse for genus and species 
-biome = pd.read_csv('/home/anna/Desktop/JD_Niche_OverLap (Git)/Niche_JD/Eco_V2/RiskQ/biome_data.tsv', sep='\t')
+biome = pd.read_csv('/home/anna/Desktop/JD_Niche_OverLap (Git)/Niche_JD/Eco_V2/RiskQ/Validation Run/Lake_Biome_Data.tsv', sep='\t')
 lineage = biome['Bin Lineage'] #We want just the genus and species as that is the BLAST output 
 genusspecies = biome['Bin Lineage'].str.rsplit(';', n=2).str[-2:].str.join('')
 genusspecies = genusspecies.reset_index(drop=True)
@@ -29,8 +29,9 @@ print(genusspecies)
 
 ##3) BLASTn 
 sequence1=final[0]
-result_stream = Blast.qblast('blastn', 'refseq_rna', sequence1)
 print('Blasting.....')
+result_stream = Blast.qblast('blastn', 'refseq_rna', sequence1)
+
 
 with open("blast_output.xml", "wb") as out_stream: #writes the contents to a file and then reopens to so if there's an issue, don't have to rerun BLAST all over again
     out_stream.write(result_stream.read())
