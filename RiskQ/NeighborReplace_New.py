@@ -76,6 +76,17 @@ def merge(all_blast_species, genusspecies):
     remaining = remaining.rename(columns={'tax': 'genus species remaining'})
     return remaining, all_blast_species_df
 
+def species_check(all_blast_species_df): 
+    all_blast_species_df['tax'] = all_blast_species_df['tax'].str.split().str.get(0)
+
+    remaining2 = pd.merge(biome, all_blast_species_df, how='inner', on=['tax'])
+    remaining2 = remaining2.drop_duplicates()
+    remaining2 = remaining2.rename(columns={'tax': 'species remaining'})
+ 
+    return remaining2
+
+
+
 
 ##Calling Script______________________________________________________________________________________________________
 input_fasta = '/home/anna/Desktop/JD_Niche_OverLap (Git)/Niche_JD/Eco_V2/RiskQ/Validation Run/Variovorax paradoxus 16s rRNA.fasta'
@@ -86,17 +97,7 @@ biome = biome_input(input_biome) #creates list of genus species from the JGI Bio
 all_blast_species = species_present() #reads in the xml and parses for all species present in BLAST Output 
 # print(all_blast_species)
 remaining, all_blast_species_df = merge(all_blast_species, biome)
-print(remaining)
 
-# print(all_blast_species_df)
-all_blast_species_df['tax'] = all_blast_species_df['tax'].str.split().str.get(0)
-
-# print(all_blast_species_df)
-
-remaining2 = pd.merge(biome, all_blast_species_df, how='inner', on=['tax'])
-remaining2 = remaining2.drop_duplicates()
-remaining2 = remaining2.rename(columns={'tax': 'species remaining'})
-print(remaining2)
-
+remaining2 = species_check(all_blast_species_df)
 all_remaining = pd.concat([remaining, remaining2])
 print(all_remaining)
