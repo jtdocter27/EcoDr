@@ -30,7 +30,7 @@ def biome_input(input_biome_tsv):
     genusspecies.columns = ['tax']
     genusspecies['tax'] = genusspecies['tax'].str.strip()
     print('genusspecies')
-    # print(genusspecies)
+    print(genusspecies)
 
     return genusspecies
 
@@ -65,9 +65,6 @@ def species_present():
 
         # all_blast_species.append(hit.target.description)
 
-
-
-
 #5) Merge on scientific name and write results to an external file. 
 #Turn all blast species into dataframe 
 def merge(all_blast_species, genusspecies): 
@@ -77,7 +74,8 @@ def merge(all_blast_species, genusspecies):
     # print(all_blast_species_df)
     remaining = pd.merge(genusspecies, all_blast_species_df,  how='inner', on='tax')
     remaining = remaining.rename(columns={'tax': 'genus species remaining'})
-    return remaining
+    return remaining, all_blast_species_df
+
 
 ##Calling Script______________________________________________________________________________________________________
 input_fasta = '/home/anna/Desktop/JD_Niche_OverLap (Git)/Niche_JD/Eco_V2/RiskQ/Validation Run/Variovorax paradoxus 16s rRNA.fasta'
@@ -87,6 +85,18 @@ biome = biome_input(input_biome) #creates list of genus species from the JGI Bio
 # Bloost(rRNA) ###Turn off here above if you've already blasted. Blasts the input fasta rRNA sequence and writes the results to an xml file 
 all_blast_species = species_present() #reads in the xml and parses for all species present in BLAST Output 
 # print(all_blast_species)
-remaining = merge(all_blast_species, biome)
+remaining, all_blast_species_df = merge(all_blast_species, biome)
 print(remaining)
 
+# print(all_blast_species_df)
+all_blast_species_df['tax'] = all_blast_species_df['tax'].str.split().str.get(0)
+
+# print(all_blast_species_df)
+
+remaining2 = pd.merge(biome, all_blast_species_df, how='inner', on=['tax'])
+remaining2 = remaining2.drop_duplicates()
+remaining2 = remaining2.rename(columns={'tax': 'species remaining'})
+print(remaining2)
+
+all_remaining = pd.concat([remaining, remaining2])
+print(all_remaining)
