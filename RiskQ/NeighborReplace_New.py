@@ -76,6 +76,7 @@ def merge(all_blast_species, genusspecies):
     remaining = remaining.rename(columns={'tax': 'genus species remaining'})
     return remaining, all_blast_species_df
 
+#This accounts for the 
 def species_check(all_blast_species_df): 
     all_blast_species_df['tax'] = all_blast_species_df['tax'].str.split().str.get(0)
 
@@ -101,3 +102,9 @@ remaining, all_blast_species_df = merge(all_blast_species, biome)
 remaining2 = species_check(all_blast_species_df)
 all_remaining = pd.concat([remaining, remaining2])
 print(all_remaining)
+
+##A message for future john when writing the RiskQ paper 
+#What this script does is takes in a 16s rRNA file from NCBI and a tsv file from JGI (bins by ecosystem, select all, export) and etracts the first 
+#16s sequence, then blasts it. Turn on and off the BLAST definition if you are running a new analysis or just working with the output. In other words, the blast definition can be toggled to run 
+# a blast or not run a blast. the blast xml gets outputted to a file, which is then read back in and parsed. Then, it's just data processing to compare the species that come out of the blast to the species 
+#that are present in the biome. All_remaining is the final dataframe. 
