@@ -37,7 +37,7 @@ def biome_input(input_biome_tsv):
 
 
 ##3) BLASTn 
-def Bloost(rRNA): 
+def Blst(rRNA): 
     sequence1=rRNA[0]
     print('Blasting.....')
     result_stream = Blast.qblast('blastn', 'refseq_rna', sequence1)
@@ -94,7 +94,7 @@ input_fasta = '/home/anna/Desktop/JD_Niche_OverLap (Git)/Niche_JD/Eco_V2/RiskQ/V
 rRNA = input_synbio(input_fasta) #creates rRNA Sequence to BLAST
 input_biome = '/home/anna/Desktop/JD_Niche_OverLap (Git)/Niche_JD/Eco_V2/RiskQ/Validation Run/Lake_Biome_Data.tsv'
 biome = biome_input(input_biome) #creates list of genus species from the JGI Biome file 
-# Bloost(rRNA) ###Turn off here above if you've already blasted. Blasts the input fasta rRNA sequence and writes the results to an xml file 
+# Blst(rRNA) ###Turn off here above if you've already blasted. Blasts the input fasta rRNA sequence and writes the results to an xml file 
 all_blast_species = species_present() #reads in the xml and parses for all species present in BLAST Output 
 # print(all_blast_species)
 remaining, all_blast_species_df = merge(all_blast_species, biome)
@@ -103,8 +103,7 @@ remaining2 = species_check(all_blast_species_df)
 all_remaining = pd.concat([remaining, remaining2])
 print(all_remaining)
 
-##A message for future john when writing the RiskQ paper 
-#What this script does is takes in a 16s rRNA file from NCBI and a tsv file from JGI (bins by ecosystem, select all, export) and etracts the first 
+##A message for future john when writing the RiskQ paper extracts the first 
 #16s sequence, then blasts it. Turn on and off the BLAST definition if you are running a new analysis or just working with the output. In other words, the blast definition can be toggled to run 
 # a blast or not run a blast. the blast xml gets outputted to a file, which is then read back in and parsed. Then, it's just data processing to compare the species that come out of the blast to the species 
 #that are present in the biome. All_remaining is the final dataframe. 
