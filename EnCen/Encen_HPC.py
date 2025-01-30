@@ -71,7 +71,7 @@ def EC_extract():
     header = {'User-Agent': str(ua.chrome)}
     ec_url = 'https://ftp.expasy.org/databases/enzyme/enzyme.dat'
     time.sleep(4)
-    ec = requests.get(ec_url, headers=header)
+    ec = requests.get(ec_url, headers=header, timeout = 30)
     if ec.status_code == 200:
         with open(ec_library, 'w+', newline='\n') as ec_file:
             ec_file.write(ec.text)
