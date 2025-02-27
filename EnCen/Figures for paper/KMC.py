@@ -11,6 +11,7 @@ from sklearn.metrics import silhouette_score
 import matplotlib.pyplot as plt
 import pandas as pd
 from pandas.plotting import parallel_coordinates
+from scipy.stats import hypergeom
 
 
 percentages = pd.read_excel('/home/anna/Desktop/JD_Niche_OverLap (Git)/Niche_JD/Eco_V2/EnCen/all_biomes_percentage.xlsx')
@@ -41,7 +42,7 @@ print(centroids)
 
 lables = kmeans.labels_
 silhouette = silhouette_score(transposed1, lables)
-print(silhouette)
+# print(silhouette)
 # print(transposed1)
 
 # fig = px.parallel_coordinates(transposed1)
@@ -53,7 +54,7 @@ print(silhouette)
 # plt.show()
 
 
-
+###This is graphing the kmeans outputs____________________________________________________________________________________________________________________________
 # c0 = transposed1[transposed1['Cluster'] == 0]
 # c1 = transposed1[transposed1['Cluster'] == 1]
 # c2 = transposed1[transposed1['Cluster'] == 2]
@@ -77,4 +78,8 @@ print(silhouette)
 # parallel_coordinates(c4, class_column='Cluster', color = '#FF4500')
 # plt.ylabel('EC Percentage')
 # plt.show()
+
+
+transposed1.sort_values("Cluster", axis=0, ascending=True, inplace=True, na_position='last')
+print(transposed1)
 
