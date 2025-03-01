@@ -11,29 +11,29 @@ transposed.columns = transposed.iloc[0]
 transposed1 = transposed[1:]
 
 
-
-num_clusters = 50
-kmeans_tests = [KMeans(n_clusters=i, init='random', n_init=10) for i in range(1, num_clusters)]
-score = [kmeans_tests[i].fit(transposed1).score(transposed1) for i in range(len(kmeans_tests))]
-
-
-kmeans = KMeans(init='random', n_clusters=5, n_init=10)
+kmeans = KMeans(init='random', n_clusters=5, n_init=10, random_state=252)
 transposed1['Cluster'] = kmeans.fit_predict(transposed1)
 
-new = transposed1
+cluster = transposed1
 
-new.sort_values("Cluster", axis=0, ascending=True, inplace=True)
-# print(new)
+cluster.sort_values("Cluster", axis=0, ascending=True, inplace=True)
 
-zero = (new.loc[(new['Cluster'] == 0)])
-print(zero)
+reset = cluster.reset_index()
 
-# zero = zero.reset_index()
-# strings = zero['index'].astype(str)
+reset['EC'] = reset['index'].str.split('_').str[0]
 
-# count_sravan = strings.value_counts().get('2_', 0)
 
-##To-Do
-#- Somehow turn the EC's into ints...probably need some regular expressiosn or something to parse these
-#- count instances 
-#- instances will be "successes" in distribution 
+reset2 = reset.drop(['index', 'Activated Sludge', 'Bulk Soil', 'Cow Rumen', 'Lake Sediment', 'River Sediment'], axis = 1)
+reset2.columns.name  = None
+
+
+reset2 = reset2.astype(int)
+
+
+# print(zero)
+result = reset2.groupby('Cluster')['EC'].sum()
+reuslt2 = reset2.groupby('EC')['Cluster'].sum()
+result3 = reset2.groupby('Cluster')['EC'].value_counts()
+print(result)
+print(reuslt2)
+print(result3)
