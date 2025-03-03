@@ -55,29 +55,29 @@ silhouette = silhouette_score(transposed1, lables)
 
 
 ###This is graphing the kmeans outputs____________________________________________________________________________________________________________________________
-# c0 = transposed1[transposed1['Cluster'] == 0]
-# c1 = transposed1[transposed1['Cluster'] == 1]
-# c2 = transposed1[transposed1['Cluster'] == 2]
-# c3 = transposed1[transposed1['Cluster'] == 3]
-# c4 = transposed1[transposed1['Cluster'] == 4]
-# # parallel_coordinates(transposed1, class_column='Cluster', color=colors)
-# # plt.show()
+c0 = transposed1[transposed1['Cluster'] == 0]
+c1 = transposed1[transposed1['Cluster'] == 1]
+c2 = transposed1[transposed1['Cluster'] == 2]
+c3 = transposed1[transposed1['Cluster'] == 3]
+c4 = transposed1[transposed1['Cluster'] == 4]
+# parallel_coordinates(transposed1, class_column='Cluster', color=colors)
+# plt.show()
 
-# parallel_coordinates(c0, class_column='Cluster', color = '#556270')
-# plt.ylabel('EC Percentage')
-# plt.show()
-# parallel_coordinates(c1, class_column='Cluster', color = '#4ECDC4')
-# plt.ylabel('EC Percentage')
-# plt.show()
-# parallel_coordinates(c2, class_column='Cluster', color = '#C7F464')
-# plt.ylabel('EC Percentage')
-# plt.show()
-# parallel_coordinates(c3, class_column='Cluster', color = '#00FF00')
-# plt.ylabel('EC Percentage')
-# plt.show()
-# parallel_coordinates(c4, class_column='Cluster', color = '#FF4500')
-# plt.ylabel('EC Percentage')
-# plt.show()
+parallel_coordinates(c0, class_column='Cluster', color = '#556270')
+plt.ylabel('EC Percentage')
+plt.show()
+parallel_coordinates(c1, class_column='Cluster', color = '#4ECDC4')
+plt.ylabel('EC Percentage')
+plt.show()
+parallel_coordinates(c2, class_column='Cluster', color = '#C7F464')
+plt.ylabel('EC Percentage')
+plt.show()
+parallel_coordinates(c3, class_column='Cluster', color = '#00FF00')
+plt.ylabel('EC Percentage')
+plt.show()
+parallel_coordinates(c4, class_column='Cluster', color = '#FF4500')
+plt.ylabel('EC Percentage')
+plt.show()
 
 
 transposed1.sort_values("Cluster", axis=0, ascending=True, inplace=True, na_position='last')
