@@ -2,6 +2,7 @@ import pandas as pd
 import scipy.stats as stats
 from scipy.stats import hypergeom
 from sklearn.cluster import KMeans
+from statsmodels.stats.multitest import multipletests
 
 percentages = pd.read_excel('/home/anna/Desktop/JD_Niche_OverLap (Git)/Niche_JD/Eco_V2/EnCen/all_biomes_percentage.xlsx')
 
@@ -89,6 +90,7 @@ k = [92, 86, 68, 30, 20, 18, 14]
 
 cluster_2_p_values = multi_p(N, n, K, k)
 print('Cluster 2 p_values: ', cluster_2_p_values, '\n')
+
 #Cluster 3___________________________________________________________________________________
 n = 177
 k = [62, 35, 31, 16, 15, 14, 4]
@@ -105,6 +107,32 @@ k= [98, 40, 29, 24, 17, 11, 9]
 cluster_4_p_values = multi_p(N, n, K, k)
 print('Cluster 4 p_values: ', cluster_4_p_values, '\n')
 
+#Bonferroni_Correction________________________________________________________________________________________
+all_p_values = cluster_0_p_values + cluster_1_p_values + cluster_2_p_values + cluster_3_p_values +cluster_4_p_values
+print(all_p_values)
+
+b_rejected, b_corrected, _,_ = multipletests(all_p_values, alpha = 0.05, method='bonferroni')
+
+print('rejected: ', b_rejected)
+print('adjusted: ', b_corrected, '\n')
+
+cluster_0_corrected = b_corrected[0:7]
+print('Cluster 0 Correct: ', cluster_0_corrected, '\n')
+
+cluster_1_corrected = b_corrected[7:14]
+print('Cluster 1 Correct: ', cluster_1_corrected, '\n')
 
 
+cluster_2_corrected = b_corrected[14:21]
+print('Cluster 2 Correct: ', cluster_2_corrected, '\n')
+
+
+cluster_3_corrected = b_corrected[21:28]
+print('Cluster 3 Correct: ', cluster_3_corrected, '\n')
+
+
+cluster_4_corrected = b_corrected[28:35]
+print('Cluster 4 Correct: ', cluster_4_corrected, '\n')
+
+print(len(all_p_values))
 
