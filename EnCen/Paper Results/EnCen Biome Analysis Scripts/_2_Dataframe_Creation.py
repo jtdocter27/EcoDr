@@ -139,18 +139,18 @@ def percent_shift(lost_functions_df, row):
     lost_functions_df['Percentages After Loss'] = lost_functions_df['Percentage'] - percent_loss
     return lost_functions_df
 
-biome_functional_profile = '/home/anna/Desktop/JD_Niche_OverLap (Git)/Niche_JD/Eco_V2/EnCen/HPC and Functional Profile Results/Lake Sediment/Lake_Sediment_Metagenome_functional_profile'
+biome_functional_profile = '/home/anna/Desktop/JD_Niche_OverLap (Git)/Niche_JD/Eco_V2/EnCen/HPC and Functional Profile Results/Activated_Sludge/functional_profiles/Activated_Sludge_Metagenome_functional_profile'
 final, row = percentages(biome_functional_profile)
 together = EC_extract()
 synbio_matrix = '/home/anna/Desktop/JD_Niche_OverLap (Git)/Niche_JD/Eco_V2/EnCen/HPC and Functional Profile Results/Activated_Sludge/functional_profiles/Synbio_functional_profile' #This stays the same because we are comparing each one to vibrio
 synbio = synbio_fun_profile(synbio_matrix)
 
-top_match_bin = '/home/anna/Desktop/JD_Niche_OverLap (Git)/Niche_JD/Eco_V2/EnCen/Paper Results/Biome Analysis Results/Lake_Sediment/3300045561_8(Lake_sediment_Top_Match)_functional_profile'
+top_match_bin = '/home/anna/Desktop/Eco_geno_C_figures/higher_completion_bins/61/3300056759_96(61_%_bin)_functional_profile'
 top_match = tm_fun_profile(top_match_bin)
 
 
 #Now we have the dataframe of EC's and %'s, and the dataframe that has EC's and Names_______________________________________________________________________________________________________________
-os.chdir('/home/anna/Desktop/JD_Niche_OverLap (Git)/Niche_JD/Eco_V2/EnCen/Paper Results/Biome Analysis Results/Lake_Sediment')
+os.chdir('/home/anna/Desktop/Eco_geno_C_figures/higher_completion_bins/61')
 merged = pd.merge(final, together, how='inner', on='EC Number')
 merged2 = pd.merge(merged, synbio, how='inner', on='EC Number')
 merged3 = pd.merge(merged2, top_match, how='inner', on='EC Number')
@@ -161,7 +161,7 @@ merged4.to_excel('Biome Synbio Top Match EC Comparison.xlsx', index=False)
 
 
 
-biome_full_dataframe = '/home/anna/Desktop/JD_Niche_OverLap (Git)/Niche_JD/Eco_V2/EnCen/Paper Results/Biome Analysis Results/Lake_Sediment/Biome Synbio Top Match EC Comparison.xlsx'
+biome_full_dataframe = '/home/anna/Desktop/Eco_geno_C_figures/higher_completion_bins/61/Biome Synbio Top Match EC Comparison.xlsx'
 # print(biome_full_dataframe.head)
 top_match_dataframe = top_match_presence_screen(biome_full_dataframe)
 # print(top_match_dataframe.head(10))
