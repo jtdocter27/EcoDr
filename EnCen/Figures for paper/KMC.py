@@ -49,60 +49,61 @@ silhouette = silhouette_score(transposed1, lables)
 fig = px.parallel_coordinates(transposed1)
 
 
-# colors = plt.cm.tab10.colors
-# plt.figure(figsize=(10, 6))
-# parallel_coordinates(transposed1, class_column='Cluster')
-# plt.show()
+colors = plt.cm.tab10.colors
+plt.figure(figsize=(10, 6))
+parallel_coordinates(transposed1, class_column='Cluster')
+plt.show()
 
 
 ###This is graphing the kmeans outputs____________________________________________________________________________________________________________________________
-# c0 = transposed1[transposed1['Cluster'] == 0]
-# c1 = transposed1[transposed1['Cluster'] == 1]
-# c2 = transposed1[transposed1['Cluster'] == 2]
-# c3 = transposed1[transposed1['Cluster'] == 3]
-# c4 = transposed1[transposed1['Cluster'] == 4]
-# # parallel_coordinates(transposed1, class_column='Cluster', color=colors)
-# # plt.show()
+c0 = transposed1[transposed1['Cluster'] == 0]
+c1 = transposed1[transposed1['Cluster'] == 1]
+c2 = transposed1[transposed1['Cluster'] == 2]
+c3 = transposed1[transposed1['Cluster'] == 3]
+c4 = transposed1[transposed1['Cluster'] == 4]
+parallel_coordinates(transposed1, class_column='Cluster', color=colors)
+plt.show()
 
-# plt.figure(figsize=(12, 8))
-# parallel_coordinates(c0, class_column='Cluster', color='black', alpha=0.25)
-# plt.ylim(0, 1.0)
-# plt.ylabel('EC Percentage')
-# plt.xticks(rotation=70)
-# plt.tight_layout()
-# plt.show()
+plt.figure(figsize=(12, 8))
+parallel_coordinates(c0, class_column='Cluster', color='black', alpha=0.25)
+plt.ylim(0, 1.0)
+plt.ylabel('EC Percentage')
+plt.xticks(rotation=70)
+plt.tight_layout()
+plt.show()
 
-# plt.figure(figsize=(12, 8))
-# parallel_coordinates(c1, class_column='Cluster', color='black', alpha=0.25)
-# plt.ylim(0, 1.0)
-# plt.ylabel('EC Percentage')
-# plt.xticks(rotation=70)
-# plt.tight_layout()
-# plt.show()
+plt.figure(figsize=(12, 8))
+parallel_coordinates(c1, class_column='Cluster', color='black', alpha=0.25)
+plt.ylim(0, 1.0)
+plt.ylabel('EC Percentage')
+plt.xticks(rotation=70)
+plt.tight_layout()
+plt.show()
 
-# plt.figure(figsize=(12, 8))
-# parallel_coordinates(c2, class_column='Cluster', color='black', alpha=0.25)
-# plt.ylim(0, 1.0)
-# plt.ylabel('EC Percentage')
-# plt.xticks(rotation=70)
-# plt.tight_layout()
-# plt.show()
+plt.figure(figsize=(12, 8))
+parallel_coordinates(c2, class_column='Cluster', color='black', alpha=0.25)
+plt.ylim(0, 1.0)
+plt.ylabel('EC Percentage')
+plt.xticks(rotation=70)
+plt.tight_layout()
+plt.show()
 
-# plt.figure(figsize=(12, 8))
-# parallel_coordinates(c3, class_column='Cluster', color='black', alpha=0.25)
-# plt.ylim(0, 1.0)
-# plt.ylabel('EC Percentage')
-# plt.xticks(rotation=70)
-# plt.tight_layout()
-# plt.show()
+plt.figure(figsize=(12, 8))
+parallel_coordinates(c3, class_column='Cluster', color='black', alpha=0.25)
+plt.ylim(0, 1.0)
+plt.ylabel('EC Percentage')
+plt.xticks(rotation=70)
+plt.tight_layout()
+plt.legend()
+plt.show()
 
-# plt.figure(figsize=(12, 8))
-# parallel_coordinates(c4, class_column='Cluster', color='black', alpha=0.25)
-# plt.ylim(0, 1.0)
-# plt.ylabel('EC Percentage')
-# plt.xticks(rotation=70)
-# plt.tight_layout()
-# plt.show()
+plt.figure(figsize=(12, 8))
+parallel_coordinates(c4, class_column='Cluster', color='black', alpha=0.25)
+plt.ylim(0, 1.0)
+plt.ylabel('EC Percentage')
+plt.xticks(rotation=70)
+plt.tight_layout()
+plt.show()
 
 
 ##Hypergeometric Analysis______________________________________________________________________________________________________________________
@@ -233,145 +234,151 @@ print(len(all_p_values))
 
 #Histograms________________________________________________________________________________________________________________________
 #Cluster 0__________________
-# k0 = [249, 190, 188, 94, 44, 26, 25] 
-# total = 816
+k0 = [249, 190, 188, 94, 44, 26, 25] 
+total = 816
 
-# result0 = [ x / total for x in k0]
-# x = [1, 2, 3, 4, 5, 6, 7]
-# print(result0)
+result0 = [ x / total for x in k0]
+x = [1, 2, 3, 4, 5, 6, 7]
+print(result0)
 
 
-# sorted_indices = np.argsort(result0)[::-1]
-# sorted_result0 = np.array(result0)[sorted_indices]
-# sorted_x = np.array(x)[sorted_indices]
+sorted_indices = np.argsort(result0)[::-1]
+sorted_result0 = np.array(result0)[sorted_indices]
+sorted_x = np.array(x)[sorted_indices]
 
-# # Create a grayscale color palette and reverse it
-# colors = sns.color_palette("Greys", len(sorted_result0))[::-1]
+# Create a grayscale color palette and reverse it
+colors = sns.color_palette("Greys", len(sorted_result0))[::-1]
 
-# # Map the sorted values to the color palette
-# color_mapping = {sorted_result0[i]: colors[i] for i in range(len(sorted_result0))}
-# bar_colors = [color_mapping[val] for val in result0]
+# Map the sorted values to the color palette
+color_mapping = {sorted_result0[i]: colors[i] for i in range(len(sorted_result0))}
+bar_colors = [color_mapping[val] for val in result0]
 
-# # Plot with original data and mapped colors
-# sns.barplot(x=x, y=result0, palette=bar_colors)
-# # plt.xlabel('Data Points')
-# # plt.ylabel('Proportion')
-# # plt.title('Cluster 0 Proportions')
-# plt.ylim(0, 0.5)
+# Plot with original data and mapped colors
+sns.barplot(x=x, y=result0, palette=bar_colors, errorbar='sd')
+# plt.xlabel('Data Points')
+# plt.ylabel('Proportion')
+# plt.title('Cluster 0 Proportions')
+plt.ylim(0, 0.5)
 # plt.show()
+print(np.var(result0))
 
 # #Cluster 1______________________________________
-# k0 = [2187, 1845, 1472, 738, 259, 179, 40]
-# total = 6720
+k0 = [2187, 1845, 1472, 738, 259, 179, 40]
+total = 6720
 
-# result0 = [ x / total for x in k0]
-# x = [1, 2, 3, 4, 5, 6, 7]
-# print(result0)
+result0 = [ x / total for x in k0]
+x = [1, 2, 3, 4, 5, 6, 7]
+print(result0)
 
 
-# sorted_indices = np.argsort(result0)[::-1]
-# sorted_result0 = np.array(result0)[sorted_indices]
-# sorted_x = np.array(x)[sorted_indices]
+sorted_indices = np.argsort(result0)[::-1]
+sorted_result0 = np.array(result0)[sorted_indices]
+sorted_x = np.array(x)[sorted_indices]
 
-# # Create a grayscale color palette and reverse it
-# colors = sns.color_palette("Greys", len(sorted_result0))[::-1]
+# Create a grayscale color palette and reverse it
+colors = sns.color_palette("Greys", len(sorted_result0))[::-1]
 
-# # Map the sorted values to the color palette
-# color_mapping = {sorted_result0[i]: colors[i] for i in range(len(sorted_result0))}
-# bar_colors = [color_mapping[val] for val in result0]
+# Map the sorted values to the color palette
+color_mapping = {sorted_result0[i]: colors[i] for i in range(len(sorted_result0))}
+bar_colors = [color_mapping[val] for val in result0]
 
-# # Plot with original data and mapped colors
-# sns.barplot(x=x, y=result0, palette=bar_colors)
-# # plt.xlabel('Data Points')
-# # plt.ylabel('Proportion')
-# # plt.title('Cluster 0 Proportions')
-# plt.ylim(0, 0.5)
-# plt.show()
+# Plot with original data and mapped colors
+sns.barplot(x=x, y=result0, palette=bar_colors)
+# plt.xlabel('Data Points')
+# plt.ylabel('Proportion')
+# plt.title('Cluster 0 Proportions')
+plt.ylim(0, 0.5)
+plt.show()
+print(np.var(result0))
 
 
 
 # #Cluster 2_____________________________________________
-# k0 = [68, 92, 86, 30, 18, 14, 20]
-# total = 328
+k0 = [68, 92, 86, 30, 18, 14, 20]
+total = 328
 
-# result0 = [ x / total for x in k0]
-# x = [1, 2, 3, 4, 5, 6, 7]
-# print(result0)
+result0 = [ x / total for x in k0]
+x = [1, 2, 3, 4, 5, 6, 7]
+print(result0)
 
 
-# sorted_indices = np.argsort(result0)[::-1]
-# sorted_result0 = np.array(result0)[sorted_indices]
-# sorted_x = np.array(x)[sorted_indices]
+sorted_indices = np.argsort(result0)[::-1]
+sorted_result0 = np.array(result0)[sorted_indices]
+sorted_x = np.array(x)[sorted_indices]
 
-# # Create a grayscale color palette and reverse it
-# colors = sns.color_palette("Greys", len(sorted_result0))[::-1]
+# Create a grayscale color palette and reverse it
+colors = sns.color_palette("Greys", len(sorted_result0))[::-1]
 
-# # Map the sorted values to the color palette
-# color_mapping = {sorted_result0[i]: colors[i] for i in range(len(sorted_result0))}
-# bar_colors = [color_mapping[val] for val in result0]
+# Map the sorted values to the color palette
+color_mapping = {sorted_result0[i]: colors[i] for i in range(len(sorted_result0))}
+bar_colors = [color_mapping[val] for val in result0]
 
-# # Plot with original data and mapped colors
-# sns.barplot(x=x, y=result0, palette=bar_colors)
-# # plt.xlabel('Data Points')
-# # plt.ylabel('Proportion')
-# # plt.title('Cluster 0 Proportions')
-# plt.ylim(0, 0.5)
-# plt.show()
+# Plot with original data and mapped colors
+sns.barplot(x=x, y=result0, palette=bar_colors)
+# plt.xlabel('Data Points')
+# plt.ylabel('Proportion')
+# plt.title('Cluster 0 Proportions')
+plt.ylim(0, 0.5)
+plt.show()
+print(np.var(result0))
 
 
 
 
 # #Cluster 3_______________________________________________
-# k0 = [16, 62, 31, 14, 15, 35, 4]
-# total = 177
+k0 = [16, 62, 31, 14, 15, 35, 4]
+total = 177
 
-# result0 = [ x / total for x in k0]
-# x = [1, 2, 3, 4, 5, 6, 7]
-# print(result0)
+result0 = [ x / total for x in k0]
+x = [1, 2, 3, 4, 5, 6, 7]
+print(result0)
 
-# sorted_indices = np.argsort(result0)[::-1]
-# sorted_result0 = np.array(result0)[sorted_indices]
-# sorted_x = np.array(x)[sorted_indices]
+sorted_indices = np.argsort(result0)[::-1]
+sorted_result0 = np.array(result0)[sorted_indices]
+sorted_x = np.array(x)[sorted_indices]
 
-# # Create a grayscale color palette and reverse it
-# colors = sns.color_palette("Greys", len(sorted_result0))[::-1]
+# Create a grayscale color palette and reverse it
+colors = sns.color_palette("Greys", len(sorted_result0))[::-1]
 
-# # Map the sorted values to the color palette
-# color_mapping = {sorted_result0[i]: colors[i] for i in range(len(sorted_result0))}
-# bar_colors = [color_mapping[val] for val in result0]
+# Map the sorted values to the color palette
+color_mapping = {sorted_result0[i]: colors[i] for i in range(len(sorted_result0))}
+bar_colors = [color_mapping[val] for val in result0]
 
-# # Plot with original data and mapped colors
-# sns.barplot(x=x, y=result0, palette=bar_colors)
-# # plt.xlabel('Data Points')
-# # plt.ylabel('Proportion')
-# # plt.title('Cluster 0 Proportions')
-# plt.ylim(0, 0.5)
-# plt.show()
+# Plot with original data and mapped colors
+sns.barplot(x=x, y=result0, palette=bar_colors)
+# plt.xlabel('Data Points')
+# plt.ylabel('Proportion')
+# plt.title('Cluster 0 Proportions')
+plt.ylim(0, 0.5)
+plt.show()
+print(np.var(result0))
+
 
 
 # #Cluster 4________________________________________________
-# k0 = [40, 98, 29, 24, 11, 17, 9]
-# total = 228
+k0 = [40, 98, 29, 24, 11, 17, 9]
+total = 228
 
-# result0 = [ x / total for x in k0]
-# x = [1, 2, 3, 4, 5, 6, 7]
-# print(result0)
+result0 = [ x / total for x in k0]
+x = [1, 2, 3, 4, 5, 6, 7]
+print(result0)
 
-# sorted_indices = np.argsort(result0)[::-1]
-# sorted_result0 = np.array(result0)[sorted_indices]
-# sorted_x = np.array(x)[sorted_indices]
+sorted_indices = np.argsort(result0)[::-1]
+sorted_result0 = np.array(result0)[sorted_indices]
+sorted_x = np.array(x)[sorted_indices]
 
-# # Create a grayscale color palette and reverse it
-# colors = sns.color_palette("Greys", len(sorted_result0))[::-1]
+# Create a grayscale color palette and reverse it
+colors = sns.color_palette("Greys", len(sorted_result0))[::-1]
 
-# # Map the sorted values to the color palette
-# color_mapping = {sorted_result0[i]: colors[i] for i in range(len(sorted_result0))}
-# bar_colors = [color_mapping[val] for val in result0]
+# Map the sorted values to the color palette
+color_mapping = {sorted_result0[i]: colors[i] for i in range(len(sorted_result0))}
+bar_colors = [color_mapping[val] for val in result0]
 
-# # Plot with original data and mapped colors
-# sns.barplot(x=x, y=result0, palette=bar_colors)
-# # plt.xlabel('Data Points')
-# # plt.ylabel('Proportion')
-# # plt.title('Cluster 0 Proportions')
-# plt.ylim(0, 0.5)
-# plt.show()
+# Plot with original data and mapped colors
+sns.barplot(x=x, y=result0, palette=bar_colors)
+# plt.xlabel('Data Points')
+# plt.ylabel('Proportion')
+# plt.title('Cluster 0 Proportions')
+plt.ylim(0, 0.5)
+plt.show()
+print(np.var(result0))

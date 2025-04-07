@@ -8,6 +8,7 @@ klbe2 = kleb.T
 new_header = klbe2.iloc[0]
 kleb3 = klbe2[1:]
 kleb3.columns=new_header
+print('kleb3 \n', kleb3)
 
 
 Paen = pd.read_csv('/home/anna/Downloads/Paenibacllius_functional_profile.txt', delimiter = ' ')
