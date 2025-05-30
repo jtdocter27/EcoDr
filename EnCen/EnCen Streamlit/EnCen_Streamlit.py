@@ -18,7 +18,7 @@ import altair as alt
 
 #Input Block_________________________________________________________________________________________________________________________________________________________________________________________
 st.markdown("<h1 style='text-align: center;'>Environmental Census</h1>", unsafe_allow_html=True)
-st.header('A Bioinformatics Tool for Synthetic Biology Risk Assessments', divider='rainbow')
+st.header('A Bioinformatics Tool for Synthetic Biology Risk Assessments', divider='blue')
 st.write(':blue[Developed by John Docter, University of Colorado Boulder]')
 st.write(':blue[For Troubleshooting and Inquiries, Please Contact john.docter@colorado.edu]')
 st.header('Select Metagenome(s) to Analyze')
