@@ -18123,3 +18123,12 @@ EnCen/Paper Results/Model Validation/Soil Endosphere Outputs/Endo_diff_score.txt
 EnCen/Paper Results/vn uneditted func prof
 .gitignore
 EnCen/Paper Results/vn w but genes func prof
+EnCen/EnCen Streamlit/__pycache__/EnCen_Functions.cpython-313.pyc
+.DS_Store
+EnCen/.DS_Store
+EnCen/HPC and Functional Profile Results/.DS_Store
+EnCen/HPC and Functional Profile Results/Activated_Sludge/.DS_Store
+EnCen/Paper Results/.DS_Store
+EnCen/Paper Results/Biome Analysis Results/.DS_Store
+EnCen/Paper Results/Biome Analysis Results/Activated Sludge/.DS_Store
+.DS_Store

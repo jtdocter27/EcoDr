@@ -17,10 +17,14 @@ import altair as alt
 
 
 #Input Block_________________________________________________________________________________________________________________________________________________________________________________________
-st.markdown("<h1 style='text-align: center;'>Environmental Census</h1>", unsafe_allow_html=True)
-st.header('A Bioinformatics Tool for Synthetic Biology Risk Assessments', divider='blue')
-st.write(':blue[Developed by John Docter, University of Colorado Boulder]')
-st.write(':blue[For Troubleshooting and Inquiries, Please Contact john.docter@colorado.edu]')
+st.markdown("<h1 style='text-align: center;'>EcoGenoRisk</h1>", unsafe_allow_html=True)
+st.markdown("<h1 style='text-align: center; font-size: 25px; '>Metagenomic Synthetic Biology Risk Assessment</h1>", unsafe_allow_html=True)
+
+# st.markdown('### Metagenomic Synthetic Biology Risk Assessment')
+st.divider()
+with st.expander("### Instructions"):
+    st.write('Some Text')
+    st.write(':blue[Developed by John Docter (john.docter@colorado.edu), University of Colorado - Boulder]')
 st.header('Select Metagenome(s) to Analyze')
 intake = st.multiselect('Please choose which metagenomes to analyze', 
                         ['Industrial Wastewater', 'Wastewater Treatment Plant', 'River'])
@@ -63,7 +67,7 @@ for mg_to_analyze in choices:
                 path = os.path.join(temp_dir, f.name)
                 with open(path, "wb") as file:
                         file.write(f.getvalue())
-                shutil.move(path, IW)
+                shutil.move(path, IW) #Takes the file and moves it into the temporary directory 
                 shutil.rmtree(temp_dir)
         else:
             st.write('Waiting on File Upload')
@@ -433,11 +437,6 @@ try:
     # diff_score3
 except TypeError:
     pass
-
-
-
-
-
 
 try:
     frames = [diff_score1, diff_score2, diff_score3]
