@@ -18132,3 +18132,7 @@ EnCen/Paper Results/.DS_Store
 EnCen/Paper Results/Biome Analysis Results/.DS_Store
 EnCen/Paper Results/Biome Analysis Results/Activated Sludge/.DS_Store
 .DS_Store
+EnCen/EnCen_Streamlit/test.faa
+.gitignore
+EnCen/EnCen_Streamlit/__pycache__/EnCen_Functions.cpython-39.pyc
+EnCen/EnCen_Streamlit/__pycache__/EnCen_Functions.cpython-311.pyc
