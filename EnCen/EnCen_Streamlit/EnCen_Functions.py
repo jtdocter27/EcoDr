@@ -72,24 +72,26 @@ def EC_extract():
     print('EC list Has Been Created')
 
 @st.cache_resource()
-def diamond_impl(dest, name):
-    print(os.getcwd())
+def diamond_impl(dest, name, reference):
+    # st.write(os.getcwd())
+    os.chdir(dest)
     matches = ''
     output_folder = dest 
-    final_folder = '/home/anna/Documents/JGI_soil_genomes/reference_diamond_analysis_output'
+    # final_folder = '/home/anna/Documents/JGI_soil_genomes/diamond_analysis_output'
     print("DIAMOND library is located in: ", output_folder)
-    if os.path.isfile(final_folder):
-        print("Library Detected")
+    if os.path.isfile(dest + '/Uniprot_Reference_Library.dmnd'):
+        st.write(":green[Diamond Reference Library Detected]")
     # If not present, then creates a DIAMOND library by referencing the exact location where the Uniprot library is saved
     # If there currently is no reference library (.dmnd), then command makedb creates a DIAMOND library
     else:
-        print("Creation of DIAMOND-formatted library...")
-        makedb = ['diamond', 'makedb', '--in', '/home/anna/Documents/JGI_soil_genomes/uniprot.fasta', '-d',
+        st.write("Creation of DIAMOND-formatted library...")
+        makedb = ['diamond', 'makedb', '--in', reference, '-d',
                   'Uniprot_Reference_Library.dmnd']  # Reference library full pathway
         #This is a list for the DIAMOND specific makedb function. 
         subprocess.run(makedb)
+        shutil.move(os.path.abspath('Uniprot_Reference_Library.dmnd'), dest)
         #This simply runs the function makedb
-        print("Library complete")
+        st.write("Library complete")
 #^this chunk is good to go. Just makes the reference database from the uniprot fasta. 
 ##_______________________________________________________________# This portion does the matching. The above portion creates the reference library from the unitprot fasta
     for item in os.listdir(dest):
@@ -113,18 +115,18 @@ def diamond_impl(dest, name):
                 print("Processing ", file_name)
                 # DIAMOND search using the full pathway of the protein files, max target sequence outputs only one best
                 # match with highest e-value which represent the chance of obtaining a better random match in the same database (Buchfink et al, 2021)
-                blastp = ['diamond', 'blastp', '--quiet', '-d',  'Uniprot_Reference_Library.dmnd', '-q', file_path, '-o', matches, 
+                blastp = ['diamond', 'blastp', '--quiet', '-d',  dest + '/Uniprot_Reference_Library.dmnd', '-q', file_path, '-o', matches, 
                           '--max-target-seqs', '1', '--outfmt', '6']
                 time.sleep(4)
                 subprocess.run(blastp)
     
 
     # Moves all DIAMOND search outputs into the folder
-        if item.endswith('.tsv'):
-            if os.path.exists(os.path.join(final_folder, item)):
-                print(f"Overwriting: {item}")
-                os.remove(os.path.join(final_folder, item))
-            shutil.move(os.path.abspath(item), final_folder)
+        # if item.endswith('.tsv'):
+        #     if os.path.exists(os.path.join(dest, item)):
+        #         print(f"Overwriting: {item}")
+        #         os.remove(os.path.join(final_folder, item))
+        #     shutil.move(os.path.abspath(item), final_folder)
     print("diamond_impl--success")
     # Returns the location of the DIAMOND matches folder
     return output_folder
