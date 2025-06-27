@@ -33,8 +33,8 @@ with st.expander("### Instructions"):
     st.write('Streamlit, the package used to create this GUI, has limits in terms of file size and upload. For larger analyses, please refer to EcoGenoRisk Source Code on Github')
 
 #Ask for home directory and where all the files should be saved______________________________________________________________________________________________________________
-home_dir = st.text_input('Please Enter the filepath where you would like all outputs saved')
-#/home/anna/Documents/EcoGenoRisk_Paper_Revisions/GUI_Output
+# home_dir = st.text_input('Please Enter the filepath where you would like all outputs saved')
+home_dir = '/home/anna/Documents/EcoGenoRisk_Paper_Revisions/GUI_Output'
 if not home_dir:
      st.stop()
 else:  
@@ -62,66 +62,52 @@ else:
 
 #Upload Synbio .faa file____________________________________________________________________________
 st.header('Synbio File Upload')
-uploaded_file = st.file_uploader("Please upload the synbio .faa file you would like to analyze", type='.faa', key = 'IW_syn')
-if not uploaded_file: 
-    st.stop()
-if uploaded_file:
-    dest_path = os.path.join(home_dir, uploaded_file.name)
-    with open(dest_path, 'wb') as f:
-        f.write(uploaded_file.getvalue()) #uploaded file is in the home dir at this point 
+with st.expander('Synbio File Upload Here'):
+    uploaded_file_synbio = st.file_uploader("Please upload the synbio .faa file you would like to analyze", type='.faa', key = 'IW_syn')
+    if not uploaded_file_synbio: 
+        st.stop()
+    if uploaded_file_synbio:
+        dest_path = os.path.join(home_dir, uploaded_file_synbio.name)
+        with open(dest_path, 'wb') as f:
+            f.write(uploaded_file_synbio.getvalue()) #uploaded file is in the home dir at this point 
 
 
-# #Synbio Diamond Processing and outputs synbio functional profile__________________________________________________________________________
-# #Saves to home directory 
+    # #Synbio Diamond Processing and outputs synbio functional profile__________________________________________________________________________
+    # #Saves to home directory 
 
-reference = (home_dir + '/uniprot.fasta')
-name = uploaded_file.name
-with st.spinner('Diamond Aligner Matching Synbio.faa Sequences to Unitpro Reference'):
-    diamond_syn = diamond_impl(home_dir, name, reference) #returns the output folder, in this case home_dir
+    reference = (home_dir + '/uniprot.fasta')
+    name = uploaded_file_synbio.name
+    with st.spinner('Diamond Aligner Matching Synbio.faa Sequences to Unitpro Reference'):
+        diamond_syn = diamond_impl(home_dir, name, reference) #returns the output folder, in this case home_dir
 
 
 
 #Genome Extractor_______________________________________________________________________________________________
-output2 = genome_extractor_syn(diamond_syn, name, home_dir)
-st.success('Synbio Functional Profile Created')
+    output2 = genome_extractor_syn(diamond_syn, name, home_dir)
+    st.success('Synbio Functional Profile Created')
 
 
-# for item in os.listdir(path):
-#     if item.endswith('_profile'):
-#         source = os.path.join(synbio, item)
-#         destination = os.path.join(functional_folder, item)
-#         shutil.move(source, destination)
-
-
-
-
-
-
-#Upload Pre-Made Metagenome Functional Profile_________________________________________________________
-# with st.expander('## Metagenome Name and Upload'):
-#     name = st.text_input('Metagenome', '')
-#     st.write('You entered', name)
-#     uploaded_file = st.file_uploader("Please upload the Biome binary matrix you would like to analyze against", type='.faa', accept_multiple_files=True, key='IW')
-#     if not uploaded_file:
-#         st.stop()
-#     if uploaded_file:
-#         for f in uploaded_file:
-#             IW = '/Users/johndocter/Documents/Test Directory for Streamlit '
-#             temp_dir = tempfile.mkdtemp()
-#             path = os.path.join(temp_dir, f.name)
-#             with open(path, "wb") as file:
-#                     file.write(f.getvalue())
-#             shutil.move(path, IW) #Takes the file and moves it into the temporary directory 
-#             shutil.rmtree(temp_dir)
-#     else:
-#         st.write('Waiting on File Upload')
+#Upload Pre-Made Metagenome Functional Profile and save to home directory_________________________________________________________
+st.header('Metagenome Naming and Upload')
+with st.expander('## Metagenome Name and Upload'):
+    biome = st.text_input('Metagenome')
+    st.write('You entered', biome)
+    # uploaded_file_meta = st.file_uploader("Please upload the biome binary matrix you would like to analyze against", type='.faa', accept_multiple_files=True, key='IW')
+    # if not uploaded_file_meta:
+    #     st.write('Waiting on File Upload')
+    #     st.stop()
+    # if uploaded_file_meta:
+    #     dest_path = os.path.join(home_dir, uploaded_file_meta.name)
+    #     with open(dest_path, 'wb') as f:
+    #         f.write(uploaded_file_meta.getvalue())
+ 
 
 #Pause and ask for another metagenome
-intake = st.selectbox('Would you like to continue the analysis?', ['Yes', 'No', 'Only a sith deals in absolutes'])
-if intake == 'Yes':
-    st.write('continue')
-if intake == 'No':
-    st.write('stop')
+# intake = st.selectbox('Would you like to continue the analysis?', ['Yes', 'No', 'Only a sith deals in absolutes'])
+# if intake == 'Yes':
+#     st.write('continue')
+# if intake == 'No':
+#     st.write('stop')
 
 
 
