@@ -11,14 +11,12 @@ red = "\033[91m"
 reset_color = "\033[0m"
 import seaborn as sns
 import matplotlib.pyplot as plt
-import tempfile
-from EnCen_Functions import diff_score, EC_extract, tsv_to_fasta, diamond_impl, genome_extractor_ref, genome_extractor_syn, genome_to_genome_diffcomp, read_in_binary_matrix, upload_file, upload_file2, move_files_to_folder
+from EnCen_Functions import diff_score, EC_extract, tsv_to_fasta, diamond_impl, genome_extractor_syn,  EC_corrector
 import altair as alt
 from streamlit.runtime.scriptrunner import add_script_run_ctx,get_script_run_ctx
 from subprocess import Popen
 import warnings
 warnings.filterwarnings("ignore")
-from matplotlib.cm import ScalarMappable
 from matplotlib.colors import Normalize
 #_______________________________________________________________________________________
 
@@ -30,11 +28,9 @@ st.markdown("<h1 style='text-align: center; font-size: 25px; '>Metagenomic Synth
 st.divider()
 st.header('Instructions')
 with st.expander("### Start Here"):
-    st.write('This is a simple interface for the EcoGenoRisk data pipeline.')
-    st.write('User is required to have the amino acid files of the synthetic organism. Test Files are available in the associated library for metagenome comparison')
-    st.write('Simply follow the prombts and the program will do the rest')
-    st.write('Streamlit, the package used to create this GUI, has limits in terms of file size and upload. For larger analyses, please refer to EcoGenoRisk Source Code on Github')
-    st.write(':blue[https://github.com/UCBoulder/EcoGenoRisk]')
+    st.write('This is a simple interface for the EcoGenoRisk pipeline. Follow the prombts and the program will output a threat assessment')
+    st.write('User is required to have the amino acid (.faa) files of the synthetic organism. Test Files are available in the associated library for metagenome comparison')
+    st.write('For larger analyses, please refer to EcoGenoRisk Source Code on Github: :blue[https://github.com/UCBoulder/EcoGenoRisk]')
 #Ask for home directory and where all the files should be saved______________________________________________________________________________________________________________
     home_dir = st.text_input('Please Enter the filepath where you would like all outputs saved')
     # home_dir = '/home/anna/Documents/EcoGenoRisk_Paper_Revisions/GUI_Output'
@@ -71,7 +67,7 @@ with st.expander('Create Reference Libraries'):
 
 #Upload Synbio .faa file____________________________________________________________________________
 st.header('Synbio File Upload')
-with st.expander('Synbio File Upload Here'):
+with st.expander('Upload'):
     uploaded_file_synbio = st.file_uploader("Please upload the synbio .faa file you would like to analyze", key = 'IW_syn')
     if not uploaded_file_synbio: 
         st.stop()
@@ -79,8 +75,11 @@ with st.expander('Synbio File Upload Here'):
         synbio_path = os.path.join(home_dir, uploaded_file_synbio.name)
         with open(synbio_path, 'wb') as f:
             f.write(uploaded_file_synbio.getvalue()) #uploaded file is in the home dir at this point 
+    #Parsing to align with metagenomes______________________________________________________________________
+
+
+
     # #Synbio Diamond Processing and outputs synbio functional profile__________________________________________________________________________
-    # #Saves to home directory 
 
     reference = (home_dir + '/uniprot.fasta')
     file_name = uploaded_file_synbio.name
@@ -89,14 +88,19 @@ with st.expander('Synbio File Upload Here'):
 
 
 
+
 #Genome Extractor_______________________________________________________________________________________________
     output2 = genome_extractor_syn(diamond_syn, file_name, home_dir)
     st.success('Synbio Functional Profile Created')
 
+    #Parsing to align with metagenomes______________________________________________________________________
+    with st.spinner('Parsing Enzymes'):
+            EC_corrector(home_dir)
+
 
 #Upload Pre-Made Metagenome Functional Profile and save to home directory_________________________________________________________
 st.header('Metagenome Upload')
-with st.expander('## Please choose from any of the pre-processed metagenomes in the library'):
+with st.expander('## Please choose from any of the pre-processed metagenomes. Multiples are ok'):
     
     file_found = True
     for all_files in os.listdir(home_dir):
@@ -115,10 +119,11 @@ with st.expander('## Please choose from any of the pre-processed metagenomes in 
             for every_file in uploaded_file_meta: 
                 biome_path = os.path.join(home_dir, every_file.name)
                 new_name = every_file.name + ' Difference Score'
+                synbio_func_path = home_dir +'/' + 'BioPesticide Parsed.txt'
                 with open(biome_path, 'wb') as f:
                     f.write(every_file.getvalue())
                 with st.spinner('Working...'):
-                    diff_score(synbio_path, biome_path)
+                    diff_score(synbio_func_path, biome_path)
                 with open('Absolute_Difference_Comparison_Score.txt', 'r') as f:
                     file_content = f.read()
                 os.rename('Absolute_Difference_Comparison_Score.txt', new_name )

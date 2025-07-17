@@ -20,6 +20,7 @@ import numpy as np
 import tkinter as tk
 from tkinter import filedialog
 import streamlit as st 
+import ast
 
 def tsv_to_fasta():
     reference_library = 'uniprot.tsv' 
@@ -79,7 +80,7 @@ def diamond_impl(dest, name, reference):
     output_folder = dest 
     # final_folder = '/home/anna/Documents/JGI_soil_genomes/diamond_analysis_output'
     print("DIAMOND library is located in: ", output_folder)
-    if os.path.isfile(dest + '/Uniprot_Reference_Library.dmnd'):
+    if os.path.isfile(dest + '/' + 'Uniprot_Reference_Library.dmnd'):
         st.write(":green[Diamond Reference Library Detected]")
     # If not present, then creates a DIAMOND library by referencing the exact location where the Uniprot library is saved
     # If there currently is no reference library (.dmnd), then command makedb creates a DIAMOND library
@@ -115,7 +116,7 @@ def diamond_impl(dest, name, reference):
                 print("Processing ", file_name)
                 # DIAMOND search using the full pathway of the protein files, max target sequence outputs only one best
                 # match with highest e-value which represent the chance of obtaining a better random match in the same database (Buchfink et al, 2021)
-                blastp = ['diamond', 'blastp', '--quiet', '-d',  dest + '/Uniprot_Reference_Library.dmnd', '-q', file_path, '-o', matches, 
+                blastp = ['diamond', 'blastp', '--quiet', '-d',  dest + '/' + 'Uniprot_Reference_Library.dmnd', '-q', file_path, '-o', matches, 
                           '--max-target-seqs', '1', '--outfmt', '6']
                 time.sleep(4)
                 subprocess.run(blastp)
@@ -139,7 +140,7 @@ def genome_extractor_ref(name, home_dir):
     # Opens the list of of EC numbers
     ec_open = np.loadtxt(home_dir + '/EC_library.csv',
                          dtype='str')
-    big_matrix = ["Name_of_MetaGenome_Bin"]
+    big_matrix = ["Name_of_Genome"]
     file_name = name + '_functional_profile'
     new_dir = home_dir + '/' + file_name
     # Checks to see if the document already exists using full pathway name
@@ -189,7 +190,7 @@ def genome_extractor_syn(diamond_folder, name, home_dir):
     # Opens the list of of EC numbers
     ec_open = np.loadtxt(home_dir + '/EC_library.csv',
                          dtype='str')
-    big_matrix = ["Name_of_MetaGenome_Bin"]
+    big_matrix = ["Name_of_Genome"]
     file_name = name + '_functional_profile'
     new_dir = diamond_folder + '/' + file_name
     # Checks to see if the document already exists using full pathway name
@@ -247,17 +248,17 @@ def genome_to_genome_diffcomp(synbio_binary, domain_binary):
 
 def read_in_binary_matrix(synbio_binary, sb_name, mg_to_analyze):
     # Converts synbio summary matrix into a dataframe
-    synbio_binary = pd.read_csv(synbio_binary, delimiter=" ", header=0)
+    synbio_binary = pd.read_csv(synbio_binary, delim_whitespace=True, header=0)
     # print(synbio_binary)
-    synbio_binary = synbio_binary.set_index('Name_of_MetaGenome_Bin')
+    synbio_binary = synbio_binary.set_index('Name_of_Genome')
     #index is a label for all rows - allows the two seperate dataframes to come together since they share an index
     # print(synbio_binary)
     # print(sb_name, " size of ", np.shape(synbio_binary), " successfully imported.")
     # Opens the matrix that includes the Bacteria and Archaea summary result
     domain_binary = pd.read_csv('/home/anna/Documents/JGI_soil_genomes/functional_profiles/' + mg_to_analyze + '_metagenome_functional_profile',
-                                  delimiter=" ", header=0)
+                                  delim_whitespace=True, header=0)
     #this is from chunk 1, and is the EC_Binary we generated earlier
-    domain_binary = domain_binary.set_index('Name_of_MetaGenome_Bin')
+    domain_binary = domain_binary.set_index('Name_of_Genome')
     # print(domain_binary)
     # Sends to a function for direct genome to genome comparison based on EC summary matrix
     genome_to_genome_diffcomp(synbio_binary, domain_binary)
@@ -271,7 +272,7 @@ def read_in_binary_matrix(synbio_binary, sb_name, mg_to_analyze):
     # Removes any duplicates
     all_matrix = synbio_bacteria[~synbio_bacteria.index.duplicated(keep='first')]
     # print(all_matrix)
-    all_matrix.to_csv(doc_name_1, header=True, index=True, sep='\t')
+    # all_matrix.to_csv(doc_name_1, header=True, index=True, sep='\t')
     return all_matrix
 
 
@@ -333,3 +334,16 @@ def move_files_to_folder(file_paths, destination_folder):
         for file_path in file_paths:
             if os.path.isfile(file_path):
                 shutil.move(file_path, destination_folder)
+
+def EC_corrector(home_dir):
+    with open('EC_List_For_parsing.txt', 'r') as q:
+        content = q.read()
+        meta_EC = ast.literal_eval(content)
+    for file in os.listdir(home_dir): 
+        if 'functional_profile' in file:
+            path = os.path.join(home_dir, file)
+            synbio_df = pd.read_csv(path, delimiter=" ", header = 0)
+            filtered_df = synbio_df.filter(items = meta_EC, axis = 1)
+            filtered_df.to_csv('BioPesticide Parsed.txt', sep=' ', index = False)
+            
+  
