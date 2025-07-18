@@ -29,7 +29,7 @@ st.divider()
 st.header('Instructions')
 with st.expander("### Start Here"):
     st.write('This is a simple interface for the EcoGenoRisk pipeline. Follow the prombts and the program will output a threat assessment')
-    st.write('User is required to have the amino acid (.faa) files of the synthetic organism. Test Files are available in the associated library for metagenome comparison')
+    st.write('User is required to have the amino acid (.faa) files of the synthetic organism, or any .faa file of comparison organism. Test Files are available in the associated library for metagenome comparison')
     st.write('For larger analyses, please refer to EcoGenoRisk Source Code on Github: :blue[https://github.com/UCBoulder/EcoGenoRisk]')
 #Ask for home directory and where all the files should be saved______________________________________________________________________________________________________________
     home_dir = st.text_input('Please Enter the filepath where you would like all outputs saved')
