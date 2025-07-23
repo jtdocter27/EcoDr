@@ -68,7 +68,7 @@ with st.expander('Create Reference Libraries'):
 #Upload Synbio .faa file____________________________________________________________________________
 st.header('Synbio File Upload')
 with st.expander('Upload'):
-    uploaded_file_synbio = st.file_uploader("Please upload the synbio .faa file you would like to analyze", key = 'IW_syn')
+    uploaded_file_synbio = st.file_uploader(key = 'IW_syn')
     if not uploaded_file_synbio: 
         st.stop()
     if uploaded_file_synbio:
