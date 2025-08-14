@@ -1,7 +1,7 @@
 import pandas as pd 
 
-synbio_binary = '/home/anna/Desktop/vn uneditted func prof'
-EC = '1.1.1.1'
+synbio_binary = '/home/anna/Documents/EcoGenoRisk_Paper_Revisions/Biopesticide Function Profiles/Wolbachia_pipientis.faa_functional_profile_test'
+EC='2.1.1.128'
 
 synbio_binary = pd.read_csv(synbio_binary, delimiter=" ", header=0)
 # print(type(synbio_binary))
@@ -14,16 +14,16 @@ value = int(transpose.loc[EC])
 print(value)
 
 ###Second Profile_______________________________________________________________________
-synbio_binary_edited = '/home/anna/Desktop/vn w but genes func prof'
-synbio_binary_edited = pd.read_csv(synbio_binary_edited, delimiter=" ", header=0)
+# synbio_binary_edited = '/home/anna/Desktop/vn w but genes func prof'
+# synbio_binary_edited = pd.read_csv(synbio_binary_edited, delimiter=" ", header=0)
 
-transpose2 = synbio_binary_edited.transpose()
-# print(transpose) #fuckin bingo 
-# print(transpose.index)
-value2 = int(transpose2.loc[EC])
-print(value2) 
+# transpose2 = synbio_binary_edited.transpose()
+# # print(transpose) #fuckin bingo 
+# # print(transpose.index)
+# value2 = int(transpose2.loc[EC])
+# print(value2) 
 
-if value == value2: 
-    print("enzyme did not flip")
-else:
-    print('enzyme flipped')
+# if value == value2: 
+#     print("enzyme did not flip")
+# else:
+#     print('enzyme flipped')

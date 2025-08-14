@@ -13,6 +13,7 @@ import pandas as pd
 from pandas.plotting import parallel_coordinates
 from scipy.stats import hypergeom
 from statsmodels.stats.multitest import multipletests
+import os
 
 
 percentages = pd.read_excel('/home/anna/Desktop/JD_Niche_OverLap (Git)/Niche_JD/Eco_V2/EnCen/all_biomes_percentage.xlsx')
@@ -250,16 +251,16 @@ sorted_x = np.array(x)[sorted_indices]
 colors = sns.color_palette("Greys", len(sorted_result0))[::-1]
 
 # Map the sorted values to the color palette
-color_mapping = {sorted_result0[i]: colors[i] for i in range(len(sorted_result0))}
-bar_colors = [color_mapping[val] for val in result0]
+# color_mapping = {sorted_result0[i]: colors[i] for i in range(len(sorted_result0))}
+# bar_colors = [color_mapping[val] for val in result0]
 
 # Plot with original data and mapped colors
-sns.barplot(x=x, y=result0, palette=bar_colors, errorbar='sd')
+sns.barplot(x=x, y=result0, color='black')
 # plt.xlabel('Data Points')
 # plt.ylabel('Proportion')
 # plt.title('Cluster 0 Proportions')
 plt.ylim(0, 0.5)
-# plt.show()
+plt.show()
 print(np.var(result0))
 
 # #Cluster 1______________________________________
@@ -279,11 +280,11 @@ sorted_x = np.array(x)[sorted_indices]
 colors = sns.color_palette("Greys", len(sorted_result0))[::-1]
 
 # Map the sorted values to the color palette
-color_mapping = {sorted_result0[i]: colors[i] for i in range(len(sorted_result0))}
-bar_colors = [color_mapping[val] for val in result0]
+# color_mapping = {sorted_result0[i]: colors[i] for i in range(len(sorted_result0))}
+# bar_colors = [color_mapping[val] for val in result0]
 
 # Plot with original data and mapped colors
-sns.barplot(x=x, y=result0, palette=bar_colors)
+sns.barplot(x=x, y=result0, color='black')
 # plt.xlabel('Data Points')
 # plt.ylabel('Proportion')
 # plt.title('Cluster 0 Proportions')
@@ -310,11 +311,11 @@ sorted_x = np.array(x)[sorted_indices]
 colors = sns.color_palette("Greys", len(sorted_result0))[::-1]
 
 # Map the sorted values to the color palette
-color_mapping = {sorted_result0[i]: colors[i] for i in range(len(sorted_result0))}
-bar_colors = [color_mapping[val] for val in result0]
+# color_mapping = {sorted_result0[i]: colors[i] for i in range(len(sorted_result0))}
+# bar_colors = [color_mapping[val] for val in result0]
 
 # Plot with original data and mapped colors
-sns.barplot(x=x, y=result0, palette=bar_colors)
+sns.barplot(x=x, y=result0, color='black')
 # plt.xlabel('Data Points')
 # plt.ylabel('Proportion')
 # plt.title('Cluster 0 Proportions')
@@ -341,11 +342,11 @@ sorted_x = np.array(x)[sorted_indices]
 colors = sns.color_palette("Greys", len(sorted_result0))[::-1]
 
 # Map the sorted values to the color palette
-color_mapping = {sorted_result0[i]: colors[i] for i in range(len(sorted_result0))}
-bar_colors = [color_mapping[val] for val in result0]
+# color_mapping = {sorted_result0[i]: colors[i] for i in range(len(sorted_result0))}
+# bar_colors = [color_mapping[val] for val in result0]
 
 # Plot with original data and mapped colors
-sns.barplot(x=x, y=result0, palette=bar_colors)
+sns.barplot(x=x, y=result0, color='black')
 # plt.xlabel('Data Points')
 # plt.ylabel('Proportion')
 # plt.title('Cluster 0 Proportions')
@@ -371,14 +372,15 @@ sorted_x = np.array(x)[sorted_indices]
 colors = sns.color_palette("Greys", len(sorted_result0))[::-1]
 
 # Map the sorted values to the color palette
-color_mapping = {sorted_result0[i]: colors[i] for i in range(len(sorted_result0))}
-bar_colors = [color_mapping[val] for val in result0]
+# color_mapping = {sorted_result0[i]: colors[i] for i in range(len(sorted_result0))}
+# bar_colors = [color_mapping[val] for val in result0]
 
 # Plot with original data and mapped colors
-sns.barplot(x=x, y=result0, palette=bar_colors)
+sns.barplot(x=x, y=result0, color='black')
 # plt.xlabel('Data Points')
 # plt.ylabel('Proportion')
 # plt.title('Cluster 0 Proportions')
 plt.ylim(0, 0.5)
 plt.show()
 print(np.var(result0))
+

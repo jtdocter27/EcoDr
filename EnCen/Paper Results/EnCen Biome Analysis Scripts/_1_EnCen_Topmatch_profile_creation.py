@@ -183,15 +183,15 @@ def genome_extractor(diamond_folder, name):
         print(new_dir)
     return [new_dir, file_name]
 # ______________________________________________________________________________________
-synbio = '/home/anna/Desktop/Eco_geno_C_figures/higher_completion_bins/61' #folder where comparison file lives
-name = '3300056759_96(61_%_bin)' #comparison file 
-syn_folder_name = '3300056759_96(61_%_bin)'
+synbio = '/home/anna/Documents/EcoGenoRisk_Paper_Revisions' #folder where comparison file lives
+name = '3300056827.faa' #comparison file 
+syn_folder_name = '3300056827.faa'
 # desired_location2 = '/home/anna/Desktop/JD_Niche_OverLap (Git)/Niche_JD/Eco_V2/EnCen/Paper Results/Biome Analysis Results/Activated Sludge/New_results'
 
 os.chdir(synbio)
 
-# EC_extract()
-# tsv_to_fasta()
+EC_extract()
+tsv_to_fasta()
  
 diamond_syn = diamond_impl(synbio, name)
 
