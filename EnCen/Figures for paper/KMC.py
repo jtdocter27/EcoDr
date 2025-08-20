@@ -25,15 +25,15 @@ transposed.columns = transposed.iloc[0]
 transposed1 = transposed[1:]
 # print(transposed1)
 
-# num_clusters = 50
-# kmeans_tests = [KMeans(n_clusters=i, init='random', n_init=10) for i in range(1, num_clusters)]
-# score = [kmeans_tests[i].fit(transposed1).score(transposed1) for i in range(len(kmeans_tests))]
+num_clusters = 50
+kmeans_tests = [KMeans(n_clusters=i, init='random', n_init=10) for i in range(1, num_clusters)]
+score = [kmeans_tests[i].fit(transposed1).score(transposed1) for i in range(len(kmeans_tests))]
 
-# # # Plot the curve
-# plt.plot(range(1, num_clusters),score)
-# plt.xlabel('Number of Clusters')
-# plt.ylabel('Variance')
-# # plt.show()
+# # Plot the curve
+plt.plot(range(1, num_clusters),score)
+plt.xlabel('Number of Clusters')
+plt.ylabel('Variance')
+plt.savefig('/home/anna/Desktop/elbow.svg', format='svg')
 
 kmeans = KMeans(init='random', n_clusters=5, n_init=10, random_state=252)
 transposed1['Cluster'] = kmeans.fit_predict(transposed1)
